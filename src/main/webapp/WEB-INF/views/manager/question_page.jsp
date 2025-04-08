@@ -34,9 +34,9 @@
                 <h3>${sessionScope.managerId }</h3>
                 <p>어서오세요. 오늘도 좋은하루 되세요.</p>
             </div>
-        </div>
-        <div class="pro_btn">
-            <a href="./logout.do"><button>로그아웃</button></a>
+            <div class="pro_btn">
+                <a href="./logout.do"><button>로그아웃</button></a>
+            </div>
         </div>
     </header>
     <form action="./inquiryResolution.do" method="post">
