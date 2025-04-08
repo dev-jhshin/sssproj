@@ -26,7 +26,7 @@ public class AuthDAO extends DBConnPool {
 	public int signUp(AuthDTO dto) {
 	
 		StringBuilder sb = new StringBuilder();
-		sb.append("CALL signUp(?,?,?,?,?,?,?,?)");
+		sb.append("CALL insert_register_member(?,?,?,?,?,?,?,?)");
 		int rs = 0;
 		try {
 			pstm = conn.prepareStatement(sb.toString());
