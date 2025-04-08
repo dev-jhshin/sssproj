@@ -47,8 +47,8 @@ public class BbsCommentDeleteController extends HttpServlet {
 		String sessionMemberId = (String) request.getSession().getAttribute("memberId");
 		String bbsIdx = request.getParameter("bbs_idx");
 		String commentIdx = request.getParameter("comment_idx");
-		String memberId = request.getParameter("memberId");
-		
+		String memberId = request.getParameter("comment_memberId");
+		System.out.println(commentIdx);
 		if(sessionMemberId == null || !(sessionMemberId.length() > 0)) {
 			wrt.println("<script>");
 			wrt.println("alert('로그인 세션이 만료되었습니다.');");
