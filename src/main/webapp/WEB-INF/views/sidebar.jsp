@@ -24,6 +24,6 @@
 		<c:if test="${not isLogin }" >
 			<div><a href="/sssproj/auth/logout.do">로그아웃</a></div>
 		</c:if>
-		<div><a href="/sssproj/support/faq.do">고객센터</a></div>
+		<div><a href="/sssproj/support/question/list.do">고객센터</a></div>
 	</div>
 </div>
