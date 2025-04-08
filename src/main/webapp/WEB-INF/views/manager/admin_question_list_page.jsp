@@ -30,32 +30,33 @@
                 <h3>${sessionScope.managerId }</h3>
                 <p>어서오세요. 오늘도 좋은하루 되세요.</p>
             </div>
-        </div>
-        <div class="pro_btn">
-             <a href="./logout.do"><button>로그아웃</button></a>
+            <div class="pro_btn">
+                <a href="./logout.do"><button>로그아웃</button></a>
+           </div>
         </div>
     </header>
-      <div class="search_cont">
-        <div class="search_box">
-           <form name="frmSearch" id="frmSearch" method="get">
-               <div class="search_option2">
-                   <p>검색명</p>
-                   <select id="select_qu" name="search_category" class="search_category">
-                       <option value="" disabled selected>선택</option>
-                       <option value="memberId">문의 유저</option>                 
-                   </select>
-                   <div class="ser2_input">
-                       <input type="text" class="search_word" name="search_word" placeholder="검색어를 입력해주세요.">
-                       <input type="submit" class="serch_btn" name="serch_btn" value="검색">
-                   </div>
-               </div>
-           </form>       
-        </div>
-    </div>
     <div id="content">
         <div class="listTitle">
             <p class="studentTitle">문의내역</p>
-            <p class="studentCnt">전체 ${map.totalInquiry }건</p>
+            <p class="studentCnt">전체 <span style="color:#006400; font-size:18px;">${map.totalInquiry }</span>건</p>
+            <div class="contentHead">
+                <div class="search_cont">
+                    <div class="search_box">
+                       <form name="frmSearch" id="frmSearch" method="get">
+                           <div class="search_option2">
+                               <select id="select_qu" name="search_category" class="search_category">
+                                   <option value="" disabled selected>선택</option>
+                                   <option value="memberId">문의 유저</option>                 
+                               </select>
+                               <div class="ser2_input">
+                                   <input type="text" class="search_word" name="search_word" placeholder="검색어를 입력해주세요.">
+                                   <input type="submit" class="serch_btn" name="serch_btn" value="검색">
+                               </div>
+                           </div>
+                       </form>       
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="listMain">
             <div class="mainTitle">
