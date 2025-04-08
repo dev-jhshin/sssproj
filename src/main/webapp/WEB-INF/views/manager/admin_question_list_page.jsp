@@ -50,7 +50,7 @@
                                </select>
                                <div class="ser2_input">
                                    <input type="text" class="search_word" name="search_word" placeholder="검색어를 입력해주세요.">
-                                   <input type="submit" class="serch_btn" name="serch_btn" value="검색">
+                                   <button type="submit" class="serch_btn" name="serch_btn" value="검색"><i class="fa-solid fa-magnifying-glass"></i></button>
                                </div>
                            </div>
                        </form>       
