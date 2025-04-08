@@ -32,34 +32,35 @@
                 <h3>${sessionScope.managerId }</h3>
                 <p>어서오세요. 오늘도 좋은하루 되세요.</p>
             </div>
-        </div>
-        <div class="pro_btn">
-            <a href="./logout.do"><button>로그아웃</button></a>
+			<div class="pro_btn">
+				<a href="./logout.do"><button>로그아웃</button></a>
+			</div>
         </div>
     </header>
-    <div class="search_cont">
-        <div class="search_box">
-        	<form name="frmSearch" id="frmSearch" method="get">
-	            <div class="search_option2">
-	                <p>검색명</p>
-	                <select id="select_qu" name="search_category" class="search_category">
-	                    <option value="" disabled selected>선택</option>
-	                    <option value="memberId">회원 아이디</option>
-	                    <option value="memberName">회원 이름</option>
-	                </select>
-	                <div class="ser2_input">
-	                    <input type="text" class="search_word" name="search_word"  placeholder="검색어를 입력해주세요.">
-	                    <input type="submit" class="serch_btn" name="serch_btn" value="검색">
-	                </div>
-	            </div>
-	         </form>        
-        </div>
-    </div>
     <div id="content">
         <div class="listTitle">
             <p class="studentTitle">회원 목록</p>
-            <p class="studentCnt">전체 ${map.totalMember }건</p>
-        </div>
+            <p class="studentCnt">전체 <span style="color:#006400; font-size:18px;">${map.totalMember}</span>건</p>
+			<div class="contentHead">
+				<div class="search_cont">
+					<div class="search_box">
+						<form name="frmSearch" id="frmSearch" method="get">
+							<div class="search_option2">
+								<select id="select_qu" name="search_category" class="search_category">
+									<option value="" disabled selected>선택</option>
+									<option value="memberId">아이디</option>
+									<option value="memberName">이름</option>
+								</select>
+								<div class="ser2_input">
+									<input type="text" class="search_word" name="search_word"  placeholder="검색어를 입력해주세요.">
+									<button type="submit" class="serch_btn" name="serch_btn" value="검색"><i class="fa-solid fa-magnifying-glass"></i></button>
+								</div>
+							</div>
+						 </form>        
+					</div>
+				</div>
+			</div>	
+		</div>
         <div class="listMain">
             <div class="mainTitle">
                 <p class="mainTitle2">번호</p>
@@ -83,8 +84,8 @@
 			                <p class="mainTitle6">${list.memberEmail }</p>
 			                <p class="mainTitle7">${dUtil.localDateTimeToString(list.memberCreatedAt) }</p>
 			                <p class="mainTitle8">${dUtil.localDateTimeToString(list.memberLoginAt)}</p>
-			                <a href="./memberStatusChange.do?member_id=${list.memberId}&&member_status=${list.memberStatus}" class="mainTitle9"><button class="listBtn2"  type="button"><i class="fa-solid fa-ban"></i>변경</button></a>
-			                <a href="./memberDelete.do?member_id=${list.memberId}" class="mainTitle10"><button class="listBtn" type="button"><i class="fa-solid fa-trash-can"></i>삭제</button></a>
+			                <a href="./memberStatusChange.do?member_id=${list.memberId}&&member_status=${list.memberStatus}" class="mainTitle9"><button class="listBtn2"  type="button"><i class="fa-solid fa-pen-to-square"></i></button></a>
+			                <a href="./memberDelete.do?member_id=${list.memberId}" class="mainTitle10"><button class="listBtn" type="button"><i class="fa-solid fa-trash-can"></i></button></a>
 			           </div>
 			  		</c:forEach>
 			  	</c:when>

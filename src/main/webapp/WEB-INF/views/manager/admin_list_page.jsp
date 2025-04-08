@@ -70,33 +70,34 @@
                 <h3>${sessionScope.managerId }</h3>
                 <p>어서오세요. 오늘도 좋은하루 되세요.</p>
             </div>
-        </div>
-        <div class="pro_btn">
-            <a href="./logout.do"><button>로그아웃</button></a>
+			<div class="pro_btn">
+				<a href="./logout.do"><button>로그아웃</button></a>
+			</div>
         </div>
     </header>
-    <div class="search_cont">
-        <div class="search_box">
-        	<form name="frmSearch" id="frmSearch" method="get">
-	            <div class="search_option2">
-	                <p>검색명</p>
-	                <select id="select_qu" name="search_category" class="search_category">
-	                    <option value="" disabled selected>선택</option>
-	                    <option value="managerId">관리자 아이디</option>
-	                    <option value="managerName">관리자 이름</option>
-	                </select>
-	                <div class="ser2_input">
-	                    <input type="text" class="search_word" name="search_word"  placeholder="검색어를 입력해주세요.">
-	                    <input type="submit" class="serch_btn" name="serch_btn" value="검색">
-	                </div>
-	            </div>
-	         </form>        
-        </div>
-    </div>
     <div id="content">
         <div class="listTitle">
             <p class="studentTitle">관리자 목록</p>
-            <p class="studentCnt">전체 ${map.totalManager }건</p>
+            <p class="studentCnt">전체 <span style="color:#006400; font-size:18px;">${map.totalManager }</span>건</p>
+			<div class="contentHead">
+				<div class="search_cont">
+					<div class="search_box">
+						<form name="frmSearch" id="frmSearch" method="get">
+							<div class="search_option2">
+								<select id="select_qu" name="search_category" class="search_category">
+									<option value="" disabled selected>선택</option>
+									<option value="managerId">관리자 아이디</option>
+									<option value="managerName">관리자 이름</option>
+								</select>
+								<div class="ser2_input">
+									<input type="text" class="search_word" name="search_word"  placeholder="검색어를 입력해주세요.">
+									<button type="submit" class="serch_btn" name="serch_btn" value="검색"><i class="fa-solid fa-magnifying-glass"></i></button>
+								</div>
+							</div>
+						 </form>        
+					</div>
+				</div>
+			</div>
         </div>
         <div class="listMain">
             <div class="mainTitle">
@@ -117,8 +118,8 @@
 		                	<p class="mainTitle3">${list.managerId}</p>
 		                	<p class="mainTitle4">${list.managerEmail}</p>
 		                	<p class="mainTitle5">${list.managerStatus}</p>
-		                	<a href="./managerStatusChange.do?manager_id=${list.managerId}&&manager_status=${list.managerStatus}" class="mainTitle6"><button class="listBtn2"  type="button"><i class="fa-solid fa-ban"></i>변경</button></a>
-		                	<a href="./managerDelete.do?manager_id=${list.managerId}&&manager_status=${list.managerStatus}" class="mainTitle7"><button class="listBtn" type="button"><i class="fa-solid fa-trash-can"></i>삭제</button></a>
+		                	<a href="./managerStatusChange.do?manager_id=${list.managerId}&&manager_status=${list.managerStatus}" class="mainTitle6"><button class="listBtn2"  type="button"><i class="fa-solid fa-pen-to-square"></i></button></a>
+		                	<a href="./managerDelete.do?manager_id=${list.managerId}&&manager_status=${list.managerStatus}" class="mainTitle7"><button class="listBtn" type="button"><i class="fa-solid fa-trash-can"></i></button></a>
 		            	</div>
 	            	</c:forEach>
 	         	</c:when>
