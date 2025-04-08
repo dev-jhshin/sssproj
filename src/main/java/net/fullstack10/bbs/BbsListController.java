@@ -61,7 +61,6 @@ public class BbsListController extends HttpServlet {
 		pMap.put("pageSize", pageSize);
 		pMap.put("searchOrder", searchOrder);
 		pMap.put("searchCategory", searchCategory);
-		System.out.println(searchCategory);
 		pMap.put("searchWord", searchWord);
 		pMap.put("category", category);
 		pMap.put("searchStart", searchStart);

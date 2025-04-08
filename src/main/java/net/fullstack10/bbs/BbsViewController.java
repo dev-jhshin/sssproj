@@ -30,11 +30,13 @@ public class BbsViewController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		dao = new BbsDAO();
-		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("memberId");
+		String memberId = (String) request.getSession().getAttribute("memberId");
 		String idx = request.getParameter("idx");
 		BbsDTO dto = dao.getBbs(idx, memberId);
-		dto.setBbsContent(dto.getBbsContent().replace("\n", "<br>"));
+		String content = dto.getBbsContent();
+		if (content.length() > 0) {
+			dto.setBbsContent(content.replace("\n", "<br>"));
+		}
 		request.setAttribute("bbs", dto);
 		dao.setBbsViewCnt(idx);
 		dao.close();

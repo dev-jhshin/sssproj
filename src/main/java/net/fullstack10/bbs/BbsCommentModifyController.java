@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.CommonUtil;
+import net.fullstack10.common.JSFunction;
 
 /**
  * Servlet implementation class BbsCommentRegistController
@@ -44,67 +45,26 @@ public class BbsCommentModifyController extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter wrt = response.getWriter();
-		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("memberId");
+
+		String memberId = (String) request.getSession().getAttribute("memberId");
 		String content = request.getParameter("comment_content");
 		String commentIdx = request.getParameter("comment_idx");
 		String commentMemberId = request.getParameter("comment_memberId");
-		System.out.println("bbs comment modify memberId:"+memberId);
-		System.out.println("bbs comment modify commentMemberId:"+commentMemberId);
 		String bbsIdx = request.getParameter("bbs_idx");
-		if(memberId == null || !(memberId.length() > 0)) {
-			wrt.println("<script>");
-			wrt.println("alert('사용자 정보가 없습니다.');");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
-		if(!memberId.equalsIgnoreCase(commentMemberId)) {
-			wrt.println("<script>");
-			wrt.println("alert('사용자 정보가 다릅니다.');");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
-		if(content == null || !(content.length() > 0)) {
-			wrt.println("<script>");
-			wrt.println("alert('내용을 입력해주세요.');");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
-		if(commentIdx == null || !(cUtil.parseInt(commentIdx) > 0)) {
-			wrt.println("<script>");
-			wrt.println("alert('댓글 정보가 올바르지 않습니다.');");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
+		
+		if(memberId == null || !(memberId.length() > 0)) { JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do"); }
+		if(!memberId.equalsIgnoreCase(commentMemberId)) { JSFunction.alertBack(response, "사용자 정보가 다릅니다."); }
+		if(content == null || !(content.length() > 0)) { JSFunction.alertBack(response, "내용을 입력해주세요."); }
+		if(commentIdx == null || !(cUtil.parseInt(commentIdx) > 0)) { JSFunction.alertBack(response, "댓글 정보가 올바르지 않습니다."); }
 
 		bbsDAO = new BbsDAO();
-
 		int result = bbsDAO.setBbsCommentModify(commentIdx, content);
 		bbsDAO.close();
 		
 		if (result > 0) {
-			wrt.println("<script>");
-			wrt.println("alert('댓글 수정이 완료되었습니다.');");
-			wrt.println("window.location.href = '/sssproj/bbs/view.do?idx=" + bbsIdx + "'");
-			wrt.println("</script>");
-			wrt.close();
-			return;
+			JSFunction.alertLocation(response, "댓글 수정이 완료되었습니다.", "/sssproj/bbs/view.do?idx="+bbsIdx);	
 		} else {
-			wrt.println("<script>");
-			wrt.println("alert('댓글 수정에 실패했습니다.');");
-			wrt.println("window.location.href = '/sssproj/bbs/view.do?idx=" + bbsIdx + "'");
-			wrt.println("</script>");
-			wrt.close();
-			return;
+			JSFunction.alertLocation(response, "댓글 수정에 실패했습니다.", "/sssproj/bbs/view.do?idx="+bbsIdx);	
 		}
 	}
 

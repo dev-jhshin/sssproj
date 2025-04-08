@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.CommonFileUtil;
 import net.fullstack10.common.CommonUtil;
+import net.fullstack10.common.JSFunction;
 
 /**
  * Servlet implementation class BbsModifyController
@@ -45,27 +46,13 @@ public class BbsModifyController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		String sMemberId = (String)session.getAttribute("memberId");
-		if (sMemberId == null || sMemberId.length() < 1) {
-			wrt.println("<script>");
-			wrt.println("alert('사용자 정보가 없습니다.');");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
+		if (sMemberId == null || sMemberId.length() < 1) { JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do"); }
 		
 		bbsDAO = new BbsDAO();
 		BbsDTO dto = bbsDAO.getBbs(request.getParameter("idx"), sMemberId);
 		bbsDAO.close();
 		
-		if(!dto.getMemberId().equalsIgnoreCase(sMemberId)) {
-			wrt.println("<script>");
-			wrt.println("alert('권한이 없습니다.');");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
+		if(!dto.getMemberId().equalsIgnoreCase(sMemberId)) { JSFunction.alertBack(response, "권한이 없습니다."); }
 		
 		Map<String, Object> pMap = new HashMap<>();
 		pMap.put("bbs", dto);
@@ -82,7 +69,7 @@ public class BbsModifyController extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter wrt = response.getWriter();
+		String saveDir = getServletContext().getInitParameter("SaveDirectory");
 		
 		int idx = cUtil.parseInt(request.getParameter("idx"));
 		String title = request.getParameter("title");
@@ -91,71 +78,39 @@ public class BbsModifyController extends HttpServlet {
 		String memberId = request.getParameter("memberId");
 		String sMemberId = (String) request.getSession().getAttribute("memberId");
 		String[] deleteFileIdxes = request.getParameterValues("deleteFileIdx");
-		if (idx < 1) {
-			wrt.println("<script>");
-			wrt.println("alert('게시글 정보가 올바르지 않습니다.')");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
-		if (!sMemberId.equalsIgnoreCase(memberId)) {
-			wrt.println("<script>");
-			wrt.println("alert('권한이 없습니다.')");
-			wrt.println("window.location.href='/sssproj/bbs/view.do?idx='" + idx +"'");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
-		if (title == null || title.length() < 1 || content ==null || content.length() < 1) {
-			wrt.println("<script>");
-			wrt.println("alert('제목을 100자 이내로 입력해주세요.')");	
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
+		if (idx < 1) { JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");}
+
+		if (!sMemberId.equalsIgnoreCase(memberId)) { JSFunction.alertLocation(response, "권한이 없습니다.", "/sssproj/bbs/view.do?idx=" + idx); }
+		if (title == null || title.length() < 1 || content ==null || content.length() < 1) { JSFunction.alertBack(response, "제목을 1~100자 이내로 입력해주세요."); }
 		
-		BbsDTO dto = new BbsDTO();
 		
 		if(deleteFileIdxes != null) {
 			for(String deleteFileIdx : deleteFileIdxes) {
-				bbsDAO = new BbsDAO();
 				String fileName = request.getParameter("fileName_" + deleteFileIdx);
 				String fileIdxStr = request.getParameter("fileIdx_" + deleteFileIdx);
-				int fileIdx = cUtil.parseInt(deleteFileIdx);
-				String saveDir = "/Users/sinjihye/dev/java10/sssproj/sssproj/src/main/webapp/Uploads";
 				fUtil.fileDelete(request, saveDir, fileName);
+				bbsDAO = new BbsDAO();
 				bbsDAO.setFileDelete(fileIdxStr);
 			}
 		}
+		
 		bbsDAO = new BbsDAO();
+		BbsDTO dto = new BbsDTO();
 		dto.setIdx(idx);
 		dto.setBbsTitle(title);
 		dto.setBbsContent(content);
 		dto.setBbsCategory(category);
 		if(request.getParts() != null) {
 			BbsFileUpload bfu = new BbsFileUpload();
-			dto.setFiles(bfu.fileUpload(request));
+			dto.setFiles(bfu.fileUpload(request, saveDir));
 		}
 		int result = bbsDAO.setBbsModify(dto);
 		bbsDAO.close();
-		// dto 생성 로직
-		if (result > 0) {
-			wrt.println("<script>");
-			wrt.println("alert('게시글 수정에 성공했습니다.')");
-			wrt.println("window.location.href='/sssproj/bbs/view.do?idx=" + idx+"'");
-			wrt.println("</script>");
-			wrt.close();
-			return;
+		
+		if (result > 0) { 
+			JSFunction.alertLocation(response, "게시글 수정에 성공했습니다.", "/sssproj/bbs/view.do?idx=" + idx);
 		} else {
-			
-			wrt.println("<script>");
-			wrt.println("alert('게시글 수정에 실패했습니다.')");
-			wrt.println("window.location.href='/sssproj/bbs/list.do'");
-			wrt.println("</script>");
-			wrt.close();
-			return;
+			JSFunction.alertLocation(response, "게시글 수정에 성공했습니다.", "/sssproj/bbs/list.do");
 		}
 		
 	}
