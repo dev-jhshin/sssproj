@@ -1,0 +1,276 @@
+@charset "UTF-8";
+/*나의학습 홈 리스트 */
+
+* {
+    margin:0; padding:0;
+    box-sizing:border-box;
+}
+a {
+  text-decoration:none;
+  color:#333;
+}
+@font-face {
+    font-family: 'Dovemayo_gothic';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+  font-family: 'Dovemayo_gothic';
+}
+
+.page-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* 사이드바 */
+.sidebar {
+    width: 250px;
+    padding: 20px;
+    background-color: #ffffff;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    border-right: 1px solid #eaeaea; 
+}
+
+.sidebar-list {
+    padding: 12px 15px; 
+    margin-bottom: 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+
+.downsidebar {
+    font-size: 11px;
+    color: #999;
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0; 
+    border-top: 1px solid #eee; 
+}
+
+/* 메인 콘텐츠 */
+.main-content {
+    flex: 1;
+    padding: 30px;
+}
+
+        .content-header {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+/* 서치섹션 */
+.search-section {
+    border: 1px solid #ddd; 
+    border-radius: 5px; 
+    margin-bottom: 30px;
+    margin-top: 0; 
+    background-color: white; 
+    white-space : nowrap;
+}
+
+.search-row {
+    display: flex;
+    padding: 15px; 
+    border-bottom: 1px solid #eee;
+    white-space : nowrap;
+}
+
+.search-row:last-child {
+    border-bottom: none;
+}
+
+.search-name {
+    width: 80px;
+    padding: 8px; 
+    text-align: center;
+    border-right: 1px solid #eee; 
+    font-weight: 500;
+    color: #555; 
+}
+
+.search-content {
+    flex: 1;
+    padding: 5px 15px; 
+    display: flex;
+    justify-content : space-between;
+}
+
+.dropdown {
+    padding: 8px; 
+    width: 140px;
+    border: 1px solid #ddd;
+    border-radius: 5px; 
+    margin-right : 15px
+}
+
+
+.search-input {
+    padding: 8px; 
+    width: 250px;
+    border: 1px solid #ddd;
+    border-radius: 5px; 
+}
+
+.date-input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px; 
+    width: 140px; 
+}
+
+.search-btn-set {
+	display:flex;
+}
+
+.search-btn {
+    background-color: #95C14F; 
+    color: white;
+    border: none;
+    border-radius: 5px; 
+    padding: 8px 20px; 
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.delete-btn {
+    background-color: #F2F7EA; 
+    color: #555;
+    border: none;
+    border-radius: 5px; 
+    padding: 8px 20px; 
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+/* 카테고리 섹션 */
+.category-section {
+    display: flex;
+    margin-bottom: 15px; 
+    justify-content: space-between;
+}
+
+.category-list-part {
+	display : flex;
+}
+
+.category-list-active {
+	padding: 10px 15px;
+    cursor: pointer;
+    border: 1px solid #ddd; 
+    margin-right: 5px;
+    border-radius: 4px;
+    background-color: #F2F7EA; 
+}
+
+.category-list {
+    padding: 10px 15px;
+    cursor: pointer;
+    border: 1px solid #ddd; 
+    margin-right: 5px;
+    border-radius: 4px;
+    background-color: white; 
+}
+
+.pagedropdown {
+    padding: 8px; 
+    width: 80px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* 리스트 테이블 */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    background-color: white; 
+    border-radius: 8px;
+
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #eee; 
+    padding: 12px; 
+    text-align: center;
+}
+
+th {
+    background-color: #F2F7EA; 
+    color: #555; 
+    font-weight: 500;
+}
+
+td {
+	background-color : #FCFDFA;
+	color: #555;
+}
+
+.list-th {
+	background-color : white;
+}
+
+/* 페이징 */
+.paging {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    align-items: center;
+}
+
+.page-btn {
+    width: 25px; 
+    height: 25px;
+    margin: 0 5px;
+    border: 1px solid #ddd; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 4px; 
+}
+
+.page-nav {
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.page-btn-active {
+	width: 25px; 
+    height: 25px;
+    margin: 0 5px;
+    border: 1px solid #ddd; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 4px; 
+    background-color: #F2F7EA;
+    
+}
+
+.regist-btn {
+    float: right;
+    padding: 10px 20px; 
+    background-color: #95C14F;
+    color: white; 
+    border: none;
+    border-radius: 5px;
+    margin-top: 40px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s; 
+}
+
+/*반응형 스타일*/

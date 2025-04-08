@@ -1,0 +1,390 @@
+@charset "UTF-8";
+
+* {
+    margin:0; padding:0;
+    box-sizing:border-box;
+}
+a {
+  text-decoration:none;
+  color:#333;
+}
+
+@font-face {
+    font-family: 'Dovemayo_gothic';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+	margin: 0;
+    padding: 0;
+	font-family: 'Dovemayo_gothic';
+}
+
+
+.page-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    padding: 30px;
+    max-width: 1200px; 
+    width: 100%;
+}
+
+
+
+.header-section{
+	display: block;
+	margin-bottom: 20px;
+}
+.content-header {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom : 10px;
+}
+.content-header-nav {
+	display: flex;
+	gap:10px;
+    flex-wrap: nowrap;
+    white-space: nowrap; 
+}
+/* 테이블 */
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow:hidden;
+}
+
+.info-table th, .info-table td {
+    border: 1px solid #eee;
+    padding: 12px;
+    height: 50px;
+}
+.td-like-btn {
+	width: 70px;
+	text-align: center;
+}
+
+.info-table th {
+    background-color: #F2F7EA;
+    color: #555;
+    font-weight: 500;
+    text-align: center;
+}
+
+.info-table td {
+    text-align: left;
+    height: 50px;
+}
+
+.td-one-line {
+	overflow:hidden; 
+	text-overflow:ellipsis; 
+	white-space:nowrap;
+}
+
+/* 콘텐츠 섹션*/
+.content-section {
+    display: flex;
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: white;
+}
+
+.content-part{
+    flex: 3;
+    padding: 20px;
+    position: relative;
+    height : 250px;
+}
+
+
+.image-part {
+    border-right: 1px solid #eee;
+    position: relative;
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #f9f9f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.image {
+	width: 200px;
+	border-radius: 15px;
+} 
+
+/* 좋아요 */
+.like-btn {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    font-size: 18px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.like-btn.active {
+    color: #ff4d4d;
+}
+
+.like-btn.inactive {
+    color: #ccc;
+}
+
+/* 댓글 섹션 */
+.comment-section {
+   margin-top: 20px; 
+   margin-bottom : 20px;
+   display : block;
+}
+.comment-list-section {
+  margin-bottom: 15px;
+  width: 100%;
+	
+}
+
+.comment-list {
+    background-color: #f2f2f2;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    width : 100%
+}
+
+.frmComment {
+	width:100%;
+	margin-bottom : 10px;
+}
+.comment-btn {
+	font-size: 11px;
+	font-family: 'Dovemayo_gothic';
+}
+#commentDeleteButton{
+	color: #ed6666;
+}
+#commentEditButton {
+	color: #999;
+}
+
+.comment-on-section{
+   margin-top: 20px; 
+   display: block;
+   flex-direction: column;
+   width: 100%;
+	
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.comment-user {
+    font-weight: bold;
+    color: #333;
+}
+
+.comment-date {
+    color: #888;
+    font-size: 12px;
+}
+
+.comment-content {
+    font-size: 14px;
+    color: #333;
+    line-height: 1.4;
+}
+.comment-input-section {
+	height: 60px;
+    position: relative;
+    display: flex;
+    margin-top:30px;
+
+}
+.comment-on-section form {
+	width: 100%;
+}
+.comment-input{
+    width: 100%;
+    border-radius: 10px;
+    padding: 10px 60px 10px 20px;
+    border : 1px solid #eee;
+}
+
+.comment-input:focus {
+    outline: 1px solid #E2F6CA;
+}
+.comment-button{
+    position: absolute;
+    top: 5px;
+    bottom: 5px;
+    right: 5px;
+    border-radius: 10px;
+    margin: 5px 5px 0px 0px;
+    background-color:#E2F6CA;
+    color:black;
+    border:none;
+}
+
+.comment-button:hover{
+  background-color: #a7d96a;
+  color:white;
+}
+.comment-notice {
+	padding: 20px 10px;
+	border-radius: 20px;
+}
+/* 댓글 편집용 텍스트에어리어 */
+.edit-textarea {
+	display: block;
+	width: 100%;
+	min-height: 60px;
+	margin-top: 10px;
+	padding: 10px;
+	font-family: 'Dovemayo_gothic', sans-serif;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	box-sizing: border-box;
+	resize: vertical;
+	background-color: #fff;
+	color: #333;
+}
+
+/* 댓글 수정/취소 버튼 컨테이너 */
+.edit-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	margin-top: 8px;
+}
+
+/* 저장/취소 버튼 기본 스타일 */
+.edit-actions input[type="button"] {
+	padding: 6px 12px;
+	border: none;
+	border-radius: 6px;
+	font-family: 'Dovemayo_gothic', sans-serif;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+/* 저장 버튼 스타일 */
+.edit-actions input[value="저장"] {
+	background-color: #95C14F;
+	color: white;
+}
+
+.edit-actions input[value="저장"]:hover {
+	background-color: #7fa240;
+}
+
+/* 취소 버튼 스타일 */
+.edit-actions input[value="취소"] {
+	background-color: #ccc;
+	color: #333;
+}
+
+.edit-actions input[value="취소"]:hover {
+	background-color: #aaa;
+	color: white;
+}
+
+/* 버튼세트 */
+.btn-set {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+    clear: both;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #95C14F;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 500;
+	font-family: 'Dovemayo_gothic';
+}
+
+#listButton {
+	padding: 10px 20px;
+    background-color: white;
+    color: #95C14F;
+    border: 2px solid #95C14F;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 800;
+}
+
+#deleteButton {
+    padding: 10px 20px;
+    background-color: white;
+    color: #ed6666;
+    border: 2px solid #ed6666;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 800;
+  
+}
+
+#modifyButton:hover {
+	background-color:#c8d7b0;
+}
+
+.comment-delete-btn {
+	font-family: 'Dovemayo_gothic';
+} 
+
+.div1200 {
+	width: 100%;
+	max-width: 12000px;
+	margin-left: 0;
+}
+	
+	
+/*반응형*/
+
+@media (max-width: 768px) {
+    .page-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+    }
+
+    .main-content {
+        padding: 15px;
+    }
+    
+    .content-section {
+        flex-direction: column;
+    }
+    
+    .content-part {
+        height: auto;
+    }
+}
+

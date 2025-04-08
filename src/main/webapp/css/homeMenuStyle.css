@@ -1,0 +1,317 @@
+@charset "utf-8";
+* {
+    margin:0; padding:0;
+    box-sizing:border-box;
+}
+@font-face {
+    font-family: 'Dovemayo_gothic';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    background-color: #F4F4F4;
+    font-family: 'Dovemayo_gothic';
+    background-color: #ebf6ea;
+}
+.wrap {
+    width:100%;
+    height:100%;
+  }
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width:100%; height:30%;
+  }
+    .header_logo {
+        width:100%; height:auto;
+        max-width: 450px;
+    }
+    .header_comment {
+        font-size: 22px;
+        color: rgb(53, 53, 53);
+    }
+  .flex-container {
+    display: flex;
+    flex-direction: row;
+    font-size: 30px;
+    text-align: center;
+    padding:30px;
+    height:430px;
+    gap:40px;
+  } 
+    .flex-item {
+        background-color: #F4F4F4;
+        padding: 10px;
+        flex: 100%;
+        height:100%;
+        border-radius: 5px;
+        box-shadow: 0 5px 5px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
+    }   
+        .flex-item > p {
+            width:100%; height:30%;
+            font-size:14px;
+            text-align: justify;
+            padding-top: 15px;
+        }
+        .aTag_box {
+	        display:grid;
+	        width:100%; height:10%;
+	        grid-template-columns: 50% 50%;
+        }
+        .log_a {
+        	margin:0 auto;
+            display:block;
+            float:left;
+            width:100%; height:100%;
+            color: #333;
+            text-decoration: none;
+            font-size:18px;
+            line-height:2rem;
+            transition:0.2s all ease;
+        }
+            .log_a::before {
+                content: '[';
+                opacity: 0;
+                margin-left: 10px;
+                transition: all 0.5s;
+            }
+            .log_a::after {
+                content: ']';
+                opacity: 0;
+                margin-right: 10px;
+                transition: all 0.5s;
+            }
+            .log_a:hover::before {
+                opacity: 1;
+                margin-left: 0;
+                margin-right: 10px;
+            }
+            .log_a:hover::after {
+                opacity: 1;
+                margin-left: 0;
+                margin-left: 10px;
+            }
+
+        .log_a2 {
+            display:block;
+            float:left;
+            width:100%; height:10%;
+            color: #333;
+            text-decoration: none;
+            font-size:18px;
+            line-height:3rem;
+            transition:0.2s all ease;
+        }
+            .log_a2::before {
+                content: '[';
+                opacity: 0;
+                margin-left: 10px;
+                transition: all 0.5s;
+            }
+            .log_a2::after {
+                content: ']';
+                opacity: 0;
+                margin-right: 10px;
+                transition: all 0.5s;
+            }
+
+            .log_a2:hover::before {
+                opacity: 1;
+                margin-left: 0;
+                margin-right: 10px;
+            }
+            .log_a2:hover::after {
+                opacity: 1;
+                margin-left: 0;
+                margin-left: 10px;
+            }
+        .item_img1 {
+            width:100%; height:200px; 
+        }
+            .item_img1 > img {
+                width:100%; height:100%;
+                object-fit: cover;
+            }
+        .item_img2 {
+            width:100%; height:200px; 
+        }
+            .item_img2 > img {
+                width:100%; height:100%;
+                object-fit: cover;
+            }
+        .item_img3 {
+            width:100%; height:200px; 
+        }
+            .item_img3 > img {
+                width:100%; height:100%;
+                object-fit: cover;
+            }
+        .item_img4 {
+            width:100%; height:200px; 
+        }
+            .item_img4 > img {
+                width:100%; height:100%;
+                object-fit: cover;
+            }
+    footer {
+        display: flex;
+        width:100%; height:10%;
+        justify-content: center;
+    }
+        .bottom_logo {
+            width:160px; height:auto;
+            
+        }
+
+  
+  /* Responsive layout - makes a one column-layout instead of two-column layout */
+  @media (max-width: 1090px) {
+    .flex-container {
+      flex-direction: column;
+    }
+    .wrap {
+        width:100%;
+        height:100vh;
+      }
+      header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width:100%; height:30%;
+      }
+        .header_logo {
+            width:100%; height:auto;
+            max-width: 450px;
+        }
+        .header_comment {
+            font-size: 13px;
+            color: rgb(53, 53, 53);
+            padding:0 50px;
+        }
+      .flex-container {
+        display: block;
+        font-size: 30px;
+        text-align: center;
+        padding:50px;
+        width:100%; height:430px;
+      } 
+        .flex-item {
+            background-color: #F4F4F4;
+            padding: 10px;
+            width:100%; height:100%;
+            border-radius: 5px;
+            box-shadow: 0 5px 5px rgba(0,0,0,0.19), 0 3px 3px rgba(0,0,0,0.23);
+            margin-bottom: 20px;
+        }   
+            .flex-item > p {
+                width:100%; height:30%;
+                font-size:14px;
+                text-align: justify;
+                padding-top: 15px;
+            }
+            .log_a {
+                display:block;
+                float:left;
+                width:100%; height:100%;
+                color: #333;
+                text-decoration: none;
+                font-size:18px;
+                line-height:3rem;
+                transition:0.2s all ease;
+            }
+                .log_a::before {
+                    content: '[';
+                    opacity: 0;
+                    margin-left: 10px;
+                    transition: all 0.5s;
+                }
+                .log_a::after {
+                    content: ']';
+                    opacity: 0;
+                    margin-right: 10px;
+                    transition: all 0.5s;
+                }
+                .log_a:hover::before {
+                    opacity: 1;
+                    margin-left: 0;
+                    margin-right: 10px;
+                }
+                .log_a:hover::after {
+                    opacity: 1;
+                    margin-left: 0;
+                    margin-left: 10px;
+                }
+            
+            .log_a2 {
+                display:block;
+                float:left;
+                width:100%; height:10%;
+                color: #333;
+                text-decoration: none;
+                font-size:18px;
+                line-height:3rem;
+                transition:0.2s all ease;
+            }
+                .log_a2::before {
+                    content: '[';
+                    opacity: 0;
+                    margin-left: 10px;
+                    transition: all 0.5s;
+                }
+                .log_a2::after {
+                    content: ']';
+                    opacity: 0;
+                    margin-right: 10px;
+                    transition: all 0.5s;
+                }
+    
+                .log_a2:hover::before {
+                    opacity: 1;
+                    margin-left: 0;
+                    margin-right: 10px;
+                }
+                .log_a2:hover::after {
+                    opacity: 1;
+                    margin-left: 0;
+                    margin-left: 10px;
+                }
+            .item_img1 {
+                width:100%; height:60%;
+                background-image: url('/home_menu/img/student.jpg');
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
+            .item_img2 {
+                width:100%; height:60%;
+                background-image: url('/home_menu/img/study_page.jpg');
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
+            .item_img3 {
+                width:100%; height:60%;
+                background-image: url('/home_menu/img/comunitiy.jpg'); 
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
+            .item_img4 {
+                width:100%; height:60%;
+                background-image: url('/home_menu/img/teacher.jpg');
+                background-size: cover;
+                background-repeat: no-repeat;
+            }
+        footer {
+            display: block;
+            float: left;
+            width:100%; height:10%;
+        }
+            .bottom_logo {
+                position: relative;
+                width:160px; height:auto;
+                left:50%;
+                margin-left: -18%;
+            }
+    
+      
+  }

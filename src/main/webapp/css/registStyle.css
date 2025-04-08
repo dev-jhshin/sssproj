@@ -1,0 +1,265 @@
+@charset "utf-8";
+* {
+    margin:0; padding:0;
+    box-sizing:border-box;
+}
+@font-face {
+    font-family: 'Dovemayo_gothic';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    background-color: #F4F4F4;
+    font-family: 'Dovemayo_gothic';
+}
+    .wrap {
+        margin:0 auto;
+        width:540px; height:100vh;
+    }
+        .wrap > header {
+            width:100%; height:180px;
+            margin-bottom: 20px;
+        }
+            .header_logo {
+                width:100%; height:170px;
+                margin-left:-10px;
+            }
+            .header_comment {
+                width:100%; height:10px;
+                text-align:center;
+                color:#157c00ca;
+            }
+        .wrap > main {
+            float:left;
+            width:540px; height:830px;
+        }
+            /* input 관련 css */
+            .regi_form {
+                width:100%;
+                position: relative;
+                padding:0 40px;
+            }
+            .regi_input_box {
+                width:100%; height:90px;
+            }
+                .regi_tit {
+                    display:block;
+                    width:100%; height:25px;
+                    font-size:17px;
+                    line-height:22px;
+                    color: #00AA39;
+                }
+                .regi_input {
+                    width:100%; height:40px;
+                    border-radius: 3px;
+                    margin-bottom: 10px;
+                    border:3px solid #D6D6D6;
+                    padding:6px;
+                    font-size: 14px;
+                    font-family: 'Dovemayo_gothic';
+                }
+                .regi_input1 {
+                	float:left;
+                	display:block;
+                    width:85%; height:40px;
+                    border-radius: 3px;
+                    border:3px solid #D6D6D6;
+                    padding:6px;
+                    font-family: 'Dovemayo_gothic';
+                }
+                .idVali {
+               		float:right;
+                	width:calc(15% - 6px); height:40px;
+                	border:none;
+                	background-color:#00AA39;
+                	border-radius:3px;
+                	font-weight:bold;
+                	border:3px solid #D6D6D6;
+                	color:#fff;
+                }
+                	.idVali:hover {
+                		cursor: pointer;
+                		background-color:#00802b;
+                	}
+                .regi_input2 {
+                    width:calc(100% - 80px); height:40px;
+                    position:absolute;
+                    border-radius: 3px;
+                    border:3px solid #D6D6D6;                   
+                    padding:6px;
+                        font-size: 14px;
+                    font-family: 'Dovemayo_gothic';
+                }
+                #togglePassword {
+                    position:relative;
+                    border: none;
+                    left:93%; top:11%;
+                    background-color:transparent;
+                }
+                .regi_input:focus {
+                    border-color:#00AA39;
+                    outline:none;   
+                }
+            
+            /* 입력 안했을 시 경고 문구 css */
+            .iderror {
+                display: block;
+                font-size: 10px;
+                width:100%; height:25px;
+                color:#ff000090;
+                margin-top:45px;
+            }
+            .pwerror {
+                display: block;
+                font-size: 10px;
+                width:100%; height:30px;
+                color:#ff000090;
+            }
+            .pwerror {
+                display: block;
+                font-size: 10px;
+                width:100%; height:30px;
+                margin-top: 25px;
+                color:#ff000090;
+            }
+            .conerror {
+                display: block;
+                font-size: 10px;
+                width:100%; height:30px;
+                margin-top: -5px;
+                color:#ff000090;
+            }
+            .generror {
+                display: block;
+                font-size: 10px;
+                width:100%; height:30px;
+                margin-top: 5px;
+                color:#ff000090;
+            }
+            /* input css 끝 */
+
+            /* 비밀번호 찾기 질문 css */
+            #select_qu {
+                width:100%; height:40px;
+                border-radius: 3px;
+                margin-bottom: 10px;
+                border:3px solid #D6D6D6;
+                padding:4px;
+                font-family: 'Dovemayo_gothic';
+            }
+                #select_qu > option {
+                    font-family: 'Dovemayo_gothic';
+                }
+            
+            /* 이메일 입력 css */    
+            .select_email {
+                width:40%; height:40px;
+                float:left;
+                border-radius: 3px;
+                margin-bottom: 10px;
+                border:3px solid #D6D6D6;
+                padding:4px;
+                font-family: 'Dovemayo_gothic';
+            }
+                .select_email:focus {
+                    border-color:#00AA39;
+                    outline:none;
+                }      
+            .email_between {
+                display:block;
+                width:5%; height:40px;
+                float:left;
+                font-weight:bold;
+                font-size:17px;
+                line-height:38px;
+                text-align: center;
+            }
+            #select_email1 {
+                width:27%; height:40px;
+                float:left;
+                border-radius: 3px;
+                margin-bottom: 10px;
+                border:3px solid #D6D6D6;
+                padding:4px;
+                font-size: 14px;
+                font-family: 'Dovemayo_gothic';
+            }
+                #select_email1 > option {
+                    font-family: 'Dovemayo_gothic';
+                }
+            .customDomain {
+                float:left;
+                width:calc(27% - 10px); height:40px;
+                border-radius: 3px;
+                margin-bottom: 10px;
+                border:3px solid #D6D6D6;
+                padding:4px;
+                font-family: 'Dovemayo_gothic';
+                margin-left: 10px;
+            }
+
+            /* 성별 선택 css */    
+            .sex_choice {
+                display: flex;
+                width:100%;
+                flex-direction:row;
+                margin-top: -18px;
+            }
+                .radio_style {
+                    font-size:17px;
+                    margin:0px 5px 0px 2px;
+                }
+                .radio_style [type="radio"] {
+                    display:none;
+                }
+                .radio_style span {
+                    text-align:center;
+                    height:40px;
+                    width:228px;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    border:3px solid #D6D6D6;
+                    background-color: #ffffff;
+                    font-weight:bold;
+                }
+                .radio_style [type="radio"]:checked + span {
+                    background-color: #32e06c;
+                    color:#FFFFFF; 
+                }
+
+            .btm_line {
+                width:100%; height:0px;
+                border-bottom: 2px solid #777777;
+                margin-bottom: 15px;
+            }
+
+            /* 회원가입 버튼 css */
+            .regi_btn {
+                width:100%; height:40px;
+                background-color: #32e06c;
+                color:#FFFFFF;
+                font-weight:bold;
+                font-size:18px;
+                border:0px;
+                border-radius: 3px;
+            }
+                .regi_btn:hover {
+                    background-color:#00802b;
+                    color:#242424;
+                    cursor: pointer;
+                }
+                
+        footer {
+            float:left;
+            position: relative;
+            width:100%; height:80px;
+            top:-3%;
+        }
+            .bottom_logo {
+                position: absolute;
+                top: 50%; left: 40%; 
+                width:50%; height:80px; 
+                margin: -35px 0 0 -80px;
+            }

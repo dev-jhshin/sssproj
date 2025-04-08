@@ -1,0 +1,182 @@
+@charset "utf-8";
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+@font-face {
+	font-family: 'Dovemayo_gothic';
+	src:
+		url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2')
+		format('woff2');
+	font-weight: normal;
+	font-style: normal;
+}
+
+#modal:target {
+	display: block;
+}
+
+#modal {
+	z-index: 300;
+	font-family: 'Dovemayo_gothic';
+	display: none; /* 모달 기본 표시 */
+	position: fixed;
+	background-color: #585858da;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+.modalwrap {
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 50%;
+	height: 500px;
+	background-color: rgb(253, 253, 253);
+	padding: 15px;
+	border-radius: 5px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modalheader {
+	float: left;
+	width: 100%;
+	height: 120px;
+	text-align: center;
+	margin-bottom: 15px;
+}
+
+.head_img {
+	width: 100%;
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.head_img>img {
+	max-width: 100%;
+	max-height: 80px;
+	object-fit: contain;
+}
+
+.head_noti {
+	width: 100%;
+	padding: 10px 0;
+	text-align: center;
+	font-size: 14px;
+}
+
+.modalcontent {
+	float: left;
+	width: 100%;
+	height: calc(100% - 135px);
+	display: flex;
+}
+
+.board {
+	width: 20%;
+	height: 100%;
+	margin-right: 15px;
+	padding-bottom: 30px;
+}
+
+.boardContent {
+	width: 100%;
+	height: 300px;
+	background-color: #F2F7EA;
+	text-align: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 10px;
+	border-radius: 5px;
+}
+
+.boardContent p {
+	margin: 0;
+}
+
+form {
+	width: 80%;
+	height: 100%;
+}
+
+.titleMain {
+	width: 100%;
+	height: 80%;
+	margin-bottom: 15px;
+}
+
+.titleMain>textarea {
+	padding: 15px;
+	font-family: 'Dovemayo_gothic';
+	width: 100%;
+	height: 100%;
+	border: 2px solid #33333380;
+	border-radius: 5px;
+	resize: none;
+}
+
+.btmwrap {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.endBtn {
+	display: inline-block;
+	width: 70px;
+	height: 30px;
+	background-color: #95C14F;
+	color: #fff;
+	margin: 0 5px;
+	text-align: center;
+	line-height: 30px;
+	font-family: 'Dovemayo_gothic';
+	text-decoration: none;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	font-size: 15px;
+}
+
+.endBtn:hover {
+	background-color: #c8d7b0;
+}
+
+.cancelBtn {
+	display: inline-block;
+	width: 70px;
+	height: 30px;
+	margin: 0 5px;
+	text-align: center;
+	line-height: 30px;
+	font-family: 'Dovemayo_gothic';
+	text-decoration: none;
+	border: none;
+	border-radius: 3px;
+	cursor: pointer;
+	background-color: #ccc;
+	color: #333;
+	font-size: 15px;
+}
+.cancelBtn:hover {
+	background-color: #eee;
+	color: white;
+}
+#reportButton {
+	padding: 10px 20px;
+	background-color: white;
+	color: #ed6666;
+	border: 2px solid #ed6666;
+	border-radius: 5px;
+	cursor: pointer;
+	font-weight: 800;
+}

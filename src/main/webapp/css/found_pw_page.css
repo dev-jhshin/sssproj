@@ -1,0 +1,143 @@
+@charset "utf-8";
+* {
+    margin:0; padding:0;
+    box-sizing:border-box;
+}
+@font-face {
+    font-family: 'Dovemayo_gothic';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    background-color: #F4F4F4;
+    font-family: 'Dovemayo_gothic';
+}
+    .wrap {
+        margin:0 auto;
+        width:80%; height:100vh;
+        padding: 0 20%;
+    }
+        .wrap > header {
+            width:100%; height:180px;
+            margin-bottom: 20px;
+        }
+            .header_logo {
+                width:100%; height:170px;
+                margin-left:-10px;
+            }
+            .header_comment {
+                width:100%; height:10px;
+                text-align:center;
+                color:#157c00ca;
+            }
+        .wrap > main {
+            float:left;
+            width:100%; height:360px;
+        }
+            /* input 관련 css */
+            .fpw_form {
+                width:100%;
+                position: relative;
+                padding:0 40px;
+            }
+            .fpw_input_box {
+                width:100%; height:65px;
+                margin-bottom: 17px;
+            }
+                .fpw_tit {
+                    display:block;
+                    width:100%; height:25px;
+                    font-size:16px;
+                    line-height:22px;
+                    color: #00AA39;
+                }
+                .fpw_input {
+                    width:100%; height:40px;
+                    border-radius: 3px;
+                    margin-bottom: 10px;
+                    border:3px solid #D6D6D6;
+                    padding:6px;
+                    font-family: 'Dovemayo_gothic';
+                }
+                .fpw_input2 {
+                    float: left;
+                    width:100%; height:40px;
+                    border-radius: 3px 0 0 3px;
+                    margin-bottom: 10px;
+                    border:3px solid #D6D6D6;
+                    padding:6px;
+                    font-family: 'Dovemayo_gothic';   
+                }
+                    .tempw_checked {
+                        float: left;
+                        width:10%; height:40px;
+                        border:3px solid #8abda3;
+                        background-color: #3ccf6d;
+                        font-family: 'Dovemayo_gothic';
+                        color:#1f5b33;
+                        border-radius: 0 3px 3px 0;
+                    }
+                    .quError {
+                        float: left;
+                        width:100%; height:25px;
+                        font-size: 13px;
+                        color:#ff0000;
+                    }
+                    .fpw_input_box2 {
+                        width:100%; height:130px;
+                        margin-bottom: 17px;
+                    }
+            /* 임시비밀번호 확인 버튼 css */
+            .fpw_btn {
+                width:100%; height:40px;
+                background-color: #32e06c;
+                color:#FFFFFF;
+                font-weight:bold;
+                font-size:16px;
+                border:0px;
+                border-radius: 3px;
+            }
+                .fpw_btn:hover {
+                    background-color:#00802b;
+                    color:#242424;
+                }
+            /* 비밀번호 찾기 질문 css */
+            #select_qu {
+                width:100%; height:40px;
+                border-radius: 3px;
+                margin-bottom: 10px;
+                border:3px solid #D6D6D6;
+                padding:4px;
+                font-family: 'Dovemayo_gothic';
+            }
+                #select_qu > option {
+                    font-family: 'Dovemayo_gothic';
+                }
+            .btm_line {
+                width:100%; height:0px;
+                border-bottom: 2px solid #777777;
+                margin-top: 25px;
+                margin-bottom: 15px;
+            }
+
+           
+                
+        footer {
+            float:left;
+            position: relative;
+            width:100%; height:80px;
+        }
+            .bottom_logo {
+                position: absolute;
+                top: 50%; left: 40%; 
+                width:50%; height:80px; 
+                margin: -35px 0 0 -80px;
+            }
+
+            @media screen and (max-width: 768px) {
+                .wrap {
+                    width:90%;
+                    padding: 0;
+                }        
+            }
