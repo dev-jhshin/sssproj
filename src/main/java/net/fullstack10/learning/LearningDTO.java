@@ -105,13 +105,13 @@ public class LearningDTO {
 	public boolean getIsPublic() {
 		return isPublic;
 	}
-	public void setPublic(boolean isPublic) {
+	public void setIsPublic(boolean isPublic) {
 		this.isPublic = isPublic;
 	}
 	public boolean getIsVisible() {
 		return isVisible;
 	}
-	public void setVisible(boolean isVisible) {
+	public void setIsVisible(boolean isVisible) {
 		this.isVisible = isVisible;
 	}
 	public List<LearningSharedDTO> getSharedList() {

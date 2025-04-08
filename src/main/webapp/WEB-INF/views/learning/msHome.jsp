@@ -169,7 +169,7 @@
 	});
 	
 	// 게시글 출력 개수
-	document.getElementById('pageSize').addEventListener('change', () => {
+	document.getElementById('pageSize').addEventListener('change', function () {
 		const params = new URLSearchParams(window.location.search);
 		params.set("page_size", this.value);
 		window.location.href = "./my_list.do?"+ params.toString();

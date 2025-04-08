@@ -6,11 +6,15 @@
 
 <div class="sidebar">
 	<img src="../img/header_logo.svg">
-	<div class="sidebar-list"><a href="/sssproj/auth/myinfo.do">나의 정보</a></div>
-	<div class="sidebar-list"><a href="/sssproj/learning/today.do">오늘의 학습</a></div>
+	
+	<c:if test="${ not empty sessionScope.memberId }">
+		<div class="sidebar-list"><a href="/sssproj/auth/myinfo.do">나의 정보</a></div>
+		<div class="sidebar-list"><a href="/sssproj/learning/today.do">오늘의 학습</a></div>
+		<div class="sidebar-list"><a href="/sssproj/learning/my_list.do">나의 학습</a></div>
+		<div class="sidebar-list"><a href="/sssproj/learning/shared_list.do">공유 학습</a></div>
+	</c:if>
+	
 	<div class="sidebar-list"><a href="/sssproj/learning/list.do">모두의 학습</a></div>
-	<div class="sidebar-list"><a href="/sssproj/learning/my_list.do">나의학습</a></div>
-	<div class="sidebar-list"><a href="/sssproj/learning/shared_list.do">공유학습</a></div>
 	<div class="sidebar-list"><a href="/sssproj/bbs/list.do">커뮤니티</a></div>
 
 	<div class="downsidebar">

@@ -31,34 +31,32 @@ public class ManagerDAO extends DBConnPool {
 		sb.append("SELECT managerId, managerPwd, managerStatus");
 		sb.append(" FROM tbl_manager");
 		sb.append(" WHERE managerId = ?");
+		sb.append(" AND managerPwd = SHA2(?, 256)");
 
-		try {
-			pstm = conn.prepareStatement(sb.toString());
-			pstm.setString(1, dto.getManagerId());
+		 try {
+		        pstm = conn.prepareStatement(sb.toString());
+		        pstm.setString(1, dto.getManagerId());
+		        pstm.setString(2, dto.getManagerPwd());
+
+		        rs = pstm.executeQuery();
 			
-			rs = pstm.executeQuery();
-			
-			if(rs.next()) {
-				if(rs.getString("managerPwd").equals(dto.getManagerPwd())) {
-					dto.setManagerId(rs.getString("managerId"));
-					dto.setManagerStatus(rs.getInt("managerStatus"));
-					
-					System.out.println("로그인성공!");
-				}else {
-					dto = null;
-					System.out.println("비밀번호 오류");
-				}
-			}else {
-				dto = null;
-			}
-		}catch(Exception e) {
-			dto = null;
-			e.printStackTrace();
-			System.out.println("로그인 오류" + e.getMessage());
+		        if (rs.next()) {
+		            dto.setManagerId(rs.getString("managerId"));
+		            dto.setManagerStatus(rs.getInt("managerStatus"));
+		            System.out.println("로그인 성공!");
+		        } else {
+		            dto = null;
+		            System.out.println("로그인 실패 (아이디 또는 비밀번호 불일치)");
+		        }
+
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        System.out.println("로그인 오류: " + e.getMessage());
+		        dto = null;
+		    }
+
+		    return dto;
 		}
-		System.out.println(dto.getManagerStatus());
-		return dto;
-	}
 	/**
 	 * 관리자에 의한 회원삭제 메서드
 	 * @param emberId String - 삭제할 대상 회원의 ID
@@ -723,7 +721,7 @@ public class ManagerDAO extends DBConnPool {
 		int rs =0;
 		StringBuilder sb = new StringBuilder();
 		sb.append("INSERT INTO tbl_manager(managerId,managerPwd,managerName,managerEmail,managerStatus)");
-		sb.append("VALUES(?,?,?,?,?)");
+		sb.append(" VALUES(?,SHA2(?,256),?,?,?)");
 		
 		try {
 			pstm = conn.prepareStatement(sb.toString());

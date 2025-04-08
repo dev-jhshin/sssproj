@@ -59,6 +59,7 @@
             </div>
             
             <div class="category-container">
+            	<span>
                 <select class="pagedropdown" id="pageSize">
                     <option value="5" ${ map.pageSize eq 5 ? 'selected' : '' }>5</option>
                     <option value="10" ${ map.pageSize eq 10 ? 'selected' : '' }>10</option>
@@ -66,6 +67,7 @@
                     <option value="30" ${ map.pageSize eq 30 ? 'selected' : '' }>30</option>
                     <option value="40" ${ map.pageSize eq 40 ? 'selected' : '' }>50</option>
                 </select>
+                개씩 보기</span>
             </div>
             
             <!-- 리스트 테이블 -->
@@ -141,7 +143,7 @@
 	});
 	
 	// 게시글 출력 개수
-	document.getElementById('pageSize').addEventListener('change', () => {
+	document.getElementById('pageSize').addEventListener('change', function () {
 		const params = new URLSearchParams(window.location.search);
 		params.set("page_size", this.value);
 		window.location.href = "./list.do?"+ params.toString();
