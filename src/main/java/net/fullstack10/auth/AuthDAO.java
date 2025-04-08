@@ -96,31 +96,32 @@ public class AuthDAO extends DBConnPool {
 		sb.append("SELECT memberId, memberPwd, memberStatus");
 		sb.append(" FROM tbl_member");
 		sb.append(" WHERE memberId = ?");
+		sb.append(" AND memberPwd = SHA2(?,256)");
 
-		try {
-			pstm = conn.prepareStatement(sb.toString());
-			pstm.setString(1, dto.getMemberId());
-			
-			rs = pstm.executeQuery();
-			
-			if(rs.next()) {
-				if(rs.getString("memberPwd").equals(dto.getMemberPwd())) {
-					dto.setMemberId(rs.getString("memberId"));
-					dto.setMemberStatus(rs.getInt("memberStatus"));
-					System.out.println("로그인성공!");
-				}else {
-					dto = null;
-					System.out.println("비밀번호 오류");
-				}
-			}else {
-				dto = null;
-			}
-		}catch(Exception e) {
-			e.printStackTrace();
-			System.out.println("로그인 오류" + e.getMessage());
+		 try {
+		        pstm = conn.prepareStatement(sb.toString());
+		        pstm.setString(1, dto.getMemberId());
+		        pstm.setString(2, dto.getMemberPwd());
+
+		        rs = pstm.executeQuery();
+
+		        if (rs.next()) {
+		            dto.setMemberId(rs.getString("memberId"));
+		            dto.setMemberStatus(rs.getInt("memberStatus"));
+		            System.out.println("로그인 성공!");
+		        } else {
+		            dto = null;
+		            System.out.println("로그인 실패 (아이디 또는 비밀번호 불일치)");
+		        }
+
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        System.out.println("로그인 오류: " + e.getMessage());
+		        dto = null;
+		    }
+
+		    return dto;
 		}
-		return dto;
-	}
 	/**
 	 * 사용자 ID 검증(회원 정보와 비밀번호 찾기 질문 기반으로 확인)
 	 * @param dto AuthDTO 객체 (memberId, memberName, questionId, answer)
