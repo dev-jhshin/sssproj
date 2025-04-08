@@ -240,6 +240,7 @@ td {
     align-items: center;
     cursor: pointer;
     border-radius: 4px; 
+    background-color: #FCFDFA;
 }
 
 .page-nav {
@@ -274,13 +275,62 @@ td {
     transition: background-color 0.2s; 
 }
 
-/* 게시글 상세보기 */
-.viewButton { 
-	cursor: pointer;
-}
-
-.viewButton:hover td {
-	color: rgb(90, 219, 75);
-}
-
 /*반응형 스타일*/
+@media (max-width: 480px) {
+  .content-header {
+    font-size: 1rem;
+  }
+
+  th, td {
+    font-size: 0.75rem;
+    padding: 8px;
+  }
+  
+  .search-btn-set {
+    flex-direction: row;
+    justify-content: center;
+  }
+  
+  .search-btn, 
+  .search-init {
+    min-width: 70px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .search-name {
+    font-size: 0.9rem;
+    padding: 6px 0;
+  }
+  
+  .dropdown,
+  .date-input,
+  .search-input {
+    padding: 6px;
+    font-size: 0.9rem;
+  }
+  
+  .pagedropdown {
+    width: 50px;
+    padding: 6px;
+  }
+  
+  .category {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .paging {
+    margin-top: 20px;
+  }
+  
+  .page-btn {
+    width: 22px;
+    height: 22px;
+    margin: 0 3px;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
+}
