@@ -415,7 +415,7 @@ public class LearningDAO extends DBConnPool {
 		
 		StringBuilder sql = new StringBuilder();
 		sql.append(" SELECT ");
-		sql.append(" tl.idx AS idx, tl.learningTitle AS learningTitle, tl.createdAt AS createdAt, COUNT(tll.idx) AS likeCnt, tl.learningStartedAt AS learningStartedAt, tl.learningEndedAt AS learningEndedAt ");
+		sql.append(" tl.idx AS idx, tl.learningTitle AS learningTitle, tl.createdAt AS createdAt, COUNT(tll.idx) AS likeCnt, tl.isVisible AS isVisible, tl.learningStartedAt AS learningStartedAt, tl.learningEndedAt AS learningEndedAt ");
 		sql.append(" FROM tbl_learning AS tl ");
 		sql.append(" LEFT OUTER JOIN tbl_learning_like AS tll ON tl.idx = tll.learningIdx ");
 		sql.append(" WHERE tl.memberId = ? ");
@@ -443,7 +443,8 @@ public class LearningDAO extends DBConnPool {
 				dto.setIdx(rs.getInt("idx"));
 				dto.setLearningTitle(rs.getString("learningTitle"));
 				dto.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
-				
+				dto.setLikeCnt(rs.getInt("likeCnt"));
+				dto.setIsVisible(rs.getBoolean("isVisible"));
 				Date startedAt = rs.getDate("learningStartedAt");
 				dto.setLearningStartedAt(startedAt != null ? startedAt.toLocalDate() : null);
 				
@@ -715,8 +716,8 @@ public class LearningDAO extends DBConnPool {
 				LocalDate endedAt = (rs.getDate("learningEndedAt") != null ? 
 						dUtil.toLocalDate(rs.getDate("learningEndedAt")) : null );
 				dto.setLearningEndedAt(endedAt);
-				dto.setPublic(rs.getBoolean("isPublic"));
-				dto.setVisible(rs.getBoolean("isVisible"));
+				dto.setIsPublic(rs.getBoolean("isPublic"));
+				dto.setIsVisible(rs.getBoolean("isVisible"));
 				dto.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
 				dto.setViewCnt(rs.getInt("viewCnt"));
 				dto.setLikeCnt(rs.getInt("likeCnt"));
