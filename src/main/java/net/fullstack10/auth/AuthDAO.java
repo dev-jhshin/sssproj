@@ -255,7 +255,7 @@ public class AuthDAO extends DBConnPool {
 		int rs = 0;
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE tbl_member");
-		sb.append(" SET memberPwd = ?");
+		sb.append(" SET memberPwd = SHA2(?,256)");
 		sb.append(" WHERE memberId = ?");
 		
 		try {

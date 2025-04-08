@@ -100,7 +100,7 @@ public class AuthRegistController extends HttpServlet {
 			return;
 		}
 
-		if(answer == null || answer.isEmpty() || !answer.matches("^[a-zA-Z가-힣0-9]+$")) {
+		if(answer == null || answer.isEmpty() || !answer.matches("^[a-zA-Z가-힣0-9]{1,20}+$")) {
 			request.setAttribute("error8", "비밀번호 답변은 한글 또는 영문, 숫자만 입력 가능합니다.");
 			JSFunction.alertLocation(response, "replace", "비밀번호 답변은 한글 또는 영문, 숫자만 입력 가능합니다.", "./regist.do");
 			return;
