@@ -406,7 +406,18 @@ body {
     cursor: pointer;
 }
 
-
+.page-btn {
+    width: 25px; 
+    height: 25px;
+    margin: 0 5px;
+    border: 1px solid #ddd; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: 4px; 
+    background-color: #FCFDFA;
+}
 
 /* 공유학습 ss 섹션 */ 
 .ss-container {

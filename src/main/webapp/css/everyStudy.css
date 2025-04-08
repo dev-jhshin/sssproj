@@ -216,6 +216,7 @@ td {
     align-items: center;
     cursor: pointer;
     border-radius: 4px; 
+    background-color: #FCFDFA;
 }
 
 .page-btn-active {
@@ -239,24 +240,62 @@ td {
 
 
 /* 반응형 스타일  */
-@media (max-width: 1024px) {
-  .ms-image {
-    width: 320px;
-    height: 240px;
+@media (max-width: 480px) {
+  .content-header {
+    font-size: 1rem;
   }
-  
-}
 
-@media (max-width: 768px) {
-  .page-container {
-    flex-direction: column;
+  th, td {
+    font-size: 0.75rem;
+    padding: 8px;
   }
   
-  .sidebar {
-    width: 100%;
-    height: auto;
-    position: static;
+  .search-btn-set {
+    flex-direction: row;
+    justify-content: center;
   }
   
+  .search-btn, 
+  .search-init {
+    min-width: 70px;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .search-name {
+    font-size: 0.9rem;
+    padding: 6px 0;
+  }
+  
+  .dropdown,
+  .date-input,
+  .search-input {
+    padding: 6px;
+    font-size: 0.9rem;
+  }
+  
+  .pagedropdown {
+    width: 50px;
+    padding: 6px;
+  }
+  
+  .category {
+    padding: 8px 12px;
+    font-size: 0.9rem;
+  }
+  
+  .paging {
+    margin-top: 20px;
+  }
+  
+  .page-btn {
+    width: 22px;
+    height: 22px;
+    margin: 0 3px;
+  }
+
+  .table-container {
+    overflow-x: auto;
+  }
 }
  

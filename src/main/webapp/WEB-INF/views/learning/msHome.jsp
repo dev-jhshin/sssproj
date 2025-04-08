@@ -6,8 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<link href="<c:url value='/css/msHome.css' />?v=<%=System.currentTimeMillis()%>" rel="stylesheet" type="text/css">
 <c:set var="date" value="<%=new Date().getTime() %>" />
-<link href="<c:url value='/css/msHome.css?ver=${ date }' />" rel="stylesheet" type="text/css">
 <link href="<c:url value='/css/sidebar.css?ver=${ date }' />" rel="stylesheet" type="text/css">
 <title>나의학습</title>
 	<style>
