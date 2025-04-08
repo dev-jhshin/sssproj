@@ -1,7 +1,7 @@
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
-<%@ taglib  prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <% Date d = new Date(); %>
 <!DOCTYPE html>
 <html lang="ko_KR">
@@ -14,7 +14,7 @@
 <body>
 <div class="wrap">
     <header>
-        <a href="#"><img class="header_logo" src="./../img/header_logo.svg" alt="메인로고"></a>
+        <a href="./../home/WelcomeSoop.do"><img class="header_logo" src="./../img/header_logo.svg" alt="메인로고"></a>
         <p class="header_comment">"숲속처럼 편안한 여러분만의 공부방 숲공에 오신 걸 환영해요."</p>
     </header>
     <main>
@@ -45,7 +45,7 @@
             </div>
             <div class="regi_input_box"> 
                 <p class="regi_tit">비밀번호 확인</p>
-                <input type="text" id="confirmPassword" name="비밀번호 확인" class="regi_input" autocomplete="off">
+                <input type="password" id="confirmPassword" name="비밀번호 확인" class="regi_input" autocomplete="off">
                 <div id="confirmPasswordError" class="conerror"></div>
             </div>
             <div class="regi_input_box2"> 
@@ -211,6 +211,7 @@
         passwordInput.setAttribute('type', type);
         this.textContent = type === 'password' ? '👁️' : '🙈'; // 아이콘 변경
     });
+    
 </script>
 </body>
 </html>

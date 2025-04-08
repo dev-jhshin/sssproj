@@ -23,6 +23,7 @@
 		
 	  	<!-- 메인 콘텐츠 -->
 	  	<div class="main-content">
+	  		<div class="content-header">오늘의 학습</div>
 	   	 	<div class="date-selection">
 		      	<div class="selected-date"></div>
 		      	<div class="calendar-icon" id="calendarToggle"></div>

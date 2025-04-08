@@ -125,8 +125,8 @@ public class LearningModifyController extends HttpServlet {
 		LearningDTO learningDTO = new LearningDTO();
 		learningDTO.setLearningTitle(learningTitle);
 		learningDTO.setLearningContent(learningContent);
-		learningDTO.setPublic("Y".equals(isPublic));
-		learningDTO.setVisible("Y".equals(isVisible));
+		learningDTO.setIsPublic("Y".equals(isPublic));
+		learningDTO.setIsVisible("Y".equals(isVisible));
 		learningDTO.setLearningStartedAt(learningStartedAt != null ? LocalDate.parse(learningStartedAt) : null);
 		learningDTO.setLearningEndedAt(learningEndedAt != null ? LocalDate.parse(learningEndedAt) : null);
 		learningDTO.setSharedToAdd(addList);

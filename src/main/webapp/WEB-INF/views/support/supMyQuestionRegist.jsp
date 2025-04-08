@@ -54,6 +54,9 @@
         </div>
     </div>
     <script>
+    document.querySelector('.cancelBtn').addEventListener('click', function() {
+        window.location.href = "./list.do";
+    });
     
     </script>
     

@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<%@ taglib prefix="fn" uri="jakarta.tags.functions"%> 
+<%@ taglib prefix="fn" uri="jakarta.tags.functions"%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -104,7 +104,7 @@
 										</c:if>
 										<c:if test="${sessionScope.memberId eq comment.get('memberId') }">
 											<input type="button" class="comment-btn" style="border: 0px;" id="commentEditButton" value="편집" onclick="enableEdit(this)" />
-											<input type="button" class="comment-btn" style="border: 0px;" id="commentDeleteButton" value="삭제"/>
+											<input type="button" class="comment-btn commentDeleteButton" style="border: 0px;" value="삭제"/>
 										</c:if>
 									</div>
 								</div>
@@ -202,17 +202,17 @@
 				}
 			});
 		}
-		const commentDeleteButton = document.getElementById('commentDeleteButton');
-		if (commentDeleteButton) {
-			commentDeleteButton.addEventListener('click', () => {
+		document.querySelectorAll('.commentDeleteButton').forEach(button => {
+			button.addEventListener('click', function() {
 				if(confirm('정말 댓글을 삭제하시겠습니까?')) {
-					const form = document.getElementById('frmComment');
+					const form = this.closest('form');
 					form.action = "/sssproj/bbs/comment/delete.do";
 					form.method="post";
 					form.submit();
-				}			
-			});
-		}
+				}		
+			})
+		})
+		
 		// 신고 버튼 
 		const reportButton = document.getElementById('reportButton');
 		if(reportButton) {
