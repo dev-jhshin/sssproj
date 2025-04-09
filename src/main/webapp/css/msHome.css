@@ -275,6 +275,15 @@ td {
     transition: background-color 0.2s; 
 }
 
+/* 게시글 상세보기 */
+.viewButton { 
+	cursor: pointer;
+}
+
+.viewButton:hover td {
+	color: rgb(90, 219, 75);
+}
+
 /*반응형 스타일*/
 @media (max-width: 480px) {
   .content-header {
