@@ -20,19 +20,20 @@ public class LearningViewController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		
+
 		String loginMeberId = (String)session.getAttribute("memberId");
 		String idx = request.getParameter("idx");
-		
+
 		LearningDAO learningDAO = new LearningDAO();
 		LearningDTO learningDTO = learningDAO.getLearningByIdx(idx);
-		
+
 		LearningSharedDAO sharedDAO = new LearningSharedDAO();
 		learningDTO.setSharedList(sharedDAO.getLearningShareList(idx));
 		sharedDAO.close();
-		
+
 		// 비공개 게시글에 대한 예외 처리 (단, 공유받은회원,작성자 접근 가능)
 		if (!learningDTO.getIsPublic()) {
 			boolean isSharedMember = learningDTO.getSharedList().stream()
@@ -42,27 +43,27 @@ public class LearningViewController extends HttpServlet {
 				return;
 			}
 		}
-		
+
 		learningDAO.updateViewCnt(idx);
 		learningDAO.close();
-		
+
 		learningDTO.setLearningContent(learningDTO.getLearningContent().replace("\n", "<br>"));
-		String[] topics = (learningDTO.getTopic() != null && !learningDTO.getTopic().isEmpty() ? 
+		String[] topics = (learningDTO.getTopic() != null && !learningDTO.getTopic().isEmpty() ?
 				learningDTO.getTopic().split(",") : new String[0]);
-		String[] hashtags = (learningDTO.getHashtag() != null && !learningDTO.getHashtag().isEmpty() ? 
+		String[] hashtags = (learningDTO.getHashtag() != null && !learningDTO.getHashtag().isEmpty() ?
 				learningDTO.getHashtag().split(",") : new String[0]);
-		
+
 		LearningFileDAO fileDAO = new LearningFileDAO();
 		learningDTO.setFiles(fileDAO.getFileListByLearningIdx(idx));
 		fileDAO.close();
-		
+
 		LearningCommentDAO commentDAO = new LearningCommentDAO();
 		learningDTO.setComments(commentDAO.getLearningCommentListByLearningIdx(idx));
 		commentDAO.close();
-		
+
 		LearningLikeDAO likeDAO = new LearningLikeDAO();
 		boolean isLiked = likeDAO.isAlreadyLiked(idx, loginMeberId);
-		
+
 		request.setAttribute("isLiked", isLiked);
 		request.setAttribute("topics", topics);
 		request.setAttribute("hashtags", hashtags);
@@ -73,6 +74,7 @@ public class LearningViewController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

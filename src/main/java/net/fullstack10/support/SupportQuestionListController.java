@@ -1,18 +1,17 @@
 package net.fullstack10.support;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import net.fullstack10.common.CommonPageUtil;
-import net.fullstack10.common.CommonUtil;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import net.fullstack10.common.CommonUtil;
 
 /**
  * Servlet implementation class SupportQuestionListController
@@ -20,7 +19,7 @@ import java.util.Map;
 @WebServlet("/support/question/list.do")
 public class SupportQuestionListController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private SupportDAO supportDAO; 
+    private SupportDAO supportDAO;
     private CommonUtil cUtil = new CommonUtil();
     /**
      * @see HttpServlet#HttpServlet()
@@ -33,11 +32,12 @@ public class SupportQuestionListController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter wrt = response.getWriter();
-		
+
 		String memberId = (String) request.getSession().getAttribute("memberId");
 		if(memberId ==null || memberId.length()<1) {
 			wrt.println("<script>");
@@ -47,10 +47,10 @@ public class SupportQuestionListController extends HttpServlet {
 			wrt.close();
 			return;
 		}
-		
+
 		supportDAO = new SupportDAO();
 		Map<String, Object> pMap = new HashMap<>();
-		// 페이징 변수 
+		// 페이징 변수
 		String pageNo = cUtil.setPageParam(request.getParameter("page_no"), "1");
 		String pageSize = cUtil.setPageParam(request.getParameter("page_size"), "10");
 		String pageBlockSize = cUtil.setPageParam(request.getParameter("page_block_size"), "10");
@@ -63,10 +63,10 @@ public class SupportQuestionListController extends HttpServlet {
 		String queryString = "page_size=" + pageSize+"&page_block_size="+pageBlockSize;
 		queryString += "&search_category=" + (searchCategory != null && !searchCategory.isEmpty() ? searchCategory : "");
 		queryString += "&search_word=" + (searchWord != null && !searchWord.isEmpty() ? searchWord : "");
-		
+
 		pMap.put("pageSkipCount", pageSkipCount);
 		pMap.put("pageSize", pageSize);
-		
+
 		pMap.put("searchCategory", searchCategory);
 		pMap.put("searchWord", searchWord);
 //		pMap.put("searchStart", searchStart);
@@ -85,6 +85,7 @@ public class SupportQuestionListController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

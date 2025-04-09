@@ -1,5 +1,7 @@
 package net.fullstack10.learning;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,8 +11,6 @@ import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.CommonUtil;
 import net.fullstack10.common.JSFunction;
 
-import java.io.IOException;
-
 /**
  * Servlet implementation class LearningLikeRegistController
  */
@@ -19,28 +19,31 @@ public class LearningLikeRegistController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private CommonUtil cUtil = new CommonUtil();
-	
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
+
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
-		
+
 		String idx = request.getParameter("idx");
-		
-		if (memberId == null || memberId.isBlank())
+
+		if (memberId == null || memberId.isBlank()) {
 			JSFunction.alertBack(response, "잘못된 접근입니다.");
-		if (cUtil.parseInt(idx) < 1)
+		}
+		if (cUtil.parseInt(idx) < 1) {
 			JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
-		
+		}
+
 		LearningLikeDAO likeDAO = new LearningLikeDAO();
 		int result = likeDAO.createLearningLikeByMemberId(idx, memberId);
 		likeDAO.close();
-		
+
 		String msg = (result > 0 ? "좋아요를 등록을 성공했습니다." : "좋아요 등록에 실패했습니다.");
 		JSFunction.alertLocation(response, "href", msg, "/sssproj/learning/view.do?idx=" + idx);
 	}
@@ -48,6 +51,7 @@ public class LearningLikeRegistController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

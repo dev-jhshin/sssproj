@@ -31,7 +31,9 @@ public class CommonDateUtil {
 	}
 
 	public String toString(LocalDateTime ldt) {
-		if(ldt==null) return "";
+		if(ldt==null) {
+			return "";
+		}
 		LocalDateTime now = LocalDateTime.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
 
@@ -64,12 +66,12 @@ public class CommonDateUtil {
 	public String localDateTimeToString(LocalDateTime localDateTime) {
 		return localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 	}
-	
+
 	// Date 타입 --> LocalDate 문자열로 변환
 		public String localDateToString(LocalDate localDate) {
 			return localDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		}
-	
+
 	// String 타입 --> LocalDate 타입으로 변환
 	public LocalDate toLocalDate(String string) {
 		return LocalDate.parse(string, DateTimeFormatter.ofPattern("yyyy-MM-dd"));

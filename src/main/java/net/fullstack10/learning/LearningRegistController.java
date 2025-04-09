@@ -29,6 +29,7 @@ public class LearningRegistController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/views/learning/msRegist.jsp").forward(request, response);
@@ -38,6 +39,7 @@ public class LearningRegistController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
@@ -50,7 +52,7 @@ public class LearningRegistController extends HttpServlet {
 			url = redirectURL.toString();
 		}
 
-		
+
 		String loginMemberId = (String)session.getAttribute("memberId");
 
 		String learningTitle = request.getParameter("learningTitle");
@@ -61,7 +63,7 @@ public class LearningRegistController extends HttpServlet {
 		String isPublic = request.getParameter("isPublic");
 		String topics = request.getParameter("topics");
 		String hashtags = request.getParameter("hashtags");
-		
+
 		String sharedStr = request.getParameter("sharedList");
 		List<String> sharedList = ( sharedStr != null && !sharedStr.isEmpty() ?
 				Arrays.asList(sharedStr.split(",")) : List.of());
@@ -69,14 +71,22 @@ public class LearningRegistController extends HttpServlet {
 		for (String user : sharedList) {
 			LearningSharedDTO sharedDTO = new LearningSharedDTO();
 			sharedDTO.setSharedTo(user);
-			sharedDTOList.add(sharedDTO); 
+			sharedDTOList.add(sharedDTO);
 		}
-		
+
 		// validation 체크 루틴
-		if (loginMemberId == null || loginMemberId.isEmpty()) JSFunction.alertBack(response, "사용자 정보가 없습니다.");
-		if (learningTitle == null || learningTitle.length() < 1 || learningTitle.length() > 100) JSFunction.alertBack(response, "제목을 1자 이상 100자 이하로 입력하세요.");
-		if (learningContent == null || learningContent.length() < 1) JSFunction.alertBack(response, "내용을 입력하세요.");
-		if (isVisible.equals("Y") && (learningStartedAt == null || learningEndedAt == null)) JSFunction.alertBack(response, "오늘의 학습 노출기간을 입력하세요.");
+		if (loginMemberId == null || loginMemberId.isEmpty()) {
+			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
+		}
+		if (learningTitle == null || learningTitle.length() < 1 || learningTitle.length() > 100) {
+			JSFunction.alertBack(response, "제목을 1자 이상 100자 이하로 입력하세요.");
+		}
+		if (learningContent == null || learningContent.length() < 1) {
+			JSFunction.alertBack(response, "내용을 입력하세요.");
+		}
+		if (isVisible.equals("Y") && (learningStartedAt == null || learningEndedAt == null)) {
+			JSFunction.alertBack(response, "오늘의 학습 노출기간을 입력하세요.");
+		}
 
 		LearningDTO learningDTO = new LearningDTO();
 		learningDTO.setMemberId(loginMemberId);

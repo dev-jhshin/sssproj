@@ -8,7 +8,7 @@ public class LearningCommentDTO {
 	private String memberId;
 	private String commentContent;
 	private LocalDateTime createdAt;
-	
+
 	public int getIdx() {
 		return idx;
 	}

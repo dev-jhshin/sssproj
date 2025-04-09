@@ -79,7 +79,9 @@ public class CommonFileUtil {
 			// 헤더에서 추출한 파일명 처리
 			String[] pArrHeader = pHeader.split("filename=");
 			String orgFileName = pArrHeader[1].trim().replace("\"", "");
-			if (orgFileName.isEmpty() || orgFileName.equals("")) return null;
+			if (orgFileName.isEmpty() || orgFileName.equals("")) {
+				return null;
+			}
 			part.write(sDir + File.separator + orgFileName);
 			arrFileName.add(orgFileName);
 		}

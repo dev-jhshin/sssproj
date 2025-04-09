@@ -1,13 +1,13 @@
 package net.fullstack10.manager;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.fullstack10.common.JSFunction;
-
-import java.io.IOException;
 
 /**
  * Servlet implementation class ManagerReportDelete
@@ -19,18 +19,20 @@ public class ManagerReportDelete extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int targetId = Integer.parseInt(request.getParameter("targetId"));
 		int reportId = Integer.parseInt(request.getParameter("reportId"));
 		String targetType = request.getParameter("targetType");
 
-		
+
 		 ManagerDAO dao = new ManagerDAO();
 		    int rs = 0;
 
