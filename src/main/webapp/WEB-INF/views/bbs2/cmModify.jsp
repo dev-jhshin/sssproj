@@ -1,14 +1,11 @@
 <%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="<c:url value='/css/cmRegist.css?<%=new Date()%>'/>"
-	rel="stylesheet" type="text/css">
-<%-- <link href="<c:url value='/css/cmModify.css?<%=new Date() %>' />" rel="stylesheet" type="text/css"> --%>
+<link href="<c:url value='/css/cmRegist.css?<%=new Date()%>'/>"	rel="stylesheet" type="text/css">
 <title>커뮤니티 - 수정페이지</title>
 <style>
 </style>
@@ -17,7 +14,6 @@
 	<div class="page-container">
 		<!-- 메인 콘텐츠 -->
 		<div class="main-content">
-
 			<!-- 폼 콘텐츠 -->
 			<form name="frmModify" id="frmModify" enctype="multipart/form-data">
 				<input type="hidden" name="idx" value="${pMap.bbs.idx }" />
@@ -163,20 +159,20 @@
 				fileList.appendChild(noFilesDiv);
 				return;
 			}
-	
+			
 			selectedFiles.forEach((file, index) => {
 				const fileItem = document.createElement('div');
 				fileItem.className = 'file-item';
-	           
+			
 				const fileName = document.createElement('div');
 				fileName.className = 'file-name';
 				fileName.textContent = file.name;
-	           
+			
 				const removeButton = document.createElement('div');
 				removeButton.className = 'remove-file-btn';
 				removeButton.textContent = '×';
 				removeButton.dataset.index = index;
-	           
+			
 				fileItem.appendChild(fileName);
 				fileItem.appendChild(removeButton);
 				fileList.appendChild(fileItem);
@@ -196,7 +192,6 @@
 		document.addEventListener("DOMContentLoaded", function() {
 			const categorySelect = document.getElementById("categorySelect");
 			const customInput = document.getElementById("customCategoryInput");
-
 			categorySelect.addEventListener("change", function() {
 				if (categorySelect.value === "직접입력") {
 					customInput.style.display = "block";

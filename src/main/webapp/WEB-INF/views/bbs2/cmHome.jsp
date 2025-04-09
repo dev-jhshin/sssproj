@@ -11,8 +11,6 @@
 <link href="<c:url value='/css/sidebar.css' />?v=<%=System.currentTimeMillis()%>" rel="stylesheet" type="text/css">
 <title>커뮤니티</title>
 </head>
-	
-
 <body>
 	<c:set var="dUtil" value="<%=new CommonDateUtil()%>" scope="request" />
 	<div class="page-container">
@@ -108,20 +106,21 @@
 				</div>
 
 				<span>
-				<select class="pagedropdown" onchange="updatePageSize(this)">
-					<option value="5"
-						<c:if test="${pMap.pageSize == 5 }">selected</c:if>>5</option>
-					<option value="10"
-						<c:if test="${pMap.pageSize == 10 }">selected</c:if>>10</option>
-					<option value="20"
-						<c:if test="${pMap.pageSize == 20 }">selected</c:if>>20</option>
-					<option value="30"
-						<c:if test="${pMap.pageSize == 30 }">selected</c:if>>30</option>
-					<option value="50"
-						<c:if test="${pMap.pageSize == 50 }">selected</c:if>>50</option>
-				</select>개씩 보기</span>
+					<select class="pagedropdown" onchange="updatePageSize(this)">
+						<option value="5"
+							<c:if test="${pMap.pageSize == 5 }">selected</c:if>>5</option>
+						<option value="10"
+							<c:if test="${pMap.pageSize == 10 }">selected</c:if>>10</option>
+						<option value="20"
+							<c:if test="${pMap.pageSize == 20 }">selected</c:if>>20</option>
+						<option value="30"
+							<c:if test="${pMap.pageSize == 30 }">selected</c:if>>30</option>
+						<option value="50"
+							<c:if test="${pMap.pageSize == 50 }">selected</c:if>>50</option>
+					</select>개씩 보기
+				</span>
 			</div>
-
+			
 			<!-- 리스트 테이블 -->
 			<div class="table-container">
 				<table>
@@ -166,8 +165,7 @@
 					</tbody>
 				</table>
 			</div>
-
-
+			
 			<!-- 페이징 -->
 			<div class="paging">${pMap.paging }</div>
 			<hr>
@@ -236,6 +234,6 @@
 			params.set("searchOrder", "orderByViewCnt");
 			window.location.href='./list.do?'+params.toString();
 		});
-</script>
+	</script>
 </body>
 </html>
