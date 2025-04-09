@@ -170,236 +170,151 @@
 	
 	
 	<script>
-	  // 달력 팝업창
-	  document.addEventListener('DOMContentLoaded', function() {
-	    const urlParams = new URLSearchParams(window.location.search);
-	    const param = urlParams.get('date');
-	
-	    // 현재 날짜 가져오기
-	    let currentDate = new Date();
-	    let selectedDate = new Date();
-	    if (param != null && param.length != 0) {
-	      const parts = param.split("-");
-	      const year = parseInt(parts[0], 10);
-	      const month = parseInt(parts[1], 10) - 1; // month는 0-based
-	      const day = parseInt(parts[2], 10);
-	      selectedDate = new Date(year, month, day);
-	    }
-	    let currentMonth = selectedDate.getMonth();
-	    let currentYear = selectedDate.getFullYear();
-	    
-	    const calendarToggle = document.getElementById('calendarToggle');
-	    const calendarModal = document.getElementById('calendarModal');
-	    const overlay = document.getElementById('overlay');
-	    const modalMonthYear = document.getElementById('modalMonthYear');
-	    const prevMonth = document.getElementById('prevMonth');
-	    const nextMonth = document.getElementById('nextMonth');
-	    const calendarDays = document.getElementById('calendarDays');
-	    const weekDays = document.querySelectorAll('.week-day');
-	    const selectedDateDisplay = document.querySelector('.selected-date');
-	    
-	    // 숫자 앞에 0을 붙이는 함수
+		// 숫자 앞에 0을 붙이는 함수
 	    function padZero(num) {
 	      return (num < 10) ? "0" + num : num;
 	    }
-	    
-	    // 달력 토글
-	    calendarToggle.addEventListener('click', function() {
-	      calendarModal.style.display = 'block';
-	      overlay.style.display = 'block';
-	      renderCalendar(currentYear, currentMonth);
-	    });
-	    
-	    // 오버레이 클릭 시 캘린더 닫히는 거
-	    overlay.addEventListener('click', function() {
-	      calendarModal.style.display = 'none';
-	      overlay.style.display = 'none';
-	    });
-	    
-	    // 이전 달로 이동
-	    prevMonth.addEventListener('click', function() {
-	      currentMonth--;
-	      if (currentMonth < 0) {
-	        currentMonth = 11;
-	        currentYear--;
-	      }
-	      renderCalendar(currentYear, currentMonth);
-	    });
-	    
-	    // 다음 달로 이동
-	    nextMonth.addEventListener('click', function() {
-	      currentMonth++;
-	      if (currentMonth > 11) {
-	        currentMonth = 0;
-	        currentYear++;
-	      }
-	      renderCalendar(currentYear, currentMonth);
-	    });
-	    
-	    // 주간 달력의 날짜 클릭시 선택
-	    weekDays.forEach(day => {
-	      day.addEventListener('click', function() {
-	        const dateStr = this.getAttribute('data-date');
-	        if (dateStr) {
-	          const [year, month, day] = dateStr.split('-').map(Number);
-	          // selectedDate = new Date(year, month - 1, day);
-	          // updateSelectedDate();
-	          // updateWeekView();
-	          window.location.href = './today.do?date=' + year + '-' + month + '-' + day;
-	        }
-	      });
-	    });
-	    
-	    // 달력 렌더링
-	    function renderCalendar(year, month) {
-	      modalMonthYear.textContent = year + "년 " + (month + 1) + "월";
-	      
-	      const firstDayOfMonth = new Date(year, month, 1);
-	      const lastDayOfMonth = new Date(year, month + 1, 0);
 	
-	      const days = [];
-	      
-	      const firstDayWeekday = firstDayOfMonth.getDay();
-	      const prevMonthLastDay = new Date(year, month, 0).getDate();
-	      
-	      for (let i = firstDayWeekday - 1; i >= 0; i--) {
-	        const prevMonth = month === 0 ? 11 : month - 1;
-	        const prevYear = month === 0 ? year - 1 : year;
-	        days.push({
-	          day: prevMonthLastDay - i,
-	          month: prevMonth,
-	          year: prevYear,
-	          isCurrentMonth: false
-	        });
-	      }
-	      
-	      // 현재 달의 날짜 추가
-	      for (let i = 1; i <= lastDayOfMonth.getDate(); i++) {
-	        days.push({
-	          day: i,
-	          month: month,
-	          year: year,
-	          isCurrentMonth: true
-	        });
-	      }
-	      
-	      // 다음 달의 날짜로 나머지 채우기
-	      const remainingDays = 42 - days.length; 
-	      for (let i = 1; i <= remainingDays; i++) {
-	        const nextMonth = month === 11 ? 0 : month + 1;
-	        const nextYear = month === 11 ? year + 1 : year;
-	        days.push({
-	          day: i,
-	          month: nextMonth,
-	          year: nextYear,
-	          isCurrentMonth: false
-	        });
-	      }
-	      
-	      // 달력에 날짜 넣기
-	      calendarDays.innerHTML = '';
-	      days.forEach(day => {
-	        const dateElement = document.createElement('div');
-	        dateElement.classList.add('day');
-	        
-	        if (!day.isCurrentMonth) {
-	          dateElement.classList.add('other-month');
-	        }
-	        
-	        // 오늘 날짜 표시
-	        const today = new Date();
-	        if (day.day === today.getDate() && 
-	            day.month === today.getMonth() && 
-	            day.year === today.getFullYear()) {
-	          dateElement.classList.add('today');
-	        }
-	        
-	        // 선택된 날짜 표시
-	        if (day.day === selectedDate.getDate() && 
-	            day.month === selectedDate.getMonth() && 
-	            day.year === selectedDate.getFullYear()) {
-	          dateElement.classList.add('selected');
-	        }
-	        
-	        dateElement.textContent = day.day;
-	        
-	        // 날짜 클릭 이벤트
-	        dateElement.addEventListener('click', function() {
-	          selectedDate = new Date(day.year, day.month, day.day);
-	          updateSelectedDate();
-	          updateWeekView();
-	          calendarModal.style.display = 'none';
-	          overlay.style.display = 'none';
-	        });
-	        
-	        calendarDays.appendChild(dateElement);
-	      });
-	    }
-	    
-	    // 선택된 날짜 업데이트
-	    function updateSelectedDate() {
-	      const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
-	      const dayOfWeek = dayNames[selectedDate.getDay()];
-	      
-	      selectedDateDisplay.textContent = selectedDate.getFullYear() + "년 " + (selectedDate.getMonth() + 1) + "월 " + selectedDate.getDate() + "일 (" + dayOfWeek + ")";
-	      
-	      // 주간 달력 업데이트
-	      const currentMonthElement = document.querySelector('.current-month');
-	      if (currentMonthElement) {
-	        currentMonthElement.textContent = selectedDate.getFullYear() + "년 " + (selectedDate.getMonth() + 1) + "월";
-	      }
-	    }
-	    
-	    // 주간 달력 뷰 업데이트
-	    function updateWeekView() {
-	      // 현재 선택된 날짜의 요일 (0: 일요일, 1: 월요일, ...)
-	      const selectedDay = selectedDate.getDay();
-	      
-	      // 주의 시작일 (월요일)
-	      const startOfWeek = new Date(selectedDate);
-	      const startAdjustment = selectedDay === 0 ? -6 : 1 - selectedDay;
-	      startOfWeek.setDate(selectedDate.getDate() + startAdjustment);
-	      
-	      // 주의 모든 날짜 업데이트
-	      weekDays.forEach((weekDay, index) => {
-	        const date = new Date(startOfWeek);
-	        date.setDate(startOfWeek.getDate() + index);
-	        
-	        // data-date 속성 업데이트 
-	        const year = date.getFullYear();
-	        const month = padZero(date.getMonth() + 1);
-	        const day = padZero(date.getDate());
-	        const dateStr = year + "-" + month + "-" + day;
-	        
-	        weekDay.setAttribute('data-date', dateStr);
-	        
-	        // 날짜 표시 업데이트
-	        weekDay.querySelector('.day-number').textContent = date.getDate();
-	        
-	        // 선택된 날짜 스타일 업데이트
-	        weekDay.classList.remove('selected');
-	        if (date.toDateString() === selectedDate.toDateString()) {
-	          weekDay.classList.add('selected');
-	        }
-	        
-	        // 오늘 날짜 스타일 업데이트
-	        //weekDay.classList.remove('today');
-	        //if (date.toDateString() === new Date().toDateString()) {
-	        //  weekDay.classList.add('today');
-	        //}
-	        
-	        // 주말 스타일 업데이트
-	        weekDay.classList.remove('weekend');
-	        if (date.getDay() === 0 || date.getDay() === 6) {
-	          weekDay.classList.add('weekend');
-	        }
-	      });
-	    }
-	    
-	    // 초기 렌더링
-	    updateSelectedDate();
-	    updateWeekView();
-	  });
+		document.addEventListener('DOMContentLoaded', () => {
+			const urlParams = new URLSearchParams(window.location.search);
+		    const param = urlParams.get('date');
+		    
+		    const calendarToggle = document.getElementById('calendarToggle');
+		    const calendarModal = document.getElementById('calendarModal');
+		    const overlay = document.getElementById('overlay');
+		    const modalMonthYear = document.getElementById('modalMonthYear');
+		    const prevMonthBtn = document.getElementById('prevMonth');
+		    const nextMonthBtn = document.getElementById('nextMonth');
+		    const calendarDays = document.getElementById('calendarDays');
+		    const weekDays = document.querySelectorAll('.week-day');
+		    const selectedDateDisplay = document.querySelector('.selected-date');
+		    
+			const today = new Date();
+		    let selectedDate = param ? new Date(param) : new Date();
+		    let currentMonth = selectedDate.getMonth();
+		    let currentYear = selectedDate.getFullYear();
+		    
+		    // 선택된 날짜 업데이트
+		  	const updateSelectedDate = () => {
+		  		const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+		  	    const dayOfWeek = dayNames[selectedDate.getDay()];
+		  	    selectedDateDisplay.textContent = selectedDate.getFullYear() + '년 ' + (selectedDate.getMonth() + 1) + '월 ' + selectedDate.getDate() + '일 (' + dayOfWeek + ')';
+		  	};
+		    
+		 	// 주간 달력 뷰 업데이트
+		    const updateWeekView = () => {
+		    	// 현재 선택된 날짜의 요일 (0: 일요일, 1: 월요일, ...)
+		    	const selectedDay = selectedDate.getDay();
+		    	
+		    	// 주의 시작일 (월요일)
+		       	const startAdjustment = selectedDay === 0 ? -6 : 1 - selectedDay;
+		       	const startOfweek = new Date(selectedDate);
+		       	startOfweek.setDate(selectedDate.getDate() + startAdjustment);
+
+		    	// 주의 모든 날짜 업데이트
+		    	weekDays.forEach((weekDay, index) => {
+		    		const date = new Date(startOfweek);
+		    		date.setDate(date.getDate() + index);
+
+		    		// date-date 속성 업데이트
+		    		const dateStr = date.getFullYear() + '-' + padZero(date.getMonth() + 1) + '-' + padZero(date.getDate());
+		    		weekDay.setAttribute('data-date', dateStr);
+		    		
+		    		// 날짜 표시 업데이트
+		    		weekDay.querySelector('.day-number').textContent = date.getDate();
+
+		    		// 선택된 날짜 스타일 업데이트
+		    		weekDay.classList.toggle('selected', date.toDateString() === selectedDate.toDateString());
+		    		// 오늘 날짜 스타일 업데이트
+		    		weekDay.classList.toggle('today', date.toDateString() === new Date().toDateString());
+		    		// 주말 날짜 스타일 업데이트
+		    		weekDay.classList.toggle('weekend', date.getDay() === 0 || date.getDay() === 6);
+				});
+			};
+
+			// 달력 렌더링
+			const renderCalendar = (year, month) => {
+				modalMonthYear.textContent = year + '년' + (month + 1) + '월';
+
+				const firstDay = new Date(year, month, 1);
+				const startDay = firstDay.getDay();
+				const totalCells = 42;
+
+				const daysFragment = document.createDocumentFragment();
+				const todayStr = today.toDateString();
+				const selectedStr = selectedDate.toDateString();
+
+				calendarDays.innerHTML = '';
+
+				for (let i = 0; i < totalCells; i++) {
+					const offset = i - startDay;
+					const date = new Date(year, month, 1 + offset);
+					const dayEl = document.createElement('div');
+					dayEl.className = 'day';
+					if (date.getMonth() !== month) dayEl.classList.add('other-month');
+					if (date.toDateString() === todayStr) dayEl.classList.add('today');
+					if (date.toDateString() === selectedStr) dayEl.classList.add('selected');
+	
+					dayEl.dataset.date = date.getFullYear() + '-' + padZero(date.getMonth() + 1) + '-' + padZero(date.getDate());
+					dayEl.textContent = date.getDate();
+					
+					daysFragment.appendChild(dayEl);
+				}
+
+				calendarDays.appendChild(daysFragment);
+			};
+			
+			// 날짜 클릭 이벤트 위임 (event delegation)
+			calendarDays.addEventListener('click', (e) => {
+				if (!e.target.classList.contains('day')) return;
+				const dateStr = e.target.dataset.date;
+				if (!dateStr) return;
+				selectedDate = new Date(dateStr);
+				updateSelectedDate();
+				updateWeekView();
+				calendarModal.style.display = 'none';
+				overlay.style.display = 'none';
+			});
+
+			// 달력 토글
+			calendarToggle.addEventListener('click', () => {
+				calendarModal.style.display = 'block';
+				overlay.style.display = 'block';
+				renderCalendar(currentYear, currentMonth);
+			});
+
+			// 오버레이 클릭 시 캘린더 종료
+			overlay.addEventListener('click', () => {
+				calendarModal.style.display = 'none';
+				overlay.style.display = 'none';
+			});
+
+			// 이전 달로 이동
+			prevMonthBtn.addEventListener('click', () => {
+				currentMonth = (currentMonth - 1 + 12) % 12;
+				if (currentMonth === 11) currentYear--;
+				renderCalendar(currentYear, currentMonth);
+			});
+
+			// 다음 달로 이동
+			nextMonthBtn.addEventListener('click', () => {
+				currentMonth = (currentMonth + 1) % 12;
+				if (currentMonth === 0) currentYear++;
+				renderCalendar(currentYear, currentMonth);
+			});
+
+			// 주간 달력의 날짜 클릭 시
+			weekDays.forEach(day => {
+				day.addEventListener('click', () => {
+				const dateStr = day.dataset.date;
+				if (dateStr) window.location.href = './today.do?date=' + dateStr;
+				});
+			});
+			
+			// 초기 렌더링
+			updateSelectedDate();
+			updateWeekView();
+		});
 	</script>
 
 </body>
