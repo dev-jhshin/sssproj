@@ -275,6 +275,9 @@
            
                 const newFiles = Array.from(e.target.files);
                 selectedFiles = selectedFiles.concat(newFiles);
+                e.value = "";
+                
+                console.log(selectedFiles);
                
                 updateFileList();
             }
@@ -466,6 +469,10 @@
         	if (!confirm('해당 학습내용을 등록하시겠습니까?')) return;
         	
          	const frm = document.getElementById("frmRegist");
+         	
+         	const dataTransfer = new DataTransfer();
+         	selectedFiles.forEach(file => dataTransfer.items.add(file));
+         	document.getElementById('fileInput').files = dataTransfer.files;
         	
         	const topics = [...document.querySelectorAll('.field .tagName')].map(topic => topic.textContent.trim());
         	const tags = [...document.querySelectorAll('.hashtag .tagName')].map(tag => tag.textContent.replace('#', '').trim());
