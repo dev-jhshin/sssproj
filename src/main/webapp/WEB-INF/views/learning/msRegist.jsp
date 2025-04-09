@@ -276,8 +276,6 @@
                 const newFiles = Array.from(e.target.files);
                 selectedFiles = selectedFiles.concat(newFiles);
                 e.value = "";
-                
-                console.log(selectedFiles);
                
                 updateFileList();
             }
