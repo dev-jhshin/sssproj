@@ -20,7 +20,7 @@ import net.fullstack10.common.CommonUtil;
  * Servlet implementation class LearningToadyController
  */
 @WebServlet("/learning/today.do")
-public class LearningToadyController extends HttpServlet {
+public class LearningTodayController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private CommonUtil cUtil = new CommonUtil();

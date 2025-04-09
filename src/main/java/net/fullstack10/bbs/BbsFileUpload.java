@@ -16,12 +16,11 @@ public class BbsFileUpload {
 	public BbsFileUpload() {
 		fUtil = new CommonFileUtil();
 	}
-	public List<Map> fileUpload(HttpServletRequest request) throws ServletException, IOException {
+	public List<Map> fileUpload(HttpServletRequest request, String saveDir) throws ServletException, IOException {
+		
 		String newFile = "";
 		String fileExt = "";
 		List<Map> files = new ArrayList<>();
-		// 파일 업로드 디렉토리 설정
-		String saveDir = "/Users/sinjihye/dev/java10/sssproj/sssproj/src/main/webapp/Uploads";
 		String virtualDir = "/Uploads";
 		
 		// 파일 업로드

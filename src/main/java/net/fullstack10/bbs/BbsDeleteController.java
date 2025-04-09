@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.fullstack10.common.CommonFileUtil;
+import net.fullstack10.common.JSFunction;
 
 /**
  * Servlet implementation class BbsViewController
@@ -44,29 +45,23 @@ public class BbsDeleteController extends HttpServlet {
 		
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter wrt = response.getWriter();
 
 		String idx = request.getParameter("bbs_idx");
 		bbsDAO = new BbsDAO();
 		List<Map> files = bbsDAO.getBbsFilesByIdx(idx);
+		
 		if(files !=null) {
 			for(Map<String, String> file: files) {
 				String fileName = file.get("fileName");
 				String filePath = file.get("filePath");
-				String saveDir = "/Users/sinjihye/dev/java10/sssproj/sssproj/src/main/webapp/Uploads";
+				String saveDir = getServletContext().getInitParameter("SaveDirectory");
 				fUtil.fileDelete(request, saveDir, fileName);
 			}
 		}
+		
 		int result = bbsDAO.setBbsDelete(idx);
 		bbsDAO.close();
-		if (result > 0) {
-			wrt.println("<script>");
-			wrt.println("alert('게시글이 삭제되었습니다.');");
-			wrt.println("window.location.href = 'list.do';");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
+		if (result > 0) { JSFunction.alertLocation(response, "게시글이 삭제되었습니다.", "list.do"); } else { JSFunction.alertBack(response, "게시글 삭제에 실패했습니다."); }
 	}
 
 }
