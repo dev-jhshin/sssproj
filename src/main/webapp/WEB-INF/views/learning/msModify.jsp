@@ -61,11 +61,9 @@
 	                        </div>
 	                    </td>
 	                    <td style="text-align: center">
-	                    	<c:if test="${ dto.isVisible }">
-		                        <input type="date" class="date-input" disabled value="${ dUtil.localDateToString(dto.learningStartedAt) }"/> 
-		                        &nbsp;&nbsp;~ &nbsp;&nbsp;
-		                        <input type="date" class="date-input" disabled value="${ dUtil.localDateToString(dto.learningEndedAt) }"/>
-		                    </c:if>
+		                    <input type="date" class="date-input" name="learningStartedAt" disabled value="${ dto.learningStartedAt ? dUtil.localDateToString(dto.learningStartedAt) : '' }"/> 
+		                    &nbsp;&nbsp;~ &nbsp;&nbsp;
+		                    <input type="date" class="date-input" name="learningEndedAt" disabled value="${ dto.learningEndedAt ? dUtil.localDateToString(dto.learningEndedAt) : '' }"/>
 	                    </td>
 	                </tr>
 	            </table>

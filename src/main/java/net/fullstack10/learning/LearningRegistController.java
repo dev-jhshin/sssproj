@@ -84,8 +84,8 @@ public class LearningRegistController extends HttpServlet {
 		learningDTO.setLearningContent(learningContent);
 		learningDTO.setIsPublic(isPublic.equals("Y") ? true : false);
 		learningDTO.setIsVisible(isVisible.equals("Y") ? true : false);
-		learningDTO.setLearningStartedAt(learningStartedAt != null ? LocalDate.parse(learningStartedAt) : null);
-		learningDTO.setLearningEndedAt(learningEndedAt != null ? LocalDate.parse(learningEndedAt) : null);
+		learningDTO.setLearningStartedAt(isVisible.equals("Y") || learningStartedAt == null ? null : LocalDate.parse(learningStartedAt));
+		learningDTO.setLearningEndedAt(isVisible.equals("Y") || learningEndedAt == null ? null : LocalDate.parse(learningEndedAt));
 		learningDTO.setSharedList(sharedDTOList);
 		learningDTO.setTopic(topics);
 		learningDTO.setHashtag(hashtags);
