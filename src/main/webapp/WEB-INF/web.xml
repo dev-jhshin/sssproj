@@ -27,7 +27,9 @@
   </context-param>
   <context-param>
   	<param-name>SaveDirectory</param-name>
-  	<param-value>D:\java10\envirnoment\sssproj\src\main\webapp\Uploads</param-value>
+  	<!-- <param-value>D:\java10\envirnoment\sssproj\src\main\webapp\Uploads</param-value> -->
+  	<!-- <param-value>C:\java10\JSP\sssproj\src\main\webapp\Uploads</param-value> -->
+  	<param-value>/Users/sinjihye/dev/java10/sssproj/sssproj/src/main/webapp/Uploads</param-value>
   </context-param>
 <!--   <filter> -->
 <!--   	<filter-name>SessionTimeoutFilter</filter-name> -->

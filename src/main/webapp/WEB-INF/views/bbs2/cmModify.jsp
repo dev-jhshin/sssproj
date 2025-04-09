@@ -61,7 +61,7 @@
 
 					<!-- 이미지 삭제 섹션 -->
 					<div class="form-section">
-						<c:if test="${pMap.bbs.files }">
+						<c:if test="${not empty pMap.bbs.files }">
 							<div class="form-label">이미지 삭제</div>
 							
 							<div class="form-input file-input-container">

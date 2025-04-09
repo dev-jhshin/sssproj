@@ -8,7 +8,7 @@
 <head>
 <meta charset="UTF-8">
 <link href="<c:url value='/css/cmHome.css' />?v=<%=System.currentTimeMillis()%>" rel="stylesheet" type="text/css">
-<link href="<c:url value='/css/sidebar.css?<%=new Date()%>' />" rel="stylesheet" type="text/css">
+<link href="<c:url value='/css/sidebar.css' />?v=<%=System.currentTimeMillis()%>" rel="stylesheet" type="text/css">
 <title>커뮤니티</title>
 </head>
 	

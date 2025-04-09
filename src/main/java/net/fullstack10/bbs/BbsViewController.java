@@ -33,7 +33,7 @@ public class BbsViewController extends HttpServlet {
 		String idx = request.getParameter("idx");
 		BbsDTO dto = dao.getBbs(idx, memberId);
 		String content = dto.getBbsContent();
-		if (content.length() > 0) {
+		if (content != null && content.length() > 0) {
 			dto.setBbsContent(content.replace("\n", "<br>"));
 		}
 		request.setAttribute("bbs", dto);
