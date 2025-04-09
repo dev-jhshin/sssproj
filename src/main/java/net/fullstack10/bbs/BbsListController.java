@@ -73,11 +73,7 @@ public class BbsListController extends HttpServlet {
 		pMap.put("bbsList", dao.getBbsList(pMap));
 		
 		
-		List<String> categories = new ArrayList<>();
-		categories.add("자유");
-		categories.add("시험정보");
-		categories.add("시험후기");
-		categories.add("자료");
+		List<String> categories = dao.getBbsCategory();
 		pMap.put("categories", categories);
 		
 		request.setAttribute("pMap", pMap);

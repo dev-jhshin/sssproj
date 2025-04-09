@@ -797,4 +797,26 @@ public class BbsDAO extends DBConnPool {
 	
 		return 0;
 	}
+	
+	/**
+	 * @description 커뮤니티 카테고리 조회  
+	 * @return
+	 */
+	public List<String> getBbsCategory() {
+		List<String> categories = new ArrayList<>();
+		String sql = "SELECT distinct bbsCategory FROM tbl_bbs";
+	
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				categories.add(rs.getString("bbsCategory"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return categories;
+	}
 }

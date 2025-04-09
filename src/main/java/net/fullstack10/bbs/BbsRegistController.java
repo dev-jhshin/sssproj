@@ -43,7 +43,9 @@ public class BbsRegistController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
-		
+		bbsDAO = new BbsDAO();
+		List categories = bbsDAO.getBbsCategory();
+		request.setAttribute("categories", categories);
 		if(memberId == null || !(memberId.length() > 0)) { JSFunction.alertLocation(response, "로그인 후 이용해주세요.", "/sssproj/auth/login.do"); }
 		
 		request.getRequestDispatcher("/WEB-INF/views/bbs2/cmRegist.jsp").forward(request, response);
@@ -61,6 +63,7 @@ public class BbsRegistController extends HttpServlet {
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String category = request.getParameter("category");
+		String customCategory = request.getParameter("customCategory");
 
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
@@ -72,11 +75,20 @@ public class BbsRegistController extends HttpServlet {
 		if(content == null || content.length() < 1) { JSFunction.alertBack(response, "내용을 입력해주세요."); }
 
 		if(category == null || !(category.length() > 0)) { JSFunction.alertBack(response, "카테고리 정보가 없습니다."); }
-
+		
+		if(category.equalsIgnoreCase("직접입력")) {
+			if(customCategory == null || !(customCategory.length() > 0)) { JSFunction.alertBack(response, "카테고리를 입력해주세요."); }
+		}
+		
 		BbsDTO dto = new BbsDTO();
 		dto.setBbsTitle(title);
 		dto.setBbsContent(content);
-		dto.setBbsCategory(category);
+		if (category.equalsIgnoreCase("직접입력")) {
+			dto.setBbsCategory(customCategory);
+		} else {
+			dto.setBbsCategory(category);
+		}
+		
 		dto.setMemberId(memberId);
 		
 		if (request.getParts() !=null) {

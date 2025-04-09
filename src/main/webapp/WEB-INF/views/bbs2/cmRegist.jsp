@@ -31,11 +31,12 @@
 						<div class="form-label">카테고리 선택</div>
 						<div class="form-input select-group">
 							<select id="categorySelect" class="category-select" name="category">
-								<option value="자유" selected>자유</option>
-								<option value="시험정보">시험정보</option>
-								<option value="시험후기">시험후기</option>
-								<option value="자료">자료</option>
+								<c:forEach items="${categories}" var="category">
+									<option value="${category }">${category }</option>
+								</c:forEach>
+								<option value="직접입력">직접입력</option>
 							</select>
+							<input type="text" id="customCategoryInput" name="customCategory" placeholder="카테고리를 입력하세요" style="display: none; margin-left: 5px;" autocomplete="off"/>
 						</div>
 					</div>
 
@@ -149,6 +150,20 @@
             if(confirm(' 정말로 작성을 취소하시겠습니까? 작성 중인 내용은 저장되지 않습니다.')) {
                 window.location.href='list.do';
             }
+        });
+        
+        document.addEventListener("DOMContentLoaded", function() {
+        	const categorySelect = document.getElementById("categorySelect");
+        	const customInput = document.getElementById("customCategoryInput");
+
+        	categorySelect.addEventListener("change", function() {
+        		if (categorySelect.value === "직접입력") {
+        			customInput.style.display = "block";
+        		} else {
+        			customInput.style.display = "none";
+        			customInput.value = ""; // 다른 카테고리 선택 시 input 초기화
+        		}
+        	});
         });
     </script>
 </body>
