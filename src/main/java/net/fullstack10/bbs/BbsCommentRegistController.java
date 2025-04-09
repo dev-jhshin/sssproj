@@ -51,7 +51,7 @@ public class BbsCommentRegistController extends HttpServlet {
 		String bbsIdx = request.getParameter("bbs_idx");
 
 		if(memberId == null || !(memberId.length() > 0)) { JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do");}
-		if(content == null || !(content.length() > 0)) { JSFunction.alertBack(response, "내용을 입력해주세요."); }
+		if(content == null || !(content.length() > 0)) { JSFunction.alertBack(response, "내용을 입력해주세요."); return;}
 		if(bbsIdx == null || !(cUtil.parseInt(bbsIdx) > 0)) { JSFunction.alertBack(response, "게시글 정보가 없습니다."); }
 
 		bbsDAO = new BbsDAO();

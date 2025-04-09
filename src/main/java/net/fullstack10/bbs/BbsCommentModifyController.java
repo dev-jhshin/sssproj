@@ -54,7 +54,7 @@ public class BbsCommentModifyController extends HttpServlet {
 		
 		if(memberId == null || !(memberId.length() > 0)) { JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do"); }
 		if(!memberId.equalsIgnoreCase(commentMemberId)) { JSFunction.alertBack(response, "사용자 정보가 다릅니다."); }
-		if(content == null || !(content.length() > 0)) { JSFunction.alertBack(response, "내용을 입력해주세요."); }
+		if(content == null || !(content.length() > 0)) { JSFunction.alertBack(response, "내용을 입력해주세요."); return;}
 		if(commentIdx == null || !(cUtil.parseInt(commentIdx) > 0)) { JSFunction.alertBack(response, "댓글 정보가 올바르지 않습니다."); }
 
 		bbsDAO = new BbsDAO();

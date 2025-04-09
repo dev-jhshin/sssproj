@@ -68,16 +68,16 @@ public class BbsRegistController extends HttpServlet {
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
 		
-		if(memberId == null || !(memberId.length() > 0)) { JSFunction.alertLocation(response, "로그인 후 이용해주세요.", "/sssproj/auth/login.do"); }
+		if(memberId == null || !(memberId.length() > 0)) { JSFunction.alertLocation(response, "로그인 후 이용해주세요.", "/sssproj/auth/login.do"); return; }
 
-		if(title == null || title.length() < 1 || title.length() > 100) { JSFunction.alertBack(response, "제목을 1~100자로 입력하세요."); }
+		if(title == null || title.length() < 1 || title.length() > 100) { JSFunction.alertBack(response, "제목을 1~100자로 입력하세요."); return; }
 		
-		if(content == null || content.length() < 1) { JSFunction.alertBack(response, "내용을 입력해주세요."); }
+		if(content == null || content.length() < 1) { JSFunction.alertBack(response, "내용을 입력해주세요."); return; }
 
-		if(category == null || !(category.length() > 0)) { JSFunction.alertBack(response, "카테고리 정보가 없습니다."); }
+		if(category == null || !(category.length() > 0)) { JSFunction.alertBack(response, "카테고리 정보가 없습니다."); return; }
 		
 		if(category.equalsIgnoreCase("직접입력")) {
-			if(customCategory == null || !(customCategory.length() > 0)) { JSFunction.alertBack(response, "카테고리를 입력해주세요."); }
+			if(customCategory == null || !(customCategory.length() > 0)) { JSFunction.alertBack(response, "카테고리를 입력해주세요."); return; }
 		}
 		
 		BbsDTO dto = new BbsDTO();

@@ -75,13 +75,22 @@ public class BbsModifyController extends HttpServlet {
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		String category = request.getParameter("category");
+		String customCategory = request.getParameter("customCategory");
 		String memberId = request.getParameter("memberId");
 		String sMemberId = (String) request.getSession().getAttribute("memberId");
 		String[] deleteFileIdxes = request.getParameterValues("deleteFileIdx");
 		if (idx < 1) { JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");}
 
-		if (!sMemberId.equalsIgnoreCase(memberId)) { JSFunction.alertLocation(response, "권한이 없습니다.", "/sssproj/bbs/view.do?idx=" + idx); }
-		if (title == null || title.length() < 1 || content ==null || content.length() < 1) { JSFunction.alertBack(response, "제목을 1~100자 이내로 입력해주세요."); }
+		if (!sMemberId.equalsIgnoreCase(memberId)) { JSFunction.alertLocation(response, "권한이 없습니다.", "/sssproj/bbs/view.do?idx=" + idx); return; }
+		if (title == null || title.length() < 1 || content ==null || content.length() < 1) { JSFunction.alertBack(response, "제목을 1~100자 이내로 입력해주세요."); return; }
+
+		if(content == null || content.length() < 1) { JSFunction.alertBack(response, "내용을 입력해주세요."); return; }
+
+		if(category == null || !(category.length() > 0)) { JSFunction.alertBack(response, "카테고리 정보가 없습니다."); return; }
+		
+		if(category.equalsIgnoreCase("직접입력")) {
+			if(customCategory == null || !(customCategory.length() > 0)) { JSFunction.alertBack(response, "카테고리를 입력해주세요."); return; }
+		}
 		
 		
 		if(deleteFileIdxes != null) {

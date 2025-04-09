@@ -1,6 +1,7 @@
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
 <%@page import="net.fullstack10.common.CommonDateUtil"%>
 <!DOCTYPE html>
 <html>
@@ -146,8 +147,8 @@
 								<c:if test="${not empty pMap.category }">
 									<td>${bbs.idx }</td>
 								</c:if>
-
-								<td class="td-title"><a href="view.do?idx=${bbs.idx}">${bbs.bbsTitle }</a></td>
+								<c:set var="title" value="${bbs.bbsTitle }"/>
+								<td class="td-title"><a href="view.do?idx=${bbs.idx}">${fn:substring(title, 0, 50)}<c:if test="${fn:length(title) > 50 }">...</c:if></a></td>
 								<td><a href="list.do?category=&search_start=&search_end=&search_category=memberId&search_word=${bbs.memberId }">${bbs.memberId }</a></td>
 								<td>${dUtil.toString(bbs.createdAt) }</td>
 								<td>${bbs.viewCnt }</td>

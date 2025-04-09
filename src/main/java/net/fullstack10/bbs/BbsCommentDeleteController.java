@@ -49,8 +49,7 @@ public class BbsCommentDeleteController extends HttpServlet {
 		String commentIdx = request.getParameter("comment_idx");
 		String memberId = request.getParameter("comment_memberId");
 		
-		if (sessionMemberId == null || !(sessionMemberId.length() > 0)) {
-			JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do"); }
+		if (sessionMemberId == null || !(sessionMemberId.length() > 0)) { JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do"); }
 		if (memberId == null || !(memberId.length() > 0)) { JSFunction.alertBack(response, "사용자 정보가 없습니다.");}
 		if (!sessionMemberId.equalsIgnoreCase(memberId)) { JSFunction.alertBack(response, "사용자 정보가 일치하지 않습니다.");}
 		

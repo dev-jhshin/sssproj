@@ -44,13 +44,13 @@
 						<div class="form-label">제목</div>
 						<div class="form-input">
 							<input type="text" id="title" name="title"
-								placeholder="100자 이내로 작성하세요." maxlength="100" />
+								placeholder="100자 이내로 작성하세요." maxlength="100" required/>
 						</div>
 					</div>
 
 					<!-- 콘텐츠 섹션 -->
 					<div class="content-section">
-						<textarea class="content-part" id="content" name="content" placeholder="내용을 입력하세요." wrap="hard"></textarea>
+						<textarea class="content-part" id="content" name="content" placeholder="내용을 입력하세요." wrap="hard" ></textarea>
 					</div>
 
 					<div class="form-section">
@@ -134,10 +134,11 @@
                updateFileList();
            }
        });
+	
         // 등록버튼 alert
         const registButton = document.getElementById('registButton');
         registButton.addEventListener('click', function(){
-        	if(confirm('해당 학습내용을 등록하시겠습니까?')) {
+        	if(confirm('해당 게시물을 등록하시겠습니까?')) {
         		const form = document.getElementById("frmRegist");
         		form.submit();
         	}
