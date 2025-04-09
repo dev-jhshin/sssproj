@@ -366,10 +366,10 @@ public class LearningDAO extends DBConnPool {
 		
 		LearningQueryHelper.addDateFilter(sql, params, map.get("startDate"), map.get("endDate"));
 		LearningQueryHelper.addCategoryFilter(sql, params, map.get("searchCategory"), map.get("searchValue"));
-		LearningQueryHelper.addOrderBy(sql, map.get("orderColumn"), map.get("orderDirection"));
 		
 		sql.append(" GROUP BY tl.idx ");
 		
+		LearningQueryHelper.addOrderBy(sql, map.get("orderColumn"), map.get("orderDirection"));
 		LearningQueryHelper.addPagination(sql, map.get("pageSkipCount"), map.get("pageSize"));
 		
 		try {
