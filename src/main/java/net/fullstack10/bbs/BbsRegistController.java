@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.CommonFileUtil;
+import net.fullstack10.common.JSFunction;
 
 /**
  * Servlet implementation class BbsRegistController
@@ -39,19 +40,11 @@ public class BbsRegistController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter wrt = response.getWriter();
 		
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
 		
-		if(memberId == null || !(memberId.length() > 0)) {
-			wrt.println("<script>");
-			wrt.println("alert('사용자 정보가 없습니다.');");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
+		if(memberId == null || !(memberId.length() > 0)) { JSFunction.alertLocation(response, "로그인 후 이용해주세요.", "/sssproj/auth/login.do"); }
 		
 		request.getRequestDispatcher("/WEB-INF/views/bbs2/cmRegist.jsp").forward(request, response);
 	}
@@ -61,9 +54,9 @@ public class BbsRegistController extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter wrt = response.getWriter();
 
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
@@ -72,98 +65,34 @@ public class BbsRegistController extends HttpServlet {
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
 		
-		if(memberId == null || !(memberId.length() > 0)) {
-			wrt.println("<script>");
-			wrt.println("alert('사용자 정보가 없습니다.');");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
-		if(title == null || title.length() < 1 || title.length() > 100) {
-			wrt.println("<script>");
-			wrt.println("alert('제목을 1자 이상 100자 이내로 입력하세요.');");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
-		if(content == null || content.length() < 1) {
-			wrt.println("<script>");
-			wrt.println("alert('내용을 입력하세요.');");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
-		if(category == null || !(category.length() > 0)) {
-			wrt.println("<script>");
-			wrt.println("alert('카테고리 정보가 없습니다.');");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
+		if(memberId == null || !(memberId.length() > 0)) { JSFunction.alertLocation(response, "로그인 후 이용해주세요.", "/sssproj/auth/login.do"); }
+
+		if(title == null || title.length() < 1 || title.length() > 100) { JSFunction.alertBack(response, "제목을 1~100자로 입력하세요."); }
+		
+		if(content == null || content.length() < 1) { JSFunction.alertBack(response, "내용을 입력해주세요."); }
+
+		if(category == null || !(category.length() > 0)) { JSFunction.alertBack(response, "카테고리 정보가 없습니다."); }
 
 		BbsDTO dto = new BbsDTO();
 		dto.setBbsTitle(title);
 		dto.setBbsContent(content);
 		dto.setBbsCategory(category);
 		dto.setMemberId(memberId);
+		
 		if (request.getParts() !=null) {
 			BbsFileUpload bfu = new BbsFileUpload();
-			dto.setFiles(bfu.fileUpload(request));
+			String saveDir = getServletContext().getInitParameter("SaveDirectory");
+			dto.setFiles(bfu.fileUpload(request, saveDir));
 		}
-		/*
-			// 파일 변수
-			CommonFileUtil fUtil = new CommonFileUtil();
-			String newFile = "";
-			String fileExt = "";
-			List<Map> files = new ArrayList<>();
-			// 파일 업로드 디렉토리 설정
-			String saveDir = getServletContext().getRealPath("/Uploads");
-			String virtualDir = "/Uploads";
-
-			/// saveDir 바꾸세요!!!!!!!!!!!!!!!!!!!!
-			saveDir = "/Users/sinjihye/dev/java10/sssproj/sssproj/src/main/webapp/Uploads";
-			/////////////////////////////////////////////////////////////////////////////
-
-			// 파일 업로드
-			List<String> orgFiles = fUtil.multiFileUpload(request, saveDir);
-			System.out.println(orgFiles);
-			if(orgFiles != null && !orgFiles.isEmpty()) {
-				for(String orgFile : orgFiles) {
-					System.out.println("orgFile:" + orgFile);
-					Map<String, String> file = new HashMap<>();
-					newFile = fUtil.fileRename(saveDir, orgFile);
-					fileExt = fUtil.getFileInfo("FILE_EXT", orgFile);
-					file.put("fileName", newFile);
-					file.put("fileExt", fileExt);
-					file.put("filePath", virtualDir);
-					file.put("fileSize", ""+fUtil.getFileSize(saveDir, newFile));
-					files.add(file);
-				}
-			}
-			dto.setFiles(files);
-		*/
 
 		bbsDAO = new BbsDAO();
 		int bbsIdx = bbsDAO.setBbsRegist(dto);
 		bbsDAO.close();
 		
-		if (bbsIdx > 0) {
-			wrt.println("<script>");
-			wrt.println("alert('게시물이 등록되었습니다.');");
-			wrt.println("window.location.replace('view.do?idx=" + bbsIdx + "');");
-			wrt.println("</script>");
-			wrt.close();
+		if (bbsIdx > 0) { 
+			JSFunction.alertLocation(response, "replace", "게시글 등록에 성공했습니다.", "view.do?idx=" + bbsIdx);
 		} else {
-			System.out.println("실패");
-			wrt.print("<script>");
-			wrt.print("alert('게시물 등록이 완료되지 않았습니다.');");
-			wrt.print("history.back();");
-			wrt.print("</script>");
-			wrt.close();
+			JSFunction.alertBack(response, "게시글 등록에 실패했습니다.");
 		}
 	}
 

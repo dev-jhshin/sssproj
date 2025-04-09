@@ -46,6 +46,15 @@ public class BbsDAO extends DBConnPool {
 			sql.append(" AND " + map.get("searchCategory"));
 			sql.append(" LIKE ? ");
 		}
+		// 검색 조건 3) 작성일자 
+		if (map.get("searchStart") != null && !map.get("searchStart").toString().equals("")) {
+			sql.append(" AND DATE(createdAt) >= ? " );
+		}		
+		
+		// 검색 조건 3) 작성일자
+		if (map.get("searchEnd") != null && !map.get("searchEnd").toString().equals("")) {
+			sql.append(" AND DATE(createdAt) <= ? " );
+		}
 		try {
 			pstm = conn.prepareStatement(sql.toString());
 			int index = 1;
@@ -54,6 +63,12 @@ public class BbsDAO extends DBConnPool {
 			}
 			if(map.get("searchCategory") != null  && !map.get("searchCategory").equals("") && map.get("searchWord") != null && !map.get("searchWord").equals("")) {
 				pstm.setString(index++, map.get("searchWord").toString());
+			}
+			if (map.get("searchStart") != null && !map.get("searchStart").toString().equals("")) {
+				pstm.setDate(index++, java.sql.Date.valueOf(map.get("searchStart").toString()));
+			}
+			if (map.get("searchEnd") != null && !map.get("searchEnd").toString().equals("")) {
+				pstm.setString(index++, map.get("searchEnd").toString() + " 23:59:59");
 			}
 			rs = pstm.executeQuery();
 			rs.next();

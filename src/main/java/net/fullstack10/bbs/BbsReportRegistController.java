@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import net.fullstack10.common.JSFunction;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -46,49 +47,18 @@ public class BbsReportRegistController extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter wrt = response.getWriter();
 		
-		if(sMemberId == null || sMemberId.length() < 1) {
-			wrt.println("<script>");
-			wrt.println("alert('사용자 정보가 없습니다.');");
-			wrt.println("window.location.href='/sssproj/auth/login.do'");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
+		if(sMemberId == null || sMemberId.length() < 1) { JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do"); }
 		
-		if(content == null || content.length() < 1) {
-			wrt.println("<script>");
-			wrt.println("alert('내용을 입력해주세요');");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
+		if(content == null || content.length() < 1) { JSFunction.alertBack(response, "내용을 입력해주세요."); }
 		
-		if(idx == null || idx.length() < 1) {
-			wrt.println("<script>");
-			wrt.println("alert('게시글 정보가 없습니다.');");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
-		}
+		if(idx == null || idx.length() < 1) { JSFunction.alertBack(response, "게시글 정보가 없습니다."); }
 		
 		bbsDAO = new BbsDAO();
 		int result = bbsDAO.setBbsReportRegist(sMemberId, idx, content);
-		if(result > 0) {
-			wrt.println("<script>");
-			wrt.println("alert('신고 처리가 완료되었습니다.');");
-			wrt.println("window.location.href='/sssproj/bbs/view.do?idx="+idx+"'");
-			wrt.println("</script>");
-			wrt.close();
-			return;
+		if (result > 0) {
+			JSFunction.alertLocation(response, "신고 접수가 완료되었습니다.", "/sssproj/bbs/view.do?idx="+idx);
 		} else {
-			wrt.println("<script>");
-			wrt.println("alert('신고 접수에 실패했습니다.');");
-			wrt.println("history.back();");
-			wrt.println("</script>");
-			wrt.close();
-			return;
+			JSFunction.alertBack(response, "신고 접수에 실패했습니다.");
 		}
 		
 	}

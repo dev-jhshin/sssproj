@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import net.fullstack10.common.JSFunction;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,11 +30,9 @@ public class BbsLikeRegistController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		// response.getWriter().append("Served at: ").append(request.getContextPath());
+
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter wrt = response.getWriter();
 		
 		String idx = request.getParameter("idx");
 		HttpSession session = request.getSession();
@@ -42,23 +41,12 @@ public class BbsLikeRegistController extends HttpServlet {
 		bbsDAO = new BbsDAO();
 		int result = bbsDAO.setBbsLikeRegist(idx, memberId);
 		bbsDAO.close();
-		if (result > 0 ) {
-			wrt.println("<script>");
-			wrt.println("alert('좋아요 등록 성공');");
-			wrt.println("window.location.href='/sssproj/bbs/view.do?idx=" + idx + "';");
-			wrt.println("</script>");
-			wrt.close();
-			return;
+		if (result > 0 ) { 
+			JSFunction.alertLocation(response, "좋아요 등록 성공", "/sssproj/bbs/view.do?idx="+idx);
 		} else {
-			wrt.println("<script>");
-			wrt.println("alert('좋아요 등록 실패');");
-			wrt.println("window.location.href='/sssproj/bbs/view.do?idx=" + idx + "';");
-			wrt.println("</script>");
-			wrt.close();
-			return;
+			JSFunction.alertLocation(response, "좋아요 등록 실패", "/sssproj/bbs/view.do?idx=" + idx);
 		}
-		
-		
+			
 	}
 
 	/**
