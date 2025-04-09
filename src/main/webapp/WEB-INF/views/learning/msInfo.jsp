@@ -296,7 +296,10 @@
 	
 	function updateSlider() {
 		const sliderWrapper = document.querySelector('.slider-wrapper');
-		const imageWidth = 200;
+		const images = document.querySelectorAll('.slide-image');
+	    if (images.length === 0) return;
+		
+		const imageWidth = images[0].clientWidth;
 		sliderWrapper.style.transform = 'translateX(-'+ (currentIndex * imageWidth) + 'px)';
 	}
 
