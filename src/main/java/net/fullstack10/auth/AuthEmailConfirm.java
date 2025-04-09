@@ -31,28 +31,31 @@ public class AuthEmailConfirm extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setContentType("text/html; charset=UTF-8");
-		//6자리 코드 생성
-		int code1 = (int)(Math.random() * 900000) + 100000; 
-		String code = String.valueOf(code1);
-		String userEmail = request.getParameter("email");
-		String subject = "숲공에서 보낸 인증 메일 입니다.";
-		String content = "인증번호"+ code + "입니다.";
-		try {
-			MailSender mail = new MailSender();
-	        mail.sendEmail(userEmail, subject, content); // ✅ static 방식 + 예외 처리
+	    response.setContentType("text/plain; charset=UTF-8"); // AJAX 응답용
+
+	    // 6자리 인증 코드 생성
+	    int code1 = (int)(Math.random() * 900000) + 100000;
+	    String code = String.valueOf(code1);
+
+	    String userEmail = request.getParameter("email");
+	    String subject = "숲공에서 보낸 인증 메일 입니다.";
+	    String content = "인증번호 " + code + " 입니다.";
+
+	    try {
+	        MailSender mail = new MailSender();
+	        mail.sendEmail(userEmail, subject, content);
 	    } catch (MessagingException e) {
-	        e.printStackTrace(); // 에러 로그 출력
-	        response.getWriter().write("메일 전송에 실패했습니다.");
+	        e.printStackTrace();
+	        response.getWriter().write("fail");
 	        return;
 	    }
-		
-		 // 세션에 인증번호 저장 (선택사항)
-	    request.setAttribute("authCode", code);
-	    request.setAttribute("email", userEmail);
 
-	    // 사용자에게 메시지 출력
-	    JSFunction.alertLocation(response, "replace", "이메일이 전송되었습니다.", "./email.jsp");
+	    // 필요하다면 세션에 인증코드 저장 가능 (보안 강화용)
+	    request.getSession().setAttribute("authCode", code);
+	    request.getSession().setAttribute("email", userEmail);
+
+	    // 응답 텍스트로 인증 성공 전달 + 인증 코드 (프론트에서 사용할 수 있게)
+	    response.getWriter().write("success:" + code);
 	}
 
 }
