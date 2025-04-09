@@ -147,7 +147,7 @@
 									<td>${bbs.idx }</td>
 								</c:if>
 
-								<td><a href="view.do?idx=${bbs.idx}">${bbs.bbsTitle }</a></td>
+								<td class="td-title"><a href="view.do?idx=${bbs.idx}">${bbs.bbsTitle }</a></td>
 								<td><a href="list.do?category=&search_start=&search_end=&search_category=memberId&search_word=${bbs.memberId }">${bbs.memberId }</a></td>
 								<td>${dUtil.toString(bbs.createdAt) }</td>
 								<td>${bbs.viewCnt }</td>

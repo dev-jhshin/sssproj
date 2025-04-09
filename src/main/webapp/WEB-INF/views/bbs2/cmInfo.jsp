@@ -28,7 +28,7 @@
 			<div class="div1200">
 			<div class="header-section">
 			    <div class="content-header">커뮤니티 </div>
-			    <div class="content-header-nav"><a href="/sssproj/bbs/list.do">커뮤니티</a> > <a href="/sssproj/bbs/list.do?category=${bbs.bbsCategory }">${bbs.bbsCategory }게시판</a></div>
+			    <div class="content-header-nav"><a href="/sssproj/bbs/list.do">커뮤니티</a> > <a href="/sssproj/bbs/list.do?category=${bbs.bbsCategory }">${bbs.bbsCategory } 게시판</a></div>
 			    
 			</div>
 			<form name="frmDelete" id="frmDelete" action="delete.do" method="post">
