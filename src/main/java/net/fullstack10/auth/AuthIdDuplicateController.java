@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+
 /**
  * Servlet implementation class AuthIdDuplicationController
  */
@@ -20,7 +21,9 @@ public class AuthIdDuplicateController extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String memberId = request.getParameter("member_id");
+		memberId = (memberId != null) ? memberId.trim() : "";
 		AuthDAO dao = new AuthDAO();
 		int rs = dao.idDuplicate(memberId);
 		dao.close();
@@ -31,6 +34,7 @@ public class AuthIdDuplicateController extends HttpServlet {
 			//아이디 중복
 			request.setAttribute("duplicate", 0);
 		}
+		System.out.println(memberId);
 		request.setAttribute("savedId", memberId);
 		request.getRequestDispatcher("/WEB-INF/views/auth/regist_page.jsp").forward(request, response);
 	}

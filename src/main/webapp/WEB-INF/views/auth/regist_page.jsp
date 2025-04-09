@@ -14,6 +14,7 @@
 <body>
 <div class="wrap">
     <header>
+   		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <a href="./../home/WelcomeSoop.do"><img class="header_logo" src="./../img/header_logo.svg" alt="메인로고"></a>
         <p class="header_comment">"숲속처럼 편안한 여러분만의 공부방 숲공에 오신 걸 환영해요."</p>
     </header>
@@ -69,15 +70,11 @@
                 <p class="regi_tit">이름</p>
                 <input type="text" name="memberName" class="regi_input" maxlength="10" autocomplete="off" required> 
             </div>
-<!--             <div class="regi_input_box">  -->
-<!--                 <p class="regi_tit">전화번호</p> -->
-<!--                 <input type="tel" name="전화번호" class="regi_input" oninput="oninputPhone(this)" maxlength="13"> -->
-<!--             </div> -->
             <div class="regi_input_box"> 
                 <p class="regi_tit">생년월일</p>
                 <input type="date" name="memberBirthdate" class="regi_input" id="birthdate" name="birthdate" required>
             </div>
-            <div class="regi_input_box"> 
+            <div class="regi_input_box3"> 
                 <p class="regi_tit">이메일</p>
                 <input class="select_email" type="text" name="memberEmail" autocomplete="off" required>
                 <p class="email_between">@</p>
@@ -94,8 +91,15 @@
                     <option value="direct">직접 입력</option>
                     <input type="text" class="customDomain" id="customDomain" name="customDomain" placeholder="직접 입력" style="display:none;">
                 </select>
+                <input id="emailCheck" id = "emailCheck"class="emailCheck" type="submit" name="" value="인증하기">
             </div>
             <div id="emailError" class="error"></div>
+            <div class="regi_input_box">
+                <p class="regi_tit">이메일 인증</p>
+                <input type="text" name="" id="userCode" autocomplete="off" class="regi_input1">
+                <input type="button" name="idVali" id="codeCheck"   autocomplete="off" class="idVali" value="인증">
+                <input type="hidden" id="codeConfirm" value="false" >
+            </div>
             <div class="regi_input_box"> 
                 <p class="regi_tit">성별</p><br>
                 <div class="sex_choice">
@@ -178,7 +182,14 @@
             genderError.textContent = '성별을 선택해야 합니다.';
             valid = false;
         }
-
+     	// 이메일 검사
+       	const codeConfirm = document.getElementById('codeConfirm').value;
+       	const emailError = document.getElementById('emailError')
+		if (codeConfirm !== 'true') {
+			emailError.textContent = '이메일 인증을 진행해주세요';
+			valid = false;
+		}	
+        
         if (!valid) {
             event.preventDefault(); // 폼 제출 방지
         }
@@ -212,6 +223,50 @@
         this.textContent = type === 'password' ? '👁️' : '🙈'; // 아이콘 변경
     });
     
+    let sendCode = ""; 
+    $('#emailCheck').click(function (e) {
+        e.preventDefault();
+
+        let emailId = $('.select_email').val().trim();
+        let emailDomain = $('#select_email1').val();
+        if (emailDomain === 'direct') {
+            emailDomain = $('#customDomain').val().trim();
+        }
+
+        if (emailId === '' || emailDomain === '') {
+            $('#emailError').text('이메일을 입력해주세요.');
+            return;
+        }
+
+        let fullEmail = emailId + '@' + emailDomain;
+
+        $.ajax({
+            url: './emailConfirm.do', 
+            type: 'POST',
+            data: { email: fullEmail },
+            success: function (response) {
+                if (response.startsWith("success:")) {
+                	sendCode = response.split(":")[1];
+                    $('#emailError').text("이메일이 전송되었습니다. 코드 확인 후 입력 해주세요" + sendCode ).css('color', 'green');
+                } else {
+                    $('#emailError').text("이메일 전송 실패. 다시 시도해주세요.");
+                }
+            },
+            error: function () {
+                $('#emailError').text("서버 오류가 발생했습니다.");
+            }
+        });
+    });
+
+    $('#codeCheck').on('click', function () {
+        let userInput = $('#userCode').val().trim();
+        if (userInput === sendCode) {
+            $('#codeConfirm').val(true); 
+            alert("✅ 인증 성공!");
+        } else {
+            alert("❌ 인증 코드가 일치하지 않습니다.");
+        }
+    });
 </script>
 </body>
 </html>

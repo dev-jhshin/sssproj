@@ -16,104 +16,105 @@ a {
 }
 
 
-  #wrap {
-    width:100%; height:100vh;
-    background-color: #eeeeee;
+#wrap {
+  width:100%; height:100vh;
+  background-color: #eeeeee;
+}
+header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-self: center;
+  width: 100%;
+  height: 80px;
+  border-bottom: 2px solid #999999;
+  padding: 0 10%;
+  font-family: 'Dovemayo_gothic';
+  background-color: #ffffff;
+}
+  .page_logo {
+    float:left;
+    width:20%; height:100%;
+
   }
-  header {
-    display: flex;
-    flex-wrap: wrap;
-    justify-self: center;
-    width: 100%;
-    height: 70px;
-    border-bottom: 2px solid #999999;
-    padding: 0 10%;
-    font-family: 'Dovemayo_gothic';
-    background-color: #ffffff;
+  .page_logo > img {
+    width:100%; height:100%;
   }
-    .page_logo {
-      float:left;
-      width:20%; height:100%;
-    }
-    .page_logo > img {
+  #divMenu {
+    float:left;
+    width: 55%; height:100%;
+  }
+    #ulMenu {
+      display:flex;
       width:100%; height:100%;
+      list-style-type:none;
+      justify-content: center;
+      align-items: flex-end;
     }
-    #divMenu {
+      #ulMenu > li {
+        display:inline;
+        width:90px; height:50px;
+        padding: 10px 0px;
+        text-align:center;
+        line-height:40px;
+        font-size:15px;
+      }
+      #ulMenu > li > a {
+        display:block;
+        width:100%; height:100%; 
+      }
+      #ulMenu > li > a:hover {
+        color:#2a913e;
+      }
+    .selBtn {
+      color: #00ce29;
+      font-weight:bold;
+      border-bottom: 3px solid #007010;
+    }
+    .profile {
       float:left;
-      width: 55%; height:100%;
+      width:25%; height:100%;
+      padding: 0 4px;
     }
-      #ulMenu {
-        display:flex;
-        width:100%; height:100%;
-        list-style-type:none;
-        justify-content: center;
-        align-items: flex-end;
+      .pro_cont {
+        width: 70%;
+        height: 100%;
+        float: left;
       }
-        #ulMenu > li {
-            display:inline;
-            width:90px; height:50px;
-            padding: 10px 0px;
-            text-align:center;
-            line-height:40px;
-            font-size:15px;
+        .pro_cont > h3 {
+          padding-top: 30px;
+          width:100%; height:60%;
+          font-size:14px;
         }
-          #ulMenu > li > a {
-            display:block;
-            width:100%; height:100%; 
-          }
-          #ulMenu > li > a:hover {
-            color:#2a913e;
-          }
-      .selBtn {
-        color: #00ce29;
-        font-weight:bold;
-        border-bottom: 3px solid #007010;
-      }
-      .profile {
+        .pro_cont > p {
+          width:100%; height:40%;
+          font-size:12px;
+          line-height:38px;
+        }
+      .pro_btn {
         float:left;
-        width:25%; height:100%;
-        padding: 0 4px;
+        width:20%; height:100%;
       }
-        .pro_cont {
-          width: 70%;
-          height: 100%;
-          float: left;
+        .pro_btn > a > button {
+          display:block;
+          width:100%; height:35px;
+          font-family: 'Dovemayo_gothic';
+          position:relative;
+          top: 40%;
+          margin-top: 0%;
+          background-color: #A6E2B1;
+          border: none;
+          border-radius: 5px;
+          margin-top: 5px;
         }
-          .pro_cont > h3 {
-            padding-top: 30px;
-            width:100%; height:60%;
-            font-size:14px;
-          }
-          .pro_cont > p {
-            width:100%; height:40%;
-            font-size:12px;
-            line-height:38px;
-          }
-        .pro_btn {
-          float:left;
-          width:20%; height:100%;
+        .pro_btn > a > button:hover {
+          background-color: #2a913e;
+          color: #A6E2B1;
+          cursor: pointer;
         }
-          .pro_btn > a > button {
-            display:block;
-            width:100%; height:35px;
-            font-family: 'Dovemayo_gothic';
-            position:relative;
-            top: 40%;
-            margin-top: 0%;
-            background-color: #A6E2B1;
-            border: none;
-            border-radius: 5px;
-            margin-top: 5px;
-          }
-          .pro_btn > a > button:hover {
-            background-color: #2a913e;
-            color: #A6E2B1;
-            cursor: pointer;
-          }
-          .pro_btn > a > i {
-            padding-top: 5px;  
-            margin-right: 5px;
-          }
+        .pro_btn > a > i {
+          padding-top: 5px;  
+          margin-right: 5px;
+        }
 
   #content {
     float: left;
