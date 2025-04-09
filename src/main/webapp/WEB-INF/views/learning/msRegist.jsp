@@ -155,6 +155,13 @@
 	</div>
 
 	<script>
+		// validation 에 의해 돌아올 떄 textarea 값 비움
+	  	window.addEventListener('pageshow', function (event) {
+	    	if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+	      	document.querySelector('textarea[name="learningContent"]').value = '';
+	    	}
+	  	});
+	
         // 오늘의 학습 노출 여부
         document.querySelectorAll('input[name="isVisible"]').forEach(radio => {
             radio.addEventListener('change', function() {
