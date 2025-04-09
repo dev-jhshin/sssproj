@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<%@ taglib prefix="fn" uri="jakarta.tags.functions"%> 
+<%@ taglib prefix="fn" uri="jakarta.tags.functions"%>  
 <!DOCTYPE html>
 <html>
 <head>
@@ -104,7 +104,7 @@
 										</c:if>
 										<c:if test="${sessionScope.memberId eq comment.get('memberId') }">
 											<input type="button" class="comment-btn" style="border: 0px;" id="commentEditButton" value="편집" onclick="enableEdit(this)" />
-											<input type="button" class="comment-btn" style="border: 0px;" id="commentDeleteButton" value="삭제"/>
+											<input type="button" class="comment-btn commentDeleteButton" style="border: 0px;" value="삭제"/>
 										</c:if>
 									</div>
 								</div>
@@ -134,8 +134,7 @@
 			</div>
 				<!-- 버튼 세트 -->
 				<div class="btn-set">
-					<!-- <button class="btn" id="listButton">목록</button> -->
-					
+					<button class="btn" id="listButton">목록</button> 
 					<c:if test="${ (not empty sessionScope.memberId) and not (sessionScope.memberId eq bbs.memberId) }">
 				    	<a href="#modal" class="btn" id="reportButton">신고</a>
 					</c:if>
@@ -179,10 +178,10 @@
 			}
 		});
 		// 목록 버튼 클릭 이동
-		/* const listButton = document.getElementById('listButton');
+		const listButton = document.getElementById('listButton');
 		listButton.addEventListener('click', function() {
 			window.location.href = 'list.do';
-		}); */
+		});
 
 		// 수정 버튼 클릭 이동
 		const modifyButton = document.getElementById('modifyButton');
@@ -202,17 +201,19 @@
 				}
 			});
 		}
-		const commentDeleteButton = document.getElementById('commentDeleteButton');
-		if (commentDeleteButton) {
-			commentDeleteButton.addEventListener('click', () => {
+		
+		// 댓글 삭제 
+		document.querySelectorAll('.commentDeleteButton').forEach(button => {
+			button.addEventListener('click', function() {
 				if(confirm('정말 댓글을 삭제하시겠습니까?')) {
-					const form = document.getElementById('frmComment');
+					const form = this.closest('form');
 					form.action = "/sssproj/bbs/comment/delete.do";
 					form.method="post";
 					form.submit();
-				}			
-			});
-		}
+				}		
+			})
+		})
+		
 		// 신고 버튼 
 		const reportButton = document.getElementById('reportButton');
 		if(reportButton) {

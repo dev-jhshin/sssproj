@@ -66,10 +66,8 @@
 				</div>
 				<!-- 버튼 세트 -->
 				<div class="btn-set">
-					<input type="submit" class="btn" id="registButton" value="등록" />
-					<!-- <button class="btn" id="registButton">등록</button> -->
 					<button type="button" class="btn" id="cancelButton">취소</button>
-					<button type="button" class="btn" id="listButton">목록</button>
+					<input type="submit" class="btn" id="registButton" value="등록" />
 				</div>
 		</form>
 		</div>

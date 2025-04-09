@@ -173,7 +173,7 @@ body {
 	font-size: 11px;
 	font-family: 'Dovemayo_gothic';
 }
-#commentDeleteButton{
+.commentDeleteButton{
 	color: #ed6666;
 }
 #commentEditButton {

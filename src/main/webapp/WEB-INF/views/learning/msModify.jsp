@@ -35,7 +35,7 @@
 				<table class="info-table">
 	                <tr>
 	                    <th>제목</th>
-	                    <td><input type="text" name="learningTitle" placeholder="제목을 입력하세요." maxlength="100" value="${ dto.learningTitle }"/></td>
+	                    <td><input type="text" name="learningTitle" autocomplete="off" placeholder="제목을 입력하세요." maxlength="100" value="${ dto.learningTitle }"/></td>
 	                </tr>
 	            </table>
 	

@@ -1,6 +1,6 @@
 <%@page import="java.util.Date"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@page import="net.fullstack10.common.CommonDateUtil"%>
 <!DOCTYPE html>
 <html>
@@ -141,7 +141,7 @@
 						<c:forEach items="${pMap.bbsList }" var="bbs">
 							<tr>
 								<c:if test="${empty pMap.category }">
-									<td>${bbs.bbsCategory }</td>
+									<td><a href="list.do?category=${bbs.bbsCategory }" >${bbs.bbsCategory }</a></td>
 								</c:if>
 								<c:if test="${not empty pMap.category }">
 									<td>${bbs.idx }</td>

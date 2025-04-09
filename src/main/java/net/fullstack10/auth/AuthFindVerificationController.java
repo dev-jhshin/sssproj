@@ -55,10 +55,10 @@ public class AuthFindVerificationController extends HttpServlet {
 			dto.setMemberName(memberName);
 			dto.setQuestionId(Integer.parseInt(questionId));
 			dto.setAnswer(answer);
-			dao.close();
 			memberId = dao.memberVerification(dto);
 			if(memberId != null && !memberId.isEmpty()) {
 				response.sendRedirect("./pwdChange?member_id="+memberId);
+				dao.close();
 				return;
 			}else{
 				JSFunction.alertLocation(response, "replace", "인증실패 다시 입력하세요.", "./memberVerification.do");

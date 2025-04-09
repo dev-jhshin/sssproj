@@ -22,7 +22,7 @@
 
         <!-- 메인콘텐츠 -->
         <div class="main-content">
-         <div class="content-header">공유학습</div>
+         <div class="content-header">공유 학습</div>
          
              <!-- 서치섹션 -->
             <div class="search-section">
@@ -66,6 +66,7 @@
                       내가 받은 공유
                    </div>
                 </div>
+                <span>
                 <select class="pagedropdown" id="pageSize">
                     <option value="5" ${ map.pageSize eq 5 ? 'selected' : '' }>5</option>
 	                <option value="10" ${ map.pageSize eq 10 ? 'selected' : '' }>10</option>
@@ -73,6 +74,7 @@
 	                <option value="30" ${ map.pageSize eq 30 ? 'selected' : '' }>30</option>
 	                <option value="40" ${ map.pageSize eq 40 ? 'selected' : '' }>50</option>
 	            </select>
+	            개씩 보기</span>
             </div>
             
             <!-- 리스트 테이블 -->

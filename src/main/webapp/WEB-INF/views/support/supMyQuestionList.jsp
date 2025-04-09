@@ -16,7 +16,7 @@
 <div class="wrap">
     <header>
         <div class="page_logo">
-            <img src="../../img/header_logo.svg" alt="로고">
+            <img src="../../img/header_logo.svg" alt="로고" class="home">
         </div>
         <jsp:include page="supMenu.jsp?<%=new Date() %>"/>
         <jsp:include page="supProfile.jsp?<%=new Date() %>"/>
@@ -114,6 +114,10 @@ function updatePageSize(e) {
     // 페이지 이동
     window.location.href = newLocation;
     }
+//모두의 학습 페이지 이동    
+document.querySelector('.home').addEventListener('click', function() {
+    window.location.href = "/sssproj/learning/list.do";
+});
 </script>
 </body>
 </html>

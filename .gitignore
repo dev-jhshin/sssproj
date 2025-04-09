@@ -165,3 +165,6 @@ $RECYCLE.BIN/
 .settings
 .project
 META-INF
+/build/
+web.xml
+

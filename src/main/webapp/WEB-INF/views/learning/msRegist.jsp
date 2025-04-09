@@ -28,7 +28,7 @@
 				<table class="info-table">
 					<tr>
 						<th>제목</th>
-						<td><input type="text" placeholder="제목을 입력하세요." maxlength="100" name="learningTitle"/></td>
+						<td><input type="text" autocomplete="off" placeholder="제목을 입력하세요." maxlength="100" name="learningTitle"/></td>
 					</tr>
 				</table>
 	
