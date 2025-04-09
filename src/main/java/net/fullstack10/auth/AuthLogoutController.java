@@ -37,7 +37,14 @@ public class AuthLogoutController extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		session.invalidate();
-		response.sendRedirect(request.getContextPath()+"/home/WelcomeSoop.do");
+		// response.sendRedirect(request.getContextPath()+"/home/WelcomeSoop.do");
+		
+		String referer = request.getHeader("Referer");
+		if (referer != null) {
+		    response.sendRedirect(referer);
+		} else {
+		    response.sendRedirect(request.getContextPath() + "/home/WelcomeSoop.do");
+		}
 	}
 
 	/**
