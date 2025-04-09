@@ -69,15 +69,11 @@
                 <p class="regi_tit">이름</p>
                 <input type="text" name="memberName" class="regi_input" maxlength="10" autocomplete="off" required> 
             </div>
-<!--             <div class="regi_input_box">  -->
-<!--                 <p class="regi_tit">전화번호</p> -->
-<!--                 <input type="tel" name="전화번호" class="regi_input" oninput="oninputPhone(this)" maxlength="13"> -->
-<!--             </div> -->
             <div class="regi_input_box"> 
                 <p class="regi_tit">생년월일</p>
                 <input type="date" name="memberBirthdate" class="regi_input" id="birthdate" name="birthdate" required>
             </div>
-            <div class="regi_input_box"> 
+            <div class="regi_input_box3"> 
                 <p class="regi_tit">이메일</p>
                 <input class="select_email" type="text" name="memberEmail" autocomplete="off" required>
                 <p class="email_between">@</p>
@@ -94,8 +90,14 @@
                     <option value="direct">직접 입력</option>
                     <input type="text" class="customDomain" id="customDomain" name="customDomain" placeholder="직접 입력" style="display:none;">
                 </select>
+                <input id="emailCheck" class="emailCheck" type="submit" name="" value="인증하기">
             </div>
             <div id="emailError" class="error"></div>
+            <div class="regi_input_box">
+                <p class="regi_tit">이메일 인증</p>
+                <input type="text" name="memberId" id="username" autocomplete="off" class="regi_input1"  value="<%= request.getAttribute("savedId") != null ? request.getAttribute("savedId") : "" %>">
+                <input type="button" name="idVali" id="idVali"  autocomplete="off" class="idVali" value="중복확인">
+            </div>
             <div class="regi_input_box"> 
                 <p class="regi_tit">성별</p><br>
                 <div class="sex_choice">
