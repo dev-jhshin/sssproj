@@ -48,8 +48,6 @@ public class LearningListController extends HttpServlet {
 	    String searchValue = cUtil.setSearchParam(request.getParameter("searchValue"));
 	    // String orderColumn = cUtil.setSearchParam(request.getParameter("orderColumn"));
 	    // String orderDirection = cUtil.setSearchParam(request.getParameter("orderDirection"));
-	    String orderColumn = "createdAt";
-	    String orderDirection = "DESC";
 	    
 	    String queryString = "page_size=" + pageSize + "&page_block_size=" + pageBlockSize;
 	    queryString += (!startDate.isEmpty() && !endDate.isEmpty() ? "&start_date=" + startDate + "&end_date=" + endDate : "" );
@@ -60,8 +58,8 @@ public class LearningListController extends HttpServlet {
 	    map.put("endDate", endDate);
 	    map.put("searchCategory", searchCategory);
 	    map.put("searchValue", searchValue);
-	    map.put("orderColumn", orderColumn);
-	    map.put("orderDirection", orderDirection);
+	    // map.put("orderColumn", orderColumn);
+	    // map.put("orderDirection", orderDirection);
 	    map.put("pageSkipCount", pageSkipCount);
 	    map.put("pageSize", pageSize);
 	    

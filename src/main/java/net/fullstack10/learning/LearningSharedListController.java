@@ -78,9 +78,9 @@ String requestURL = request.getRequestURL().toString();
 	    		fromDTO.setSharedList(sharedDAO.getLearningShareList(String.valueOf(fromDTO.getIdx()), 1));
 	    	}
 	    } else {
-	    	learningList = learningDAO.getReceivedSharedList(loginMemberId, map);
+	    	learningList = learningDAO.getSentSharedList(loginMemberId, map);
 	    	for (LearningDTO toDTO : learningList) {
-	    		toDTO.setSharedList(sharedDAO.getLearningShareList(String.valueOf(toDTO.getIdx())));
+	    		toDTO.setSharedList(sharedDAO.getLearningShareList(String.valueOf(toDTO.getIdx()), 3));
 	    	}
 	    }
 	    
