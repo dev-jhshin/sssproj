@@ -32,7 +32,7 @@ public class LearningSharedListController extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-String requestURL = request.getRequestURL().toString();
+		String requestURL = request.getRequestURL().toString();
 
 		HttpSession session = request.getSession();
 		session.setAttribute("redirectURL", requestURL);
@@ -40,8 +40,10 @@ String requestURL = request.getRequestURL().toString();
 		String loginMemberId = (String)session.getAttribute("memberId");
 		if (loginMemberId == null || loginMemberId.isEmpty()) {
 			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
-		}
 
+			return;
+		}
+		
 		Map<String, String> map = new HashMap<>();
 
 		String pageNo = cUtil.setPageParam(request.getParameter("page_no"), "1");
@@ -78,9 +80,9 @@ String requestURL = request.getRequestURL().toString();
 	    		fromDTO.setSharedList(sharedDAO.getLearningShareList(String.valueOf(fromDTO.getIdx()), 1));
 	    	}
 	    } else {
-	    	learningList = learningDAO.getReceivedSharedList(loginMemberId, map);
+	    	learningList = learningDAO.getSentSharedList(loginMemberId, map);
 	    	for (LearningDTO toDTO : learningList) {
-	    		toDTO.setSharedList(sharedDAO.getLearningShareList(String.valueOf(toDTO.getIdx())));
+	    		toDTO.setSharedList(sharedDAO.getLearningShareList(String.valueOf(toDTO.getIdx()), 3));
 	    	}
 	    }
 

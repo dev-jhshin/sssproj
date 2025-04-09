@@ -52,12 +52,14 @@ public class LearningDeleteController extends HttpServlet {
 		String memberId = request.getParameter("memberId");
 
 		String idx = request.getParameter("idx");
-
+		
 		if (cUtil.parseInt(idx) < 1) {
 			JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
+			return;
 		}
 		if (loginMemberId.equalsIgnoreCase(memberId)) {
 			JSFunction.alertLocation(response, "href", "권한이 없습니다.", url);
+			return;
 		}
 
 		LearningFileDAO fileDAO = new LearningFileDAO();

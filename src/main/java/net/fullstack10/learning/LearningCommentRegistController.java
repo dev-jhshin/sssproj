@@ -42,23 +42,29 @@ public class LearningCommentRegistController extends HttpServlet {
 
 		String learningIdx = request.getParameter("learningIdx");
 		String content = request.getParameter("commentContent");
-
+		
 		if (loginMemberId == null || loginMemberId.isBlank()) {
 			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
+			return;
 		}
 		if (learningIdx == null || cUtil.parseInt(learningIdx) < 1) {
 			JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
+			return;
 		}
-		if (content == null || !content.isBlank()) {
+		if (content == null || content.isBlank()) {
 			JSFunction.alertBack(response, "내용을 입력해주세요.");
+			return;
 		}
-
+	
 		LearningCommentDAO commentDAO = new LearningCommentDAO();
-		int result = commentDAO.createLearningComment(learningIdx, loginMemberId, content);
+		int commentIdx = commentDAO.createLearningComment(learningIdx, loginMemberId, content);
 		commentDAO.close();
-
-		String msg = ( result > 0 ? "댓글 등록이 완료되었습니다." : "댓글 등록에 실패했습니다.");
-		JSFunction.alertLocation(response, "href", msg, "/sssproj/learning/view.do?idx=" + learningIdx);
+		
+		String url = "/sssproj/learning/view.do?idx=" + learningIdx 
+				+ (commentIdx > 0 ? "#frmComment" + commentIdx : "#frmCommentReigst");
+		JSFunction.alertLocation(response, "", "/sssproj/learning/view.do?idx=" + learningIdx + "&isVisited=" + false  + "#frmComment" + commentIdx);
+		// String msg = ( result > 0 ? "댓글 등록이 완료되었습니다." : "댓글 등록에 실패했습니다.");
+		// JSFunction.alertLocation(response, "href", msg, "/sssproj/learning/view.do?idx=" + learningIdx);
 	}
 
 }

@@ -366,10 +366,10 @@ public class LearningDAO extends DBConnPool {
 
 		LearningQueryHelper.addDateFilter(sql, params, map.get("startDate"), map.get("endDate"));
 		LearningQueryHelper.addCategoryFilter(sql, params, map.get("searchCategory"), map.get("searchValue"));
-		LearningQueryHelper.addOrderBy(sql, map.get("orderColumn"), map.get("orderDirection"));
 
 		sql.append(" GROUP BY tl.idx ");
-
+		
+		LearningQueryHelper.addOrderBy(sql, map.get("orderColumn"), map.get("orderDirection"));
 		LearningQueryHelper.addPagination(sql, map.get("pageSkipCount"), map.get("pageSize"));
 
 		try {
@@ -533,6 +533,9 @@ public class LearningDAO extends DBConnPool {
 
 		LearningQueryHelper.addDateFilter(sql, params, map.get("startDate"), map.get("endDate"));
 		LearningQueryHelper.addCategoryFilter(sql, params, map.get("searchCategory"), map.get("searchValue"));
+		
+		sql.append(" GROUP BY tl.idx ");
+		
 		LearningQueryHelper.addOrderBy(sql, map.get("orderColumn"), map.get("orderDirection"));
 		LearningQueryHelper.addPagination(sql, map.get("pageSkipCount"), map.get("pageSize"));
 
@@ -807,6 +810,33 @@ public class LearningDAO extends DBConnPool {
 			e.printStackTrace();
 		}
 
+		return 0;
+	}
+	
+	/**
+	 * @desc 학습 게시글 조회수 조회
+	 * 
+	 * @param idx String
+	 * @return int
+	 */
+	public int getViewCntByIdx(String idx) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" Select viewCnt ");
+		sql.append(" From tbl_learning ");
+		sql.append(" WHERE idx = ? ");
+		
+		try {
+			pstm = conn.prepareStatement(sql.toString());
+			pstm.setString(1, idx);
+			
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("viewCnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return 0;
 	}
 

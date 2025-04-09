@@ -77,15 +77,19 @@ public class LearningRegistController extends HttpServlet {
 		// validation 체크 루틴
 		if (loginMemberId == null || loginMemberId.isEmpty()) {
 			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
+			return;
 		}
 		if (learningTitle == null || learningTitle.length() < 1 || learningTitle.length() > 100) {
 			JSFunction.alertBack(response, "제목을 1자 이상 100자 이하로 입력하세요.");
+			return;
 		}
 		if (learningContent == null || learningContent.length() < 1) {
 			JSFunction.alertBack(response, "내용을 입력하세요.");
+			return;
 		}
 		if (isVisible.equals("Y") && (learningStartedAt == null || learningEndedAt == null)) {
 			JSFunction.alertBack(response, "오늘의 학습 노출기간을 입력하세요.");
+			return;
 		}
 
 		LearningDTO learningDTO = new LearningDTO();
@@ -94,8 +98,8 @@ public class LearningRegistController extends HttpServlet {
 		learningDTO.setLearningContent(learningContent);
 		learningDTO.setIsPublic(isPublic.equals("Y") ? true : false);
 		learningDTO.setIsVisible(isVisible.equals("Y") ? true : false);
-		learningDTO.setLearningStartedAt(learningStartedAt != null ? LocalDate.parse(learningStartedAt) : null);
-		learningDTO.setLearningEndedAt(learningEndedAt != null ? LocalDate.parse(learningEndedAt) : null);
+		learningDTO.setLearningStartedAt(isVisible.equals("N") || learningStartedAt == null ? null : LocalDate.parse(learningStartedAt));
+		learningDTO.setLearningEndedAt(isVisible.equals("N") || learningEndedAt == null ? null : LocalDate.parse(learningEndedAt));
 		learningDTO.setSharedList(sharedDTOList);
 		learningDTO.setTopic(topics);
 		learningDTO.setHashtag(hashtags);

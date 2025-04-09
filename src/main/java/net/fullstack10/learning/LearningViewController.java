@@ -23,8 +23,8 @@ public class LearningViewController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-
-		String loginMeberId = (String)session.getAttribute("memberId");
+		
+		String loginMemberId = (String)session.getAttribute("memberId");
 		String idx = request.getParameter("idx");
 
 		LearningDAO learningDAO = new LearningDAO();
@@ -37,14 +37,18 @@ public class LearningViewController extends HttpServlet {
 		// 비공개 게시글에 대한 예외 처리 (단, 공유받은회원,작성자 접근 가능)
 		if (!learningDTO.getIsPublic()) {
 			boolean isSharedMember = learningDTO.getSharedList().stream()
-					.anyMatch(shared -> shared.getSharedTo().equals(loginMeberId));
-			if (!isSharedMember && !learningDTO.getMemberId().equals(loginMeberId)) {
+					.anyMatch(shared -> shared.getSharedTo().equals(loginMemberId));
+			if (!isSharedMember && !learningDTO.getMemberId().equals(loginMemberId)) {
 				JSFunction.alertBack(response, "권한이 없습니다.");
 				return;
 			}
 		}
-
-		learningDAO.updateViewCnt(idx);
+		
+		String isVisited = request.getParameter("isVisited");
+		if (isVisited == null || !isVisited.equals("false")) {
+			learningDAO.updateViewCnt(idx);
+			learningDTO.setViewCnt(learningDAO.getViewCntByIdx(idx));
+		}
 		learningDAO.close();
 
 		learningDTO.setLearningContent(learningDTO.getLearningContent().replace("\n", "<br>"));
@@ -62,9 +66,9 @@ public class LearningViewController extends HttpServlet {
 		commentDAO.close();
 
 		LearningLikeDAO likeDAO = new LearningLikeDAO();
-		boolean isLiked = likeDAO.isAlreadyLiked(idx, loginMeberId);
-
-		request.setAttribute("isLiked", isLiked);
+		learningDTO.setIsLiked(likeDAO.isAlreadyLiked(idx, loginMemberId));
+		likeDAO.close();
+		
 		request.setAttribute("topics", topics);
 		request.setAttribute("hashtags", hashtags);
 		request.setAttribute("dto", learningDTO);

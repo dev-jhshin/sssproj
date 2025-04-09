@@ -32,20 +32,23 @@ public class LearningLikeRegistController extends HttpServlet {
 		String memberId = (String) session.getAttribute("memberId");
 
 		String idx = request.getParameter("idx");
-
+		
 		if (memberId == null || memberId.isBlank()) {
 			JSFunction.alertBack(response, "잘못된 접근입니다.");
+			return;
 		}
 		if (cUtil.parseInt(idx) < 1) {
 			JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
+			return;
 		}
-
+		
 		LearningLikeDAO likeDAO = new LearningLikeDAO();
 		int result = likeDAO.createLearningLikeByMemberId(idx, memberId);
 		likeDAO.close();
-
-		String msg = (result > 0 ? "좋아요를 등록을 성공했습니다." : "좋아요 등록에 실패했습니다.");
-		JSFunction.alertLocation(response, "href", msg, "/sssproj/learning/view.do?idx=" + idx);
+		
+		// String msg = (result > 0 ? "좋아요를 등록을 성공했습니다." : "좋아요 등록에 실패했습니다.");
+		// JSFunction.alertLocation(response, "href", msg, "/sssproj/learning/view.do?idx=" + idx);
+		JSFunction.alertLocation(response, "", "/sssproj/learning/view.do?idx=" + idx + "&isVisited=" + false);
 	}
 
 	/**

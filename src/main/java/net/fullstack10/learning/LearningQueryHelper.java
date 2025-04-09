@@ -40,9 +40,11 @@ public class LearningQueryHelper {
 	public static void addOrderBy(StringBuilder sql, String column, String direction) {
 		List<String> allowedColumns = List.of("createdAt", "likeCnt", "viewCnt");
 		List<String> allowedDirections = List.of("ASC", "DESC");
-
-		if (allowedColumns.contains(column) && allowedDirections.contains(direction)) {
-			sql.append(" ORDER BY " + "tl." + column + " " + direction + " ");
+		
+		if (column != null && direction != null && allowedColumns.contains(column) && allowedDirections.contains(direction)) {
+			sql.append(" ORDER BY " + column + " " + direction + " , idx DESC ");
+		} else {
+			sql.append(" ORDER BY createdAt DESC ");
 		}
 	}
 

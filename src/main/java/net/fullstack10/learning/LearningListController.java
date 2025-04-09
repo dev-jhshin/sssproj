@@ -47,20 +47,20 @@ public class LearningListController extends HttpServlet {
 	    String endDate = cUtil.setSearchParam(request.getParameter("endDate"));
 	    String searchCategory = cUtil.setSearchParam(request.getParameter("searchCategory"));
 	    String searchValue = cUtil.setSearchParam(request.getParameter("searchValue"));
-	    String orderColumn = cUtil.setSearchParam(request.getParameter("orderColumn"));
-	    String orderDirection = cUtil.setSearchParam(request.getParameter("orderDirection"));
-
+	    // String orderColumn = cUtil.setSearchParam(request.getParameter("orderColumn"));
+	    // String orderDirection = cUtil.setSearchParam(request.getParameter("orderDirection"));
+	    
 	    String queryString = "page_size=" + pageSize + "&page_block_size=" + pageBlockSize;
 	    queryString += (!startDate.isEmpty() && !endDate.isEmpty() ? "&start_date=" + startDate + "&end_date=" + endDate : "" );
 	    queryString += (!searchCategory.isEmpty() && !searchValue.isEmpty() ? "&search_category=" + searchCategory + "&search_value=" + searchValue : "");
-	    queryString += (!orderColumn.isEmpty() && !orderDirection.isEmpty() ? "&order_column=" + orderColumn + "&order_direction=" + orderDirection : "&order_column=createdAt&order_direction=DESC" );
+	    // queryString += (!orderColumn.isEmpty() && !orderDirection.isEmpty() ? "&order_column=" + orderColumn + "&order_direction=" + orderDirection : "&order_column=createdAt&order_direction=DESC" );
 
 	    map.put("startDate", startDate);
 	    map.put("endDate", endDate);
 	    map.put("searchCategory", searchCategory);
 	    map.put("searchValue", searchValue);
-	    map.put("orderColumn", orderColumn);
-	    map.put("orderDirection", orderDirection);
+	    // map.put("orderColumn", orderColumn);
+	    // map.put("orderDirection", orderDirection);
 	    map.put("pageSkipCount", pageSkipCount);
 	    map.put("pageSize", pageSize);
 

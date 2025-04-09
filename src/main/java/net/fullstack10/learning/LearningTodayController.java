@@ -3,6 +3,7 @@ package net.fullstack10.learning;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -62,7 +63,8 @@ public class LearningTodayController extends HttpServlet {
 	    LearningDAO learningDAO = new LearningDAO();
 		LearningFileDAO fileDAO = new LearningFileDAO();
 		LearningSharedDAO sharedDAO = new LearningSharedDAO();
-
+		LearningLikeDAO likeDAO = new LearningLikeDAO();
+		
 		// 나의 학습
 		List<LearningDTO> learningList = learningDAO.getTodayLearningList(loginMemberId, date, map);
 		for (LearningDTO learningDTO : learningList) {
@@ -76,6 +78,7 @@ public class LearningTodayController extends HttpServlet {
 		for (LearningDTO learningDTO : sharedList) {
 			String sharedIdx = String.valueOf(learningDTO.getIdx());
 			learningDTO.setFiles(fileDAO.getFileListByLearningIdx(sharedIdx));
+			learningDTO.setIsLiked(likeDAO.isAlreadyLiked(sharedIdx, loginMemberId));
 		}
 
 	    request.setAttribute("learningList", learningList);
@@ -85,7 +88,8 @@ public class LearningTodayController extends HttpServlet {
 	    learningDAO.close();
 		sharedDAO.close();
 		fileDAO.close();
-
+		likeDAO.close();
+	    
 		request.getRequestDispatcher("/WEB-INF/views/learning/todayStudy.jsp").forward(request, response);
 	}
 

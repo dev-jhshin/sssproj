@@ -39,8 +39,9 @@ public class LearningMyListController extends HttpServlet {
 		String loginMemberId = (String)session.getAttribute("memberId");
 		if (loginMemberId == null || loginMemberId.isEmpty()) {
 			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
+			return;
 		}
-
+		
 		learningDAO = new LearningDAO();
 
 		Map<String, String> map = new HashMap<>();

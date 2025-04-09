@@ -155,6 +155,13 @@
 	</div>
 
 	<script>
+		// validation 에 의해 돌아올 떄 textarea 값 비움
+	  	window.addEventListener('pageshow', function (event) {
+	    	if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+	      	document.querySelector('textarea[name="learningContent"]').value = '';
+	    	}
+	  	});
+	
         // 오늘의 학습 노출 여부
         document.querySelectorAll('input[name="isVisible"]').forEach(radio => {
             radio.addEventListener('change', function() {
@@ -268,6 +275,7 @@
            
                 const newFiles = Array.from(e.target.files);
                 selectedFiles = selectedFiles.concat(newFiles);
+                e.value = "";
                
                 updateFileList();
             }
@@ -459,6 +467,10 @@
         	if (!confirm('해당 학습내용을 등록하시겠습니까?')) return;
         	
          	const frm = document.getElementById("frmRegist");
+         	
+         	const dataTransfer = new DataTransfer();
+         	selectedFiles.forEach(file => dataTransfer.items.add(file));
+         	document.getElementById('fileInput').files = dataTransfer.files;
         	
         	const topics = [...document.querySelectorAll('.field .tagName')].map(topic => topic.textContent.trim());
         	const tags = [...document.querySelectorAll('.hashtag .tagName')].map(tag => tag.textContent.replace('#', '').trim());
