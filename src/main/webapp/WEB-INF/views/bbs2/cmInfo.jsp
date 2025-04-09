@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
-<%@ taglib prefix="fn" uri="jakarta.tags.functions"%>  
+<%@ taglib prefix="fn" uri="jakarta.tags.functions"%> 
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,6 +15,8 @@
 <title>커뮤니티 - 상세정보</title>
 </head>
 <style>
+
+
 </style>
 <body>
 	<c:set var="dUtil" value="<%=new CommonDateUtil() %>"/>
@@ -70,14 +72,38 @@
 					<p>${bbs.bbsContent }</p>
 				</div>
 			</div>
-
-			<c:if test="${not empty bbs.files }">
-				<div class="image-part">
-					<c:forEach items="${bbs.files }" var="file">
-						<img src="../Uploads/${file.fileName }" width="200px"/>
-					</c:forEach>
-				</div>
-			</c:if>
+            
+            <!-- 이미지 섹션 -->
+            <c:if test="${ not empty bbs.files }">
+                 <div class="image-part">
+                 	<div class="image-button-set">
+                       <div class="nav-button" id="btnPrev" onclick="movePrev()">
+                           <img src="<c:url value='/img/left_arrow.svg' />" />                  
+                       </div>
+                 	</div>
+                 	<div class="image-container">
+                 		<div class="slider-wrapper">
+					        <c:forEach items="${ bbs.files }" var="file" varStatus="status">
+					            <img src="<c:url value='/Uploads/${ file.fileName }' />" class="slide-image" onclick="openModal();currentSlide(${status.index})"/>
+					        </c:forEach>
+					    </div>
+                 	</div>
+                    <div class="image-button-set">
+                       <div class="nav-button" id="btnNext" onclick="moveNext()">
+                           <img src="<c:url value='/img/right_arrow.svg' />">          
+                       </div>
+                   </div>
+                </div>
+                
+                    <!-- 이미지 슬라이딩 -->
+                   <div class="image-swiper" id="imageSwiper">
+                   <c:forEach items="${bbs.files}" var="file" varStatus="status">
+                        <div class="swiper-dot ${status.index == 0 ? 'active' : ''}" data-index="${status.index}"></div>
+                   </c:forEach>
+                   </div>
+                
+            </c:if>
+            
 			<!-- 댓글 섹션 -->
 			<div class="comment-section">
 				<div class="comment-list-section" id="commentList">
@@ -104,7 +130,7 @@
 										</c:if>
 										<c:if test="${sessionScope.memberId eq comment.get('memberId') }">
 											<input type="button" class="comment-btn" style="border: 0px;" id="commentEditButton" value="편집" onclick="enableEdit(this)" />
-											<input type="button" class="comment-btn commentDeleteButton" style="border: 0px;" value="삭제"/>
+											<input type="button" class="comment-btn" style="border: 0px;" id="commentDeleteButton" value="삭제"/>
 										</c:if>
 									</div>
 								</div>
@@ -132,9 +158,11 @@
 				</div>
 				</div>
 			</div>
+			
 				<!-- 버튼 세트 -->
 				<div class="btn-set">
-					<button class="btn" id="listButton">목록</button> 
+					<!-- <button class="btn" id="listButton">목록</button> -->
+					
 					<c:if test="${ (not empty sessionScope.memberId) and not (sessionScope.memberId eq bbs.memberId) }">
 				    	<a href="#modal" class="btn" id="reportButton">신고</a>
 					</c:if>
@@ -146,6 +174,20 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- 추가: 이미지 모달창 -->
+	<div id="imageModal" class="image-modal">
+	    <span class="modal-close" onclick="closeModal()">&times;</span>
+	    <div class="modal-content">
+	        <c:forEach items="${ bbs.files }" var="file">
+	            <img class="modal-image" src="<c:url value='/Uploads/${ file.fileName }' />" style="display: none;">
+	        </c:forEach>
+	    </div>
+	    <!-- 모달 내부 이미지 네비게이션 버튼 -->
+	    <div class="modal-nav modal-prev" onclick="changeModalSlide(-1)">&#10094;</div>
+	    <div class="modal-nav modal-next" onclick="changeModalSlide(1)">&#10095;</div>
+	</div>
+	
 	<script>
 		// 좋아요 하트
 		document.addEventListener('DOMContentLoaded', function() {
@@ -178,10 +220,10 @@
 			}
 		});
 		// 목록 버튼 클릭 이동
-		const listButton = document.getElementById('listButton');
+		/* const listButton = document.getElementById('listButton');
 		listButton.addEventListener('click', function() {
 			window.location.href = 'list.do';
-		});
+		}); */
 
 		// 수정 버튼 클릭 이동
 		const modifyButton = document.getElementById('modifyButton');
@@ -201,19 +243,17 @@
 				}
 			});
 		}
-		
-		// 댓글 삭제 
-		document.querySelectorAll('.commentDeleteButton').forEach(button => {
-			button.addEventListener('click', function() {
+		const commentDeleteButton = document.getElementById('commentDeleteButton');
+		if (commentDeleteButton) {
+			commentDeleteButton.addEventListener('click', () => {
 				if(confirm('정말 댓글을 삭제하시겠습니까?')) {
-					const form = this.closest('form');
+					const form = document.getElementById('frmComment');
 					form.action = "/sssproj/bbs/comment/delete.do";
 					form.method="post";
 					form.submit();
-				}		
-			})
-		})
-		
+				}			
+			});
+		}
 		// 신고 버튼 
 		const reportButton = document.getElementById('reportButton');
 		if(reportButton) {
@@ -263,6 +303,113 @@
 			form.method="post";
 			form.submit();
 		}
+		
+	 // 이미지 슬라이더
+	document.addEventListener('DOMContentLoaded', function () {
+		let currentIndex = 0;
+		const sliderWrapper = document.querySelector('.slider-wrapper');
+		const imageWidth = 200;
+		const slideImages = document.querySelectorAll('.slide-image');
+		const dots = document.querySelectorAll('.swiper-dot');
+
+		document.getElementById('btnPrev').addEventListener('click', movePrev);
+		document.getElementById('btnNext').addEventListener('click', moveNext);
+
+		dots.forEach((dot, index) => {
+			dot.addEventListener('click', function () {
+				currentIndex = index;
+				updateSlider();
+			});
+		});
+
+		function movePrev() {
+			if (currentIndex > 0) {
+				currentIndex--;
+			} else {
+				currentIndex = slideImages.length - 1;
+			}
+			updateSlider();
+		}
+
+		function moveNext() {
+			if (currentIndex < slideImages.length - 1) {
+				currentIndex++;
+			} else {
+				currentIndex = 0;
+			}
+			updateSlider();
+		}
+
+		function updateSlider() {
+			sliderWrapper.style.transform = 'translateX(-' + (currentIndex * imageWidth) + 'px)';
+			updateDots();
+		}
+
+		function updateDots() {
+			dots.forEach((dot, index) => {
+				if (index === currentIndex) {
+					dot.classList.add('active');
+					dot.style.opacity = '1';
+				} else {
+					dot.classList.remove('active');
+					dot.style.opacity = '0.3';
+				}
+			});
+		}
+
+		updateSlider();
+	});
+		
+	 
+		// 이미지 모달
+		let modalIndex = 0;
+
+		function openModal() {
+		    document.getElementById('imageModal').style.display = 'block';
+		    showModalSlides(modalIndex);
+		}
+
+		function closeModal() {
+		    document.getElementById('imageModal').style.display = 'none';
+		}
+
+		function currentSlide(n) {
+		    modalIndex = n;
+		    showModalSlides(modalIndex);
+		}
+
+		function changeModalSlide(step) {
+		    const images = document.querySelectorAll('.modal-image');
+		    modalIndex += step;
+
+		    if (modalIndex >= images.length) {
+		        modalIndex = 0;
+		    } else if (modalIndex < 0) {
+		        modalIndex = images.length - 1;
+		    }
+		    
+		    showModalSlides(modalIndex);
+		}
+
+		function showModalSlides(n) {
+		    const images = document.querySelectorAll('.modal-image');
+
+		    for (let i = 0; i < images.length; i++) {
+		        images[i].style.display = 'none';
+		    }
+
+		    images[n].style.display = 'block';
+		}
+
+		document.addEventListener('keydown', function(event) {
+		    if (event.key === 'Escape') {
+		        closeModal();
+		    }
+		});
+		
+
+        
+
 	</script>
 </body>
 </html>
