@@ -60,7 +60,7 @@ public class LearningCommentRegistController extends HttpServlet {
 		
 		String url = "/sssproj/learning/view.do?idx=" + learningIdx 
 				+ (commentIdx > 0 ? "#frmComment" + commentIdx : "#frmCommentReigst");
-		response.sendRedirect("/sssproj/learning/view.do?idx=" + learningIdx + "#frmComment" + commentIdx);
+		JSFunction.alertLocation(response, "", "/sssproj/learning/view.do?idx=" + learningIdx + "&isVisited=" + false  + "#frmComment" + commentIdx);
 		// String msg = ( result > 0 ? "댓글 등록이 완료되었습니다." : "댓글 등록에 실패했습니다.");
 		// JSFunction.alertLocation(response, "href", msg, "/sssproj/learning/view.do?idx=" + learningIdx);
 	}

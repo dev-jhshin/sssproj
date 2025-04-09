@@ -53,7 +53,7 @@ public class LearningCommentModifyController extends HttpServlet {
 		int result = commentDAO.updateLearningComment(commentIdx, content);
 		commentDAO.close();
 		
-		response.sendRedirect("/sssproj/learning/view.do?idx=" + learningIdx + "#frmComment" + commentIdx);
+		JSFunction.alertLocation(response, "", "/sssproj/learning/view.do?idx=" + learningIdx + "&isVisited=" + false  + "#frmComment" + commentIdx);
 		// String msg = (result > 0 ? "댓글 수정이 완료되었습니다." : "댓글 수정에 실패했습니다.");
 		// response.sendRedirect("/sssproj/learning/view.do?idx=" + learningIdx + "#frmComment" + commentIdx);
 	}

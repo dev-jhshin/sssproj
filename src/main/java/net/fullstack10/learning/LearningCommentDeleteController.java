@@ -71,7 +71,7 @@ public class LearningCommentDeleteController extends HttpServlet {
 		commentDAO.close();
 		
 		String msg = (result > 0 ? "댓글을 삭제했습니다." : "댓글 삭제에 실패했습니다.");
-		JSFunction.alertLocation(response, "href", msg, "/sssproj/learning/view.do?idx=" + learningIdx);
+		JSFunction.alertLocation(response, "", "/sssproj/learning/view.do?idx=" + learningIdx + "&isVisited=" + false);
 	}
 
 }

@@ -252,24 +252,24 @@
  </div>   
     
 <script>
-	// 좋아요 하트
+	// URL 정리
 	document.addEventListener('DOMContentLoaded', function() {
-	    const likeButton = document.getElementById('likeButton');
-	    const likeCount = document.getElementById('likeCount');
-	    let isLiked = ${ dto.isLiked }; 
-	    likeButton.addEventListener('click', function() {
-	        isLiked = !isLiked;
-	        updateLikeButton();
-	    });
-
-	    function updateLikeButton() {
-	        if (isLiked) {
-	        	window.location.href = './like/regist.do?idx=${ dto.idx }';
-	        } else {
-	        	window.location.href = './like/delete.do?idx=${ dto.idx }';
-	        }
-	    }
+		const url = new URL(window.location.href);
+		const idx = url.searchParams.get('idx');
+		const hash = url.hash;
+		
+		history.replaceState({}, document.title, url.pathname + '?idx=' + idx + hash);
 	});
+
+	// 좋아요 하트
+	const likeButton = document.getElementById('likeButton');
+	likeButton.addEventListener('click', function() {
+       	if (!${ dto.isLiked }) {
+       		window.location.href = './like/regist.do?idx=${ dto.idx }';
+       	} else {
+       		window.location.href = './like/delete.do?idx=${ dto.idx }';
+       	}
+    });
     
     // 이미지 슬라이더
     let currentIndex = 0;
@@ -354,63 +354,70 @@
 			frm.submit();
 		});
 	}
-	const deleteCommentButton = document.getElementById('deleteCommentButton');
+	const deleteCommentButton = document.querySelectorAll('#deleteCommentButton');
 	if (deleteCommentButton) {
-		deleteCommentButton.addEventListener('click', () => {
-			if(confirm('정말 댓글을 삭제하시겠습니까?')) {
-				const frm = document.getElementById('frmCommentModify');
-				frm.action = './comment/delete.do'
-				frm.submit();
-			}
+		deleteCommentButton.forEach(btn => {
+			btn.addEventListener('click', () => {
+				if(confirm('정말 댓글을 삭제하시겠습니까?')) {
+					const frm = document.getElementById('frmCommentModify');
+					frm.action = './comment/delete.do'
+					frm.submit();
+				}
+			});
 		});
 	}
-	const modifyCommentButton = document.getElementById('modifyCommentButton');
+	const modifyCommentButton = document.querySelectorAll('#modifyCommentButton');
 	if (modifyCommentButton) {
-		modifyCommentButton.addEventListener('click', function() {
-			const comment = this.closest('.comment-list');
-			const text = comment.querySelector('.comment-text');
-			const textarea = comment.querySelector('.comment-textarea');
-			const btn = comment.querySelector('.comment-edit-btn');
-			
-			text.style.display = 'none';
-			textarea.style.display = 'block';
-			btn.style.display = 'block';
+		modifyCommentButton.forEach(btn => {
+			btn.addEventListener('click', function() {
+				const comment = this.closest('.comment-list');
+				const text = comment.querySelector('.comment-text');
+				const textarea = comment.querySelector('.comment-textarea');
+				const btn = comment.querySelector('.comment-edit-btn');
+				
+				text.style.display = 'none';
+				textarea.style.display = 'block';
+				btn.style.display = 'block';
+			});
 		});
 	}
-	
-	const editCommentButton = document.getElementById('editCommentButton');
+	const editCommentButton = document.querySelectorAll('#editCommentButton');
 	if (editCommentButton) {
-		editCommentButton.addEventListener('click', function() {
-			const comment = this.closest('.comment-list');
-			const text = comment.querySelector('.comment-text');
-			const textarea = comment.querySelector('.comment-textarea');
-			const btn = comment.querySelector('.comment-edit-btn');
-			
-			text.value = textarea.value;
-			
-			text.style.display = 'block';
-			textarea.style.display = 'none';
-			btn.style.display = 'none';
-			
-			const frm = this.closest('.frmComment');
-			frm.action = './comment/modify.do';
-			frm.method = 'post';
-			frm.submit();
+		editCommentButton.forEach(btn => {
+			btn.addEventListener('click', function() {
+				const comment = this.closest('.comment-list');
+				const text = comment.querySelector('.comment-text');
+				const textarea = comment.querySelector('.comment-textarea');
+				const btn = comment.querySelector('.comment-edit-btn');
+				
+				text.value = textarea.value;
+				
+				text.style.display = 'block';
+				textarea.style.display = 'none';
+				btn.style.display = 'none';
+				
+				const frm = this.closest('.frmComment');
+				frm.action = './comment/modify.do?';
+				frm.method = 'post';
+				frm.submit();
+			});
 		});
 	}
-	const cancleCommentButton = document.getElementById('cancleCommentButton');
+	const cancleCommentButton = document.querySelectorAll('#cancleCommentButton');
 	if (cancleCommentButton) {
-		cancleCommentButton.addEventListener('click', function() {
-			const comment = this.closest('.comment-list');
-			const text = comment.querySelector('.comment-text');
-			const textarea = comment.querySelector('.comment-textarea');
-			const btn = comment.querySelector('.comment-edit-btn');
-			
-			textarea.value = text.textContent;
-			
-			text.style.display = 'block';
-			textarea.style.display = 'none';
-			btn.style.display = 'none';
+		cancleCommentButton.forEach(btn => {
+			btn.addEventListener('click', function() {
+				const comment = this.closest('.comment-list');
+				const text = comment.querySelector('.comment-text');
+				const textarea = comment.querySelector('.comment-textarea');
+				const btn = comment.querySelector('.comment-edit-btn');
+				
+				textarea.value = text.textContent;
+				
+				text.style.display = 'block';
+				textarea.style.display = 'none';
+				btn.style.display = 'none';
+			});
 		});
 	}
 	

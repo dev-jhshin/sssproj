@@ -812,6 +812,33 @@ public class LearningDAO extends DBConnPool {
 		
 		return 0;
 	}
+	
+	/**
+	 * @desc 학습 게시글 조회수 조회
+	 * 
+	 * @param idx String
+	 * @return int
+	 */
+	public int getViewCntByIdx(String idx) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" Select viewCnt ");
+		sql.append(" From tbl_learning ");
+		sql.append(" WHERE idx = ? ");
+		
+		try {
+			pstm = conn.prepareStatement(sql.toString());
+			pstm.setString(1, idx);
+			
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+				return rs.getInt("viewCnt");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
 
 	/**
 	 * @desc 학습 게시글 신고 처리

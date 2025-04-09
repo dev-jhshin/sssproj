@@ -45,8 +45,9 @@ public class LearningLikeRegistController extends HttpServlet {
 		int result = likeDAO.createLearningLikeByMemberId(idx, memberId);
 		likeDAO.close();
 		
-		String msg = (result > 0 ? "좋아요를 등록을 성공했습니다." : "좋아요 등록에 실패했습니다.");
-		JSFunction.alertLocation(response, "href", msg, "/sssproj/learning/view.do?idx=" + idx);
+		// String msg = (result > 0 ? "좋아요를 등록을 성공했습니다." : "좋아요 등록에 실패했습니다.");
+		// JSFunction.alertLocation(response, "href", msg, "/sssproj/learning/view.do?idx=" + idx);
+		JSFunction.alertLocation(response, "", "/sssproj/learning/view.do?idx=" + idx + "&isVisited=" + false);
 	}
 
 	/**

@@ -45,8 +45,9 @@ public class LearningLikeDeleteController extends HttpServlet {
 		int result = likeDAO.deleteLearningLikeByMemberId(idx, memberId);
 		likeDAO.close();
 		
-		String msg = (result > 0 ? "좋아요 취소를 성공했습니다." : "좋아요 취소를 실패했습니다.");
-		JSFunction.alertLocation(response, "href", msg, "/sssproj/learning/view.do?idx=" + idx);
+		// String msg = (result > 0 ? "좋아요 취소를 성공했습니다." : "좋아요 취소를 실패했습니다.");
+		// JSFunction.alertLocation(response, "href", msg, "/sssproj/learning/view.do?idx=" + idx);
+		JSFunction.alertLocation(response, "", "/sssproj/learning/view.do?idx=" + idx + "&isVisited=" + false);
 	}
 
 	/**

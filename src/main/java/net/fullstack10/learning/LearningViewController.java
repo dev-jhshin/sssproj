@@ -43,7 +43,11 @@ public class LearningViewController extends HttpServlet {
 			}
 		}
 		
-		learningDAO.updateViewCnt(idx);
+		String isVisited = request.getParameter("isVisited");
+		if (isVisited == null || !isVisited.equals("false")) {
+			learningDAO.updateViewCnt(idx);
+			learningDTO.setViewCnt(learningDAO.getViewCntByIdx(idx));
+		}
 		learningDAO.close();
 		
 		learningDTO.setLearningContent(learningDTO.getLearningContent().replace("\n", "<br>"));
