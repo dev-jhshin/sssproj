@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="<c:url value='/css/cmRegist.css?<%= new Date() %>'/>" rel="stylesheet" type="text/css">
+<link href="<c:url value='/css/cmModify.css' />?v=<%=System.currentTimeMillis()%>" rel="stylesheet" type="text/css">
 <%-- <link href="<c:url value='/css/cmModify.css?<%=new Date() %>' />" rel="stylesheet" type="text/css"> --%>
 <title>커뮤니티 - 수정페이지</title>
 <style>
@@ -63,7 +63,7 @@
 							<input type="hidden" name="fileName_${status.index }" value="${file.fileName }"/>
 							<input type="hidden" name="fileIdx_${status.index }" value="${file['fileIdx'] }"/>
 							<img src="/sssproj/Uploads/${file.fileName }" width="50px" alt="${file.fileName }"/>
-							<label>
+							<label class="delete-checkbox">
 							    <input type="checkbox" name="deleteFileIdx" value="${status.index }" /> 삭제
 							</label>
 						</c:forEach>
