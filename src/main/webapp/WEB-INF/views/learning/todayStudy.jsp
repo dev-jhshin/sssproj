@@ -89,7 +89,7 @@
 		    <h2 class="section-title">나의 학습</h2>
 		    <div class="ms-container">
 		    	<c:forEach items="${ learningList }" var="learningDTO" >
-		      		<div class="ms-section">
+		      		<div class="ms-section" data-id="${ learningDTO.idx }">
 			      		<!-- 이미지 부분 -->
 			      		<c:if test="${ not empty learningDTO.files }">
 			      			<img src="<c:url value='/Uploads/${ learningDTO.files[0].fileName }' />" class="ms-image"/>
@@ -150,14 +150,16 @@
 		    <h2 class="section-title">공유 학습</h2>
 		    <div class="ss-container">
 		    	<c:forEach items="${ sharedList }" var="sharedDTO">
-			    	<div class="ss-section">
+			    	<div class="ss-section" data-id="${ sharedDTO.idx }">
 			        	<!-- 이미지 부분 -->
 			      		<c:if test="${ not empty sharedDTO.files }">
 			      			<img src="<c:url value='/Uploads/${ sharedDTO.files[0].fileName }' />" class="ms-image"/>
 			      		</c:if>
 			        	<div class="ss-label">
 			            	<div class="ss-likes">
-				              	<span class="ss-likes-icon">💚</span>
+				              	<span class="ss-likes-icon">
+				              		${ sharedDTO.isLiked ? '💚' : '♡' }
+				              	</span>
 				              	<span class="ss-likes-count">${ sharedDTO.likeCnt }</span>
 				            </div>
 							<div class="ss-shared-user">${ sharedDTO.memberId }</div>
@@ -314,6 +316,20 @@
 			// 초기 렌더링
 			updateSelectedDate();
 			updateWeekView();
+		});
+		
+		const msContent = document.querySelectorAll('.ms-section').forEach((el) => {
+			el.addEventListener('click', function() {
+				const id = this.dataset.id;
+				window.location.href = './view.do?idx=' + id;
+			});
+		});
+		
+		const ssContent = document.querySelectorAll('.ss-section').forEach((el) => {
+			el.addEventListener('click', function() {
+				const id = this.dataset.id;
+				window.location.href = './view.do?idx=' + id;
+			});
 		});
 	</script>
 

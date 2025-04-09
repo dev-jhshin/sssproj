@@ -90,12 +90,9 @@
                     <td>${ dto.learningTitle }</td>
                     <td class="td-like-btn">
 						<button class="like-btn inactive" id="likeButton" <c:if test="${ empty sessionScope.memberId }">disabled</c:if>>
-							<c:if var="isLiked" test="${ isLiked }">
-								💚
-							</c:if>
-							<c:if test="${ not isLiked }">♡ 
-							</c:if>
-						</button><span id="likeCount">${ dto.likeCnt ne null and not empty dto.likeCnt ? dto.likeCnt : '0' }</span>
+							${ dto.isLiked ? '💚' : '♡' }
+						</button>
+						<span id="likeCount">${ dto.likeCnt ne null and not empty dto.likeCnt ? dto.likeCnt : '0' }</span>
 					</td>
                 </tr>
             </table>
@@ -259,7 +256,7 @@
 	document.addEventListener('DOMContentLoaded', function() {
 	    const likeButton = document.getElementById('likeButton');
 	    const likeCount = document.getElementById('likeCount');
-	    let isLiked = ${isLiked}; 
+	    let isLiked = ${ dto.isLiked }; 
 	    likeButton.addEventListener('click', function() {
 	        isLiked = !isLiked;
 	        updateLikeButton();
@@ -268,18 +265,8 @@
 	    function updateLikeButton() {
 	        if (isLiked) {
 	        	window.location.href = './like/regist.do?idx=${ dto.idx }';
-	            // likeButton.innerHTML = '💚'; 
-	            // likeButton.classList.add('active');
-	            // likeButton.classList.remove('inactive');
-	            // likeCount.textContent = parseInt(likeCount.textContent) + 1;
 	        } else {
 	        	window.location.href = './like/delete.do?idx=${ dto.idx }';
-	            // likeButton.innerHTML = '♡'; 
-	            // likeButton.classList.add('inactive');
-	            // likeButton.classList.remove('active');
-	            // if (parseInt(likeCount.textContent) > 0) {
-	            //     likeCount.textContent = parseInt(likeCount.textContent) - 1;
-	            // }
 	        }
 	    }
 	});
