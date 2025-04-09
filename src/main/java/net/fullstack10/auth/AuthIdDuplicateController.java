@@ -21,6 +21,7 @@ public class AuthIdDuplicateController extends HttpServlet {
 		String memberId = request.getParameter("member_id");
 		AuthDAO dao = new AuthDAO();
 		int rs = dao.idDuplicate(memberId);
+		dao.close();
 		if(rs == 1) {
 			//아이디 사용가능
 			request.setAttribute("duplicate", 1);

@@ -1,8 +1,6 @@
 <%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="jakarta.tags.core"%> 
-
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
 
 <div class="sidebar">
 	<img src="../img/header_logo.svg">
@@ -24,6 +22,6 @@
 		<c:if test="${not isLogin }" >
 			<div><a href="/sssproj/auth/logout.do">로그아웃</a></div>
 		</c:if>
-		<div><a href="/sssproj/support/faq.do">고객센터</a></div>
+		<div><a href="/sssproj/support/question/list.do">고객센터</a></div>
 	</div>
 </div>
