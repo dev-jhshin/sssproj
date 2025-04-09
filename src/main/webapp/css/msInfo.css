@@ -102,8 +102,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
-    background-color: white;
-    border-radius : 5px;
+    border-radius : 10px;
     overflow:hidden;
 }
 
@@ -117,13 +116,15 @@ body {
     color: #555;
     font-weight: 500;
     text-align: center;
-    width: 120px;
+    width: 20%;
 }
 
 .info-table td {
     text-align: left;
-	background-color : /*#FCFDFA;*/ white;
-	color: #555;
+    height: 50px;
+}
+.td-like-btn {
+	width: 70px;
 }
 
 
@@ -141,7 +142,7 @@ body {
     flex: 3;
     padding: 20px;
     position: relative;
-    height : 250px;
+    min-heigh : 250px;
 }
 
 /* 이미지 섹션*/
@@ -456,21 +457,23 @@ body {
   border-radius: 5px;
   margin : 30px 0px 15px 0px;
 }
-
+.frmComment {
+	width: 100%;
+	margin-bottom: 10px;
+}
 .comment-list {
     background-color: #f2f2f2;
-    padding: 10px 15px;
-    border-radius: 4px;
+    padding: 15px 20px;
+    border-radius: 10px;
     margin-bottom: 10px;
+    width: 100%;
 }
-
 .comment-header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 6px;
     font-size: 14px;
 }
-
 .comment-header-content{
 	display : flex;
 }
@@ -492,18 +495,19 @@ body {
 	gap : 7px;
 }
 
+.comment-btn {
+	font-size: 12px;
+	font-family: 'Dovemayo_gothic';
+	border: none;
+}
+.comment-btn:hover {
+	text-decoration: underline;
+}
 .comment-modify-btn{
-    border:none;
-	font-size:12px;
-	font-weight: bold;
-	color: #333;
+	color: #999;
 	
 }
-
 .comment-delete-btn{
-	border:none;
-	font-size:12px;
-	font-weight: bold;
 	color: #ed6666;
 }
 
@@ -516,16 +520,14 @@ body {
 	height: 50px;
     position: relative;
     display: flex;
-    margin-top:20px;
-    margin-bottom:10px;
-    padding: 0px 40px;
+    margin-bottom: 20px;
 }
 
 .comment-input{
     width: 100%;
-    border-radius: 15px;
+    border-radius: 10px;
     padding: 10px 60px 10px 20px;
-    border : 1px solid #eee;
+    border: 1px solid #eee;
 }
 
 .comment-input:focus {
@@ -535,18 +537,84 @@ body {
     position: absolute;
     top: 5px;
     bottom: 5px;
-    right: 45px;
-    border-radius: 10px;
-    padding:10px;
-    background-color: #F2F7EA;
-    color: blakc;
+    right: 5px;
+    padding: 10px 20px;
+    background-color: #95C14F;
+    color: white;
     border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    font-family: 'Dovemayo_gothic';
     cursor: pointer;
 }
 
 .comment-button:hover{
 	background-color: #95C14F;
     color: white;
+}
+
+/* 댓글 수정 */
+#frmCommentReigst {
+	width: 100%;
+}
+.comment-text {
+  word-wrap: break-word; /* 긴 단어가 있을 때 줄 바꿈 */
+  white-space: normal;   /* 텍스트가 너무 길어지면 자동으로 줄 바꿈 */
+  overflow-wrap: break-word; /* 긴 단어가 잘리거나 화면을 넘어가지 않도록 함 */
+}
+.comment-textarea {
+	display: none;
+	width: 100%;
+	min-height: 60px;
+	margin-top: 10px;
+	padding: 10px;
+	font-family: 'Dovemayo_gothic', sans-serif;
+	font-size: 14px;
+	border: 1px solid #ccc;
+	border-radius: 8px;
+	box-sizing: border-box;
+	resize: vertical;
+	background-color: #fff;
+	color: #333;
+	resize: none;
+}
+
+.comment-edit-btn {
+	display: none;
+	justify-content: flex-end;
+	gap: 10px;
+	margin-top: 8px;
+}
+
+/* 저장/취소 버튼 기본 스타일 */
+.comment-edit-btn input[type="button"] {
+	padding: 6px 12px;
+	border: none;
+	border-radius: 6px;
+	font-family: 'Dovemayo_gothic', sans-serif;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+/* 저장 버튼 스타일 */
+.comment-edit-btn input[value="저장"] {
+	background-color: #95C14F;
+	color: white;
+}
+
+.comment-edit-btn input[value="저장"]:hover {
+	background-color: #7fa240;
+}
+
+/* 취소 버튼 스타일 */
+.comment-edit-btn input[value="취소"] {
+	background-color: #ccc;
+	color: #333;
+}
+
+.comment-edit-btn input[value="취소"]:hover {
+	background-color: #aaa;
+	color: white;
 }
 
 /* 버튼세트 */

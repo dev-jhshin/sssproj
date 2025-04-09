@@ -8,6 +8,7 @@ public class LearningCommentDTO {
 	private String memberId;
 	private String commentContent;
 	private LocalDateTime createdAt;
+	private LocalDateTime updatedAt;
 	
 	public int getIdx() {
 		return idx;
@@ -38,5 +39,11 @@ public class LearningCommentDTO {
 	}
 	public void setCreatedAt(LocalDateTime createdAt) {
 		this.createdAt = createdAt;
+	}
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 }
