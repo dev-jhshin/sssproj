@@ -42,7 +42,7 @@ public class LearningQueryHelper {
 		List<String> allowedDirections = List.of("ASC", "DESC");
 		
 		if (allowedColumns.contains(column) && allowedDirections.contains(direction)) {
-			sql.append(" ORDER BY " + "tl." + column + " " + direction + " ");
+			sql.append(" ORDER BY " + column + " " + direction + " , idx DESC ");
 		}
 	}
 	

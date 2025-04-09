@@ -70,10 +70,10 @@
             <!-- 카테고리 섹션 -->
             <div class="category-section">
                 <div class="category-list-part">
-                   <div class="category-list-active" id="orderCreatedAtButton">
+                   <div id="orderCreatedAtButton">
                       등록 순
                    </div>
-                   <div class="category-list" id="orderLikeCntButton">
+                   <div id="orderLikeCntButton">
                       좋아요 순
                    </div>
                 </div>
@@ -137,6 +137,30 @@
     </div>
     
 <script>
+	//로더 시 등록순, 조회수순 CSS 변경
+	function setActiveOrderButton(activeId) {
+		const buttons = document.querySelectorAll('.category-list-part > div');
+		buttons.forEach(btn => {
+			btn.classList.remove('category-list-active');
+			btn.classList.add('category-list');
+		});
+		
+		const activeBtn = document.getElementById(activeId);
+		activeBtn.classList.remove('category-list');
+		activeBtn.classList.add('category-list-active');
+	}
+	
+	window.addEventListener("DOMContentLoaded", () => {
+		const params = new URLSearchParams(window.location.search);
+		const order = params.get("orderColumn");
+
+		if (order === "likeCnt") {
+			setActiveOrderButton("orderLikeCntButton");
+		} else {
+			setActiveOrderButton("orderCreatedAtButton");
+		}
+	});
+
 	// 조회 버튼
 	document.getElementById('searchButton').addEventListener('click', () => {
 		const startDate = document.getElementById('startDate').value;
