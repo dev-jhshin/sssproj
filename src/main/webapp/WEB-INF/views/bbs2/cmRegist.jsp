@@ -50,7 +50,7 @@
 
 					<!-- 콘텐츠 섹션 -->
 					<div class="content-section">
-						<textarea class="content-part" id="content" name="content" placeholder="내용을 입력하세요." wrap="hard" ></textarea>
+						<textarea class="content-part" id="content" name="content" placeholder="내용을 입력하세요." wrap="hard" required></textarea>
 					</div>
 
 					<div class="form-section">

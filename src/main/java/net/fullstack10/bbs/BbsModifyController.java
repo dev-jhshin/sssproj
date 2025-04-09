@@ -79,9 +79,11 @@ public class BbsModifyController extends HttpServlet {
 		String memberId = request.getParameter("memberId");
 		String sMemberId = (String) request.getSession().getAttribute("memberId");
 		String[] deleteFileIdxes = request.getParameterValues("deleteFileIdx");
+		
 		if (idx < 1) { JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");}
 
 		if (!sMemberId.equalsIgnoreCase(memberId)) { JSFunction.alertLocation(response, "권한이 없습니다.", "/sssproj/bbs/view.do?idx=" + idx); return; }
+		
 		if (title == null || title.length() < 1 || content ==null || content.length() < 1) { JSFunction.alertBack(response, "제목을 1~100자 이내로 입력해주세요."); return; }
 
 		if(content == null || content.length() < 1) { JSFunction.alertBack(response, "내용을 입력해주세요."); return; }
@@ -117,10 +119,9 @@ public class BbsModifyController extends HttpServlet {
 		bbsDAO.close();
 		
 		if (result > 0) { 
-			JSFunction.alertLocation(response, "게시글 수정에 성공했습니다.", "/sssproj/bbs/view.do?idx=" + idx);
-		} else {
-			JSFunction.alertLocation(response, "게시글 수정에 성공했습니다.", "/sssproj/bbs/list.do");
-		}
+			JSFunction.alertLocation(response, "게시글 수정에 성공했습니다.", "/sssproj/bbs/view.do?idx=" + idx); return;
+		} 
+		JSFunction.alertLocation(response, "게시글 수정에 성공했습니다.", "/sssproj/bbs/list.do");
 		
 	}
 

@@ -39,21 +39,21 @@ public class BbsLikeDeleteController extends HttpServlet {
 		HttpSession session = request.getSession();
 		String memberId = (String) session.getAttribute("memberId");
 		if(memberId ==null || memberId.equalsIgnoreCase("")) {
-			JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do");
+			JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do");return;
 		}
 		
 		String idx = request.getParameter("idx");
 		if(cUtil.parseInt(idx)<1) {
-			JSFunction.alertBack(response, "게시글 정보가 없습니다.");
+			JSFunction.alertBack(response, "게시글 정보가 없습니다.");return;
 		}
 		bbsDAO = new BbsDAO();
 		int result = bbsDAO.setBbsLikeDelete(idx, memberId);
 		bbsDAO.close();
 				
 		if(result>0) {
-			JSFunction.alertBack(response, "좋아요 취소 성공했습니다.");
+			JSFunction.alertBack(response, "좋아요 취소 성공했습니다.");return;
 		} else {
-			JSFunction.alertBack(response, "좋아요 취소 실패했습니다.");
+			JSFunction.alertBack(response, "좋아요 취소 실패했습니다.");return;
 		}
 	}
 

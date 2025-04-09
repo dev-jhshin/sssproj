@@ -61,7 +61,7 @@ public class BbsDeleteController extends HttpServlet {
 		
 		int result = bbsDAO.setBbsDelete(idx);
 		bbsDAO.close();
-		if (result > 0) { JSFunction.alertLocation(response, "게시글이 삭제되었습니다.", "list.do"); } else { JSFunction.alertBack(response, "게시글 삭제에 실패했습니다."); }
+		if (result > 0) { JSFunction.alertLocation(response, "게시글이 삭제되었습니다.", "list.do"); } else { JSFunction.alertBack(response, "게시글 삭제에 실패했습니다."); return; }
 	}
 
 }

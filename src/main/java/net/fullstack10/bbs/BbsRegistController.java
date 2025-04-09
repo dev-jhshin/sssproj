@@ -102,10 +102,10 @@ public class BbsRegistController extends HttpServlet {
 		bbsDAO.close();
 		
 		if (bbsIdx > 0) { 
-			JSFunction.alertLocation(response, "replace", "게시글 등록에 성공했습니다.", "view.do?idx=" + bbsIdx);
-		} else {
-			JSFunction.alertBack(response, "게시글 등록에 실패했습니다.");
+			JSFunction.alertLocation(response, "replace", "게시글 등록에 성공했습니다.", "view.do?idx=" + bbsIdx); return;
 		}
+		JSFunction.alertBack(response, "게시글 등록에 실패했습니다.");
+		
 	}
 
 }

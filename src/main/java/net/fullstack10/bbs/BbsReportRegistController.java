@@ -45,22 +45,20 @@ public class BbsReportRegistController extends HttpServlet {
 		String idx = request.getParameter("idx");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter wrt = response.getWriter();
 		
-		if(sMemberId == null || sMemberId.length() < 1) { JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do"); }
+		if(sMemberId == null || sMemberId.length() < 1) { JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do"); return; }
 		
-		if(content == null || content.length() < 1) { JSFunction.alertBack(response, "내용을 입력해주세요."); }
+		if(content == null || content.length() < 1) { JSFunction.alertBack(response, "내용을 입력해주세요."); return; }
 		
-		if(idx == null || idx.length() < 1) { JSFunction.alertBack(response, "게시글 정보가 없습니다."); }
+		if(idx == null || idx.length() < 1) { JSFunction.alertBack(response, "게시글 정보가 없습니다."); return; }
 		
 		bbsDAO = new BbsDAO();
 		int result = bbsDAO.setBbsReportRegist(sMemberId, idx, content);
 		if (result > 0) {
-			JSFunction.alertLocation(response, "신고 접수가 완료되었습니다.", "/sssproj/bbs/view.do?idx="+idx);
-		} else {
-			JSFunction.alertBack(response, "신고 접수에 실패했습니다.");
+			JSFunction.alertLocation(response, "신고 접수가 완료되었습니다.", "/sssproj/bbs/view.do?idx="+idx); return;
 		}
-		
+		JSFunction.alertBack(response, "신고 접수에 실패했습니다."); return;
+
 	}
 
 }
