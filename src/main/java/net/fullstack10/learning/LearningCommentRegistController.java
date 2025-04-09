@@ -41,9 +41,18 @@ public class LearningCommentRegistController extends HttpServlet {
 		String learningIdx = request.getParameter("learningIdx");
 		String content = request.getParameter("commentContent");
 		
-		if (loginMemberId == null || loginMemberId.isBlank()) JSFunction.alertBack(response, "사용자 정보가 없습니다.");
-		if (learningIdx == null || cUtil.parseInt(learningIdx) < 1) JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
-		if (content == null || !content.isBlank()) JSFunction.alertBack(response, "내용을 입력해주세요.");
+		if (loginMemberId == null || loginMemberId.isBlank()) {
+			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
+			return;
+		}
+		if (learningIdx == null || cUtil.parseInt(learningIdx) < 1) {
+			JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
+			return;
+		}
+		if (content == null || !content.isBlank()) {
+			JSFunction.alertBack(response, "내용을 입력해주세요.");
+			return;
+		}
 	
 		LearningCommentDAO commentDAO = new LearningCommentDAO();
 		int result = commentDAO.createLearningComment(learningIdx, loginMemberId, content);

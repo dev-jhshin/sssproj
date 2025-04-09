@@ -32,10 +32,14 @@ public class LearningLikeRegistController extends HttpServlet {
 		
 		String idx = request.getParameter("idx");
 		
-		if (memberId == null || memberId.isBlank())
+		if (memberId == null || memberId.isBlank()) {
 			JSFunction.alertBack(response, "잘못된 접근입니다.");
-		if (cUtil.parseInt(idx) < 1)
+			return;
+		}
+		if (cUtil.parseInt(idx) < 1) {
 			JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
+			return;
+		}
 		
 		LearningLikeDAO likeDAO = new LearningLikeDAO();
 		int result = likeDAO.createLearningLikeByMemberId(idx, memberId);

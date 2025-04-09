@@ -106,16 +106,26 @@ public class LearningModifyController extends HttpServlet {
 		String deleteShared = request.getParameter("deleteShared");
 		
 		// validation 체크 루틴
-		if (cUtil.parseInt(idx) < 1) 
+		if (cUtil.parseInt(idx) < 1) {
 			JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
-		if (!loginMemberId.equalsIgnoreCase(memberId)) 
+			return;
+		}
+		if (!loginMemberId.equalsIgnoreCase(memberId)) {
 			JSFunction.alertLocation(response, "href", "권한이 없습니다.", url);
-		if (learningTitle == null || learningTitle.length() < 1 || learningTitle.length() > 100) 
+			return;
+		}
+		if (learningTitle == null || learningTitle.length() < 1 || learningTitle.length() > 100) {
 			JSFunction.alertBack(response, "제목을 1자 이상 100자 이하로 입력하세요.");
-		if (learningContent == null || learningContent.length() < 1) 
+			return;
+		}
+		if (learningContent == null || learningContent.length() < 1) {
 			JSFunction.alertBack(response, "내용을 입력하세요.");
-		if (isVisible.equals("Y") && (learningStartedAt == null || learningEndedAt == null)) 
+			return;
+		}
+		if (isVisible.equals("Y") && (learningStartedAt == null || learningEndedAt == null)) {
 			JSFunction.alertBack(response, "오늘의 학습 노출기간을 입력하세요.");
+			return;
+		}
 		
 		List<LearningSharedDTO> addList = getSharedDTOList(memberId, addShared);
 		List<LearningSharedDTO> deleteList = getSharedDTOList(memberId, deleteShared);

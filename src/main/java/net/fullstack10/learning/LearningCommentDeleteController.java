@@ -49,14 +49,22 @@ public class LearningCommentDeleteController extends HttpServlet {
 		String learningIdx = request.getParameter("learningIdx");
 		String commentIdx = request.getParameter("commentIdx");
 		
-		if (loginMemberId == null || loginMemberId.isBlank()) 
+		if (loginMemberId == null || loginMemberId.isBlank()) {
 			JSFunction.alertLocation(response, "href", "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do");
-		if (memberId == null || memberId.isBlank()) 
+			return;
+		}
+		if (memberId == null || memberId.isBlank()) {
 			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
-		if (!loginMemberId.equalsIgnoreCase(memberId)) 
+			return;
+		}
+		if (!loginMemberId.equalsIgnoreCase(memberId)) {
 			JSFunction.alertBack(response, "사용자 정보가 일치하지 않습니다.");
-		if (commentIdx == null || commentIdx.isBlank()) 
+			return;
+		}
+		if (commentIdx == null || commentIdx.isBlank()) {
 			JSFunction.alertBack(response, "댓글 정보가 올바르지 않습니다.");
+			return;
+		}
 			
 		LearningCommentDAO commentDAO = new LearningCommentDAO();
 		int result = commentDAO.deleteLearningCommentByIdx(commentIdx);

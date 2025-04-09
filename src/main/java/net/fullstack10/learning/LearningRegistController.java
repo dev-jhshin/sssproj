@@ -73,10 +73,22 @@ public class LearningRegistController extends HttpServlet {
 		}
 		
 		// validation 체크 루틴
-		if (loginMemberId == null || loginMemberId.isEmpty()) JSFunction.alertBack(response, "사용자 정보가 없습니다.");
-		if (learningTitle == null || learningTitle.length() < 1 || learningTitle.length() > 100) JSFunction.alertBack(response, "제목을 1자 이상 100자 이하로 입력하세요.");
-		if (learningContent == null || learningContent.length() < 1) JSFunction.alertBack(response, "내용을 입력하세요.");
-		if (isVisible.equals("Y") && (learningStartedAt == null || learningEndedAt == null)) JSFunction.alertBack(response, "오늘의 학습 노출기간을 입력하세요.");
+		if (loginMemberId == null || loginMemberId.isEmpty()) {
+			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
+			return;
+		}
+		if (learningTitle == null || learningTitle.length() < 1 || learningTitle.length() > 100) {
+			JSFunction.alertBack(response, "제목을 1자 이상 100자 이하로 입력하세요.");
+			return;
+		}
+		if (learningContent == null || learningContent.length() < 1) {
+			JSFunction.alertBack(response, "내용을 입력하세요.");
+			return;
+		}
+		if (isVisible.equals("Y") && (learningStartedAt == null || learningEndedAt == null)) {
+			JSFunction.alertBack(response, "오늘의 학습 노출기간을 입력하세요.");
+			return;
+		}
 
 		LearningDTO learningDTO = new LearningDTO();
 		learningDTO.setMemberId(loginMemberId);

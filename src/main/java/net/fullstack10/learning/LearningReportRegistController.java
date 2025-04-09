@@ -42,12 +42,18 @@ public class LearningReportRegistController extends HttpServlet {
 		String idx = request.getParameter("idx");
 		String content = request.getParameter("content");
 		
-		if (loginMemberId == null || loginMemberId.isBlank())
+		if (loginMemberId == null || loginMemberId.isBlank()) {
 			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
-		if (content == null || content.isBlank())
+			return;
+		}
+		if (content == null || content.isBlank()) {
 			JSFunction.alertBack(response, "내용을 입력하세요.");
-		if (content == null || content.isBlank())
+			return;
+		}
+		if (content == null || content.isBlank()) {
 			JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
+			return;
+		}
 		
 		LearningDAO learningDAO = new LearningDAO();
 		int result = learningDAO.createLearningReport(loginMemberId, idx, content);

@@ -37,7 +37,10 @@ String requestURL = request.getRequestURL().toString();
 		session.setAttribute("redirectURL", requestURL);
 		
 		String loginMemberId = (String)session.getAttribute("memberId");
-		if (loginMemberId == null || loginMemberId.isEmpty()) JSFunction.alertBack(response, "사용자 정보가 없습니다.");
+		if (loginMemberId == null || loginMemberId.isEmpty()) {
+			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
+			return;
+		}
 		
 		Map<String, String> map = new HashMap<>();
 		
