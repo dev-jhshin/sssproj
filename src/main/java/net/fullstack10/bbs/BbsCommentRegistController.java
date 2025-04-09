@@ -53,11 +53,12 @@ public class BbsCommentRegistController extends HttpServlet {
 		if(bbsIdx == null || !(cUtil.parseInt(bbsIdx) > 0)) { JSFunction.alertBack(response, "게시글 정보가 없습니다."); return; }
 
 		bbsDAO = new BbsDAO();
-		int result = bbsDAO.setBbsCommentRegist(bbsIdx, memberId, content);
+		int commentIdx = bbsDAO.setBbsCommentRegist(bbsIdx, memberId, content);
 		bbsDAO.close();
 
-		if (result > 0) {
-			JSFunction.alertLocation(response, "댓글 등록이 완료되었습니다.", "/sssproj/bbs/view.do?idx=" + bbsIdx); return;
+		if (commentIdx > 0) {
+			// JSFunction.alertLocation(response, "댓글 등록이 완료되었습니다.", "/sssproj/bbs/view.do?idx=" + bbsIdx); return;
+			JSFunction.alertLocation(response, "댓글 등록이 완료되었습니다.", "/sssproj/bbs/view.do?idx=" + bbsIdx + "#frmComment" + commentIdx);
 		}
 		JSFunction.alertLocation(response, "댓글 등록에 실패했습니다.", "/sssproj/bbs/view.do?idx=" + bbsIdx);
 

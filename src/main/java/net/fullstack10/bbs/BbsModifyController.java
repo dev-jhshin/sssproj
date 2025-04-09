@@ -3,6 +3,7 @@ package net.fullstack10.bbs;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import jakarta.servlet.ServletException;
@@ -42,7 +43,6 @@ public class BbsModifyController extends HttpServlet {
 
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter wrt = response.getWriter();
 
 		HttpSession session = request.getSession();
 		String sMemberId = (String)session.getAttribute("memberId");
@@ -50,13 +50,16 @@ public class BbsModifyController extends HttpServlet {
 
 		bbsDAO = new BbsDAO();
 		BbsDTO dto = bbsDAO.getBbs(request.getParameter("idx"), sMemberId);
-		bbsDAO.close();
 
 		if(!dto.getMemberId().equalsIgnoreCase(sMemberId)) { JSFunction.alertBack(response, "권한이 없습니다."); }
-
+		
 		Map<String, Object> pMap = new HashMap<>();
 		pMap.put("bbs", dto);
 		request.setAttribute("pMap", pMap);
+		
+		List<String> categories = bbsDAO.getBbsCategory();
+		request.setAttribute("categories", categories);
+		bbsDAO.close();
 
 		request.getRequestDispatcher("/WEB-INF/views/bbs2/cmModify.jsp").forward(request, response);
 	}
@@ -80,7 +83,7 @@ public class BbsModifyController extends HttpServlet {
 		String sMemberId = (String) request.getSession().getAttribute("memberId");
 		String[] deleteFileIdxes = request.getParameterValues("deleteFileIdx");
 
-		if (idx < 1) { JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");}
+		if (idx < 1) { JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다."); return;}
 
 		if (!sMemberId.equalsIgnoreCase(memberId)) { JSFunction.alertLocation(response, "권한이 없습니다.", "/sssproj/bbs/view.do?idx=" + idx); return; }
 
@@ -93,7 +96,6 @@ public class BbsModifyController extends HttpServlet {
 		if(category.equalsIgnoreCase("직접입력")) {
 			if(customCategory == null || !(customCategory.length() > 0)) { JSFunction.alertBack(response, "카테고리를 입력해주세요."); return; }
 		}
-
 
 		if(deleteFileIdxes != null) {
 			for(String deleteFileIdx : deleteFileIdxes) {
@@ -110,7 +112,11 @@ public class BbsModifyController extends HttpServlet {
 		dto.setIdx(idx);
 		dto.setBbsTitle(title);
 		dto.setBbsContent(content);
-		dto.setBbsCategory(category);
+		if(category.equalsIgnoreCase("직접입력")) {
+			dto.setBbsCategory(customCategory);
+		} else {
+			dto.setBbsCategory(category);
+		}
 		if(request.getParts() != null) {
 			BbsFileUpload bfu = new BbsFileUpload();
 			dto.setFiles(bfu.fileUpload(request, saveDir));

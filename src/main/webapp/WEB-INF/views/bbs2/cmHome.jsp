@@ -11,6 +11,8 @@
 <link href="<c:url value='/css/sidebar.css?<%=new Date()%>' />" rel="stylesheet" type="text/css">
 <title>커뮤니티</title>
 </head>
+	
+
 <body>
 	<c:set var="dUtil" value="<%=new CommonDateUtil()%>" scope="request" />
 	<div class="page-container">
@@ -52,10 +54,10 @@
 			</div>
 
 			<!-- 서치섹션 -->
-			<form name="search-form" id="search-form" method="get"
-				action="list.do">
+			<form name="search-form" id="search-form" method="get" action="list.do">
 				<input type="hidden" name="category" id="category" value="${pMap.category }" />
 				<div class="search-section">
+				
 					<div class="search-row">
 						<div class="search-name">기간</div>
 						<div class="search-content">
@@ -66,6 +68,7 @@
 							</div>
 						</div>
 					</div>
+					
 					<div class="search-row">
 						<div class="search-name">구분</div>
 						<div class="search-content">
@@ -75,14 +78,12 @@
 								<option value="bbsContent" ${pMap.searchCategory eq 'bbsContent' ? 'selected="selected"' : ''}>글내용</option>
 								<option value="memberId" ${pMap.searchCategory eq 'memberId' ? 'selected="selected"' : ''}>작성자</option>
 							</select> 
-							<input type="text" class="search-input" name="search_word" autocomplete="off"
-								placeholder="검색할 키워드 입력" value="${pMap.searchWord}">
-								</div>
-								<div class="search-btn-set">
-         							<button class="search-btn">검색</button>
-   							        <input type="button" class="search-btn search-init" value="초기화"
-								     onclick="searchInit()">
-								</div>
+							<input type="text" class="search-input" name="search_word" autocomplete="off" placeholder="검색할 키워드 입력" value="${pMap.searchWord}">
+						</div>
+						<div class="search-btn-set">
+							<button class="search-btn">검색</button>
+							<input type="button" class="search-btn search-init" value="초기화" onclick="searchInit()">
+						</div>
 						</div>
 					</div>
 				</div>
@@ -105,6 +106,7 @@
 						</c:otherwise>
 					</c:choose>
 				</div>
+
 				<span>
 				<select class="pagedropdown" onchange="updatePageSize(this)">
 					<option value="5"
@@ -142,7 +144,8 @@
 						<c:forEach items="${pMap.bbsList }" var="bbs">
 							<tr>
 								<c:if test="${empty pMap.category }">
-									<td><a href="list.do?category=${bbs.bbsCategory }" >${bbs.bbsCategory }</a></td>
+									<c:set var="bbsCategory" value="${ bbs.bbsCategory}"/>
+									<td><a href="list.do?category=${bbsCategory }" >${fn:substring(bbsCategory, 0, 4) }<c:if test="${fn:length(bbsCategory)>4 }">...</c:if></a></td>
 								</c:if>
 								<c:if test="${not empty pMap.category }">
 									<td>${bbs.idx }</td>
@@ -178,57 +181,61 @@
 
 	<script>
 	
-     // 등록 버튼 클릭 이동
-     const registButton = document.getElementById('registButton');
-     if(registButton) {
-	     registButton.addEventListener('click', function() {
-	    	 window.location.href = 'regist.do';
-	     });
-     }
-
-     const categoryBtns = document.querySelectorAll('.category-btn');
-     console.log(categoryBtns);
-     categoryBtns.forEach((categoryBtn)=> {
-    	 categoryBtn.addEventListener('click', () => {
-    		 console.log("clicked");
-    		 if(categoryBtn.value !== "전체") {
-        	 	document.getElementById('category').value = categoryBtn.value;
-    		 } else {
-    			 document.getElementById('category').value = "";
-    		 }
-        	 document.querySelector(".category-btn").value = "";
-        	 document.querySelector(".search-input").value = "";
-        	 document.querySelector('#search-form').submit();
-    	 })
-     })
-     
-	function searchInit() {
-    	 window.location.href='list.do';
-     }
-     
-     function updatePageSize(e) {
-    	 
-    	let pageSize = e.value;
-   		// URL에 쿼리 파라미터를 추가하거나 수정
-   	    let currentUrl = window.location.href;
-		let newUrl = currentUrl.split('?')[0]; // 기존 URL에서 쿼리 스트링 제거
-		let newLocation = newUrl + "?page_size=" + pageSize; // 원하는 파라미터 추가
-		newLocation += "&category=${pMap.category}";
-   	    // 페이지 이동
-   	    window.location.href = newLocation;
-     }
-     const orderByLikeCnt = document.getElementById('orderByLikeCnt');
-     orderByLikeCnt.addEventListener('click', () => {
-    	 const params = new URLSearchParams(window.location.search);
-    	 params.set("searchOrder", "orderByLikeCnt");
-    	 window.location.href='./list.do?'+params.toString();
-     })
-     const orderByViewCnt = document.getElementById('orderByViewCnt');
-     orderByViewCnt.addEventListener('click', () => {
-    	 const params = new URLSearchParams(window.location.search);
-    	 params.set("searchOrder", "orderByViewCnt");
-    	 window.location.href='./list.do?'+params.toString();
-     })
+		// 등록 버튼 클릭 이동
+		const registButton = document.getElementById('registButton');
+		if(registButton) {
+			registButton.addEventListener('click', function() {
+				 window.location.href = 'regist.do';
+				});
+		}
+		
+		// 카테고리 선택 시 
+		const categoryBtns = document.querySelectorAll('.category-btn');
+		console.log(categoryBtns);
+		categoryBtns.forEach((categoryBtn)=> {
+			 categoryBtn.addEventListener('click', () => {
+				 console.log("clicked");
+				 if(categoryBtn.value !== "전체") {
+					document.getElementById('category').value = categoryBtn.value;
+				 } else {
+					document.getElementById('category').value = "";
+				 }
+				document.querySelector(".category-btn").value = "";
+				document.querySelector(".search-input").value = "";
+				document.querySelector('#search-form').submit();
+			})
+		})
+		
+		// 검색 초기화
+		function searchInit() {
+			window.location.href='list.do';
+		}
+		
+		// 페이지 사이즈 
+		function updatePageSize(e) {	 
+			let pageSize = e.value;
+			let currentUrl = window.location.href;
+			let newUrl = currentUrl.split('?')[0];
+			let newLocation = newUrl + "?page_size=" + pageSize;
+			newLocation += "&category=${pMap.category}";
+			window.location.href = newLocation;
+		}
+			
+		// 좋아요순 
+		const orderByLikeCnt = document.getElementById('orderByLikeCnt');
+		orderByLikeCnt.addEventListener('click', () => {
+			const params = new URLSearchParams(window.location.search);
+			params.set("searchOrder", "orderByLikeCnt");
+			window.location.href='./list.do?'+params.toString();
+		});
+		
+		// 조회수순 
+		const orderByViewCnt = document.getElementById('orderByViewCnt');
+		orderByViewCnt.addEventListener('click', () => {
+			const params = new URLSearchParams(window.location.search);
+			params.set("searchOrder", "orderByViewCnt");
+			window.location.href='./list.do?'+params.toString();
+		});
 </script>
 </body>
 </html>

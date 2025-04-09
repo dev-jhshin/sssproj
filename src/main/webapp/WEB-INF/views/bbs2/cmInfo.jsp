@@ -81,6 +81,19 @@
 			<!-- 댓글 섹션 -->
 			<div class="comment-section">
 				<div class="comment-list-section" id="commentList">
+				<!--  댓글 작성 부분  -->
+					<div class="comment-on-section">
+						<c:if test="${not empty sessionScope.memberId }">
+						<form name="frmCommentRegist" action="comment/regist.do"
+								method="post">
+							<div class="comment-input-section">
+									<input type="hidden" name="bbs_idx" value="${bbs.idx }" /> 
+									<input type="text" placeholder="댓글 내용을 입력하세요." class="comment-input" name="comment_content" id="comment_content" autocomplete="off">
+									<input type="submit" class=" comment-button btn" id="commentButton" value="등록" />
+							</div>
+						</form>
+						</c:if>
+					</div>
 					<!--  댓글 조회 부분  -->
 					<c:if test="${empty bbs.comments }" >
 						<div class="comment-list">
@@ -117,19 +130,6 @@
 							</div>
 						</form>
 					</c:forEach>
-					<!--  댓글 작성 부분  -->
-					<div class="comment-on-section">
-					<c:if test="${not empty sessionScope.memberId }">
-					<form name="frmCommentRegist" action="comment/regist.do"
-							method="post">
-						<div class="comment-input-section">
-								<input type="hidden" name="bbs_idx" value="${bbs.idx }" /> 
-								<input type="text" placeholder="댓글 내용을 입력하세요." class="comment-input" name="comment_content" id="comment_content" autocomplete="off">
-								<input type="submit" class=" comment-button btn" id="commentButton" value="등록" />
-						</div>
-					</form>
-					</c:if>
-				</div>
 				</div>
 			</div>
 				<!-- 버튼 세트 -->

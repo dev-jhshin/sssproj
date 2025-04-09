@@ -212,6 +212,7 @@ public class BbsDAO extends DBConnPool {
 		sql3.append("SELECT idx, bbsIdx, memberId, commentContent, createdAt, updatedAt ");
 		sql3.append(" FROM tbl_bbs_comment ");
 		sql3.append(" WHERE bbsIdx = ? ");
+		sql3.append(" ORDER BY idx desc ");
 
 		try {
 			int index = 1;
@@ -428,22 +429,31 @@ public class BbsDAO extends DBConnPool {
 	 * @return int
 	 */
 	public int setBbsCommentRegist(String bbsIdx, String memberId, String comment) {
+		
+		int commentIdx = 0;
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into tbl_bbs_comment ( ");
 		sql.append(" bbsIdx, memberId, commentContent ");
 		sql.append(") values (");
 		sql.append("?, ?, ? )");
-
+		
 		try {
-			pstm = conn.prepareStatement(sql.toString());
+			pstm = conn.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			pstm.setString(1, bbsIdx);
 			pstm.setString(2, memberId);
 			pstm.setString(3, comment);
-			return pstm.executeUpdate();
+			pstm.executeUpdate();
+			try (ResultSet rs = pstm.getGeneratedKeys()) {
+				if(rs.next()) {
+					commentIdx = rs.getInt(1);
+				} else {
+					throw new SQLException("게시글 등록 실패");
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return commentIdx;
 	}
 	public int setBbsCommentModify(String commentIdx, String comment) {
 		StringBuilder sql = new StringBuilder();
