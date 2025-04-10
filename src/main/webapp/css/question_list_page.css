@@ -246,11 +246,17 @@ header {
             width: 10%;
             font-size: 1rem;
             font-family: 'Dovemayo_gothic'; 
+             overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
           }
           
           .board_list .title {
             width: 40%;
             text-align: center;
+            overflow:hidden;
+      		text-overflow:ellipsis;
+      		white-space:nowrap;
           }
           
           .board_list .top .title {
@@ -264,30 +270,45 @@ header {
               font-size: 1rem;
               line-height: 38px;
               font-family: 'Dovemayo_gothic';
+              overflow:hidden;
+      		  text-overflow:ellipsis;
+      		white-space:nowrap;
             }
           
           .board_list .content {
             width:20%;
             font-size: 1rem;
             font-family: 'Dovemayo_gothic'; 
+            overflow:hidden;
+      		text-overflow:ellipsis;
+      		white-space:nowrap;
           }
           
           .board_list .writer {
             width: 10%;
             font-size: 1rem;
             font-family: 'Dovemayo_gothic'; 
+            overflow:hidden;
+      		text-overflow:ellipsis;
+      		white-space:nowrap;
           }
           
           .board_list .date {
             width: 10%;
             font-size: 1rem;
             font-family: 'Dovemayo_gothic'; 
+            overflow:hidden;
+      		text-overflow:ellipsis;
+      		white-space:nowrap;
           }
           
           .board_list .count {
             width: 10%;
             font-size: 1rem;
             font-family: 'Dovemayo_gothic'; 
+            overflow:hidden;
+      		text-overflow:ellipsis;
+      		white-space:nowrap;
           }
           
           .board_page {
