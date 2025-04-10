@@ -582,27 +582,14 @@ body {
     margin-bottom: 6px;
     font-size: 14px;
 }
-.comment-header-content{
-	display : flex;
-}
 .comment-user {
     font-weight: bold;
-    font-size:15px;
     color: #333;
 }
-
 .comment-date {
     color: #888;
     font-size: 12px;
-    margin-left: 30px;
-    margin-top:4px;
 }
-.comment-btn-set{
-	display: flex;
-	padding : 1px 5px ;
-	gap : 7px;
-}
-
 .comment-btn {
 	font-size: 12px;
 	font-family: 'Dovemayo_gothic';
@@ -612,18 +599,8 @@ body {
 	text-decoration: underline;
 }
 .comment-modify-btn{
-<<<<<<< HEAD
-    border:none;
-	font-size:12px;
-	font-weight: bold;
-	color: #888;
-=======
-	color: #999;
->>>>>>> origin/hyeon
-	
-}
-.comment-delete-btn{
-	color: #ed6666;
+    color: #999;
+    cursor: pointer;
 }
 
 .comment-content {
@@ -632,10 +609,10 @@ body {
     line-height: 1.4;
 }
 .comment-input-section {
-	height: 50px;
+	height: 60px;
     position: relative;
     display: flex;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .comment-input{
@@ -650,9 +627,10 @@ body {
 }
 .comment-button{
     position: absolute;
-    top: 5px;
-    bottom: 5px;
-    right: 5px;
+    top: 8px;
+    bottom: 8px;
+    right: 8px;
+    margin: 4px;
     padding: 10px 20px;
     background-color: #95C14F;
     color: white;
