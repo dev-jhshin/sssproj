@@ -98,12 +98,20 @@
 					                    <td>${ post.learningTitle }</td>
 					                    <td>
 					                    	<c:if test="${ not empty post.sharedList }">
-					                    		<c:forEach items="${ post.sharedList }" var="shareInfo">
-							                    	${ shareInfo.sharedToName } ( ${ dUtil.localDateTimeToString(shareInfo.createdAt) } )
+					                    		<c:forEach items="${ post.sharedList }" var="shareInfo" varStatus="status">
+					                    			<c:choose>
+					                    				<c:when test="${ param.type eq 'sharedFrom' }">
+					                    					${ shareInfo.sharedFromName }
+					                    				</c:when>
+					                    				<c:otherwise>
+					                    					${ shareInfo.sharedToName }
+					                    				</c:otherwise>
+					                    			</c:choose>
+							                    	(${ dUtil.localDateTimeToString(shareInfo.createdAt) })<c:if test="${ not status.last }">, </c:if>
 							                    </c:forEach>
 					                    	</c:if>
 					                    </td>
-					                    <td>${ dUtil.localDateTimeToString(post.createdAt) }</td>
+					                    <td>${ dUtil.toString(post.createdAt) }</td>
 					                </tr>
 					            </c:forEach>
 					        </c:when>
@@ -141,10 +149,10 @@
 			const params = new URLSearchParams(window.location.search);
 			const order = params.get("type");
 	
-			if (order === "sharedTo") {
-				setActiveOrderButton("orderSharedToButton");
-			} else {
+			if (order === "sharedFrom") {
 				setActiveOrderButton("orderSharedFromButton");
+			} else {
+				setActiveOrderButton("orderSharedToButton");
 			}
 		});
    	

@@ -485,6 +485,7 @@ public class LearningDAO extends DBConnPool {
 		// LearningQueryHelper.addOrderBy(sql, map.get("orderColumn"), map.get("orderDirection"));
 		LearningQueryHelper.addPagination(sql, map.get("pageSkipCount"), map.get("pageSize"));
 
+		System.out.println("공유받은 학습 게시글 목록 조회: " + sql.toString());
 		try {
 			pstm = conn.prepareStatement(sql.toString());
 
@@ -526,7 +527,7 @@ public class LearningDAO extends DBConnPool {
 
 		StringBuilder sql = new StringBuilder();
 		sql.append(" SELECT ");
-		sql.append(" tl.idx AS idx, tl.learningTitle AS learningTitle, tl.createdAt AS createdAt ");
+		sql.append(" tl.idx AS idx, tl.memberId AS memberId, tl.learningTitle AS learningTitle, tl.createdAt AS createdAt ");
 		sql.append(" FROM tbl_learning AS tl ");
 		sql.append(" INNER JOIN tbl_learning_share AS tls ON tl.idx = tls.learningIdx ");
 		sql.append(" WHERE tls.sharedFrom = ? ");
@@ -539,6 +540,7 @@ public class LearningDAO extends DBConnPool {
 		LearningQueryHelper.addOrderBy(sql, map.get("orderColumn"), map.get("orderDirection"));
 		LearningQueryHelper.addPagination(sql, map.get("pageSkipCount"), map.get("pageSize"));
 
+		System.out.println("공유한 학습 게시글 목록 조회: " + sql.toString());
 		try {
 			pstm = conn.prepareStatement(sql.toString());
 
@@ -552,6 +554,7 @@ public class LearningDAO extends DBConnPool {
 			while(rs.next()) {
 				LearningDTO dto = new LearningDTO();
 				dto.setIdx(rs.getInt("idx"));
+				dto.setMemberId(rs.getString("memberId"));
 				dto.setLearningTitle(rs.getString("learningTitle"));
 				dto.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
 
