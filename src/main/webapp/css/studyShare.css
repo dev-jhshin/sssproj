@@ -189,16 +189,17 @@ body {
 
 /* 리스트 테이블 */
 .table-container {
-    width: 100%;
     overflow-x: auto;
     background-color: white; 
     border-radius: 8px;
-
 }
 
 table {
-    width: 100%;
+	width: 100%;
     border-collapse: collapse;
+  	table-layout: auto;   
+  	min-width: max-content;
+	white-space: nowrap;
 }
 
 th, td {
@@ -220,6 +221,29 @@ td {
 
 .list-th {
 	background-color : white;
+}
+
+.learningTitle {
+	width: 40%;
+	max-width: 1px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.learningTitle a {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.learningTitle a:hover {
+	color: green;
+	text-decoration: underline;
+	cursor:pointer;
 }
 
 /* 페이징 */

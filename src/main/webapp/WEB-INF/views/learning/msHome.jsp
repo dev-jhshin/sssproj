@@ -81,29 +81,32 @@
             <div class="table-container">
                 <table>
                     <thead>
-                        <tr>
+                        <tr style="font-size:14px;">
                             <th>No</th>
                             <th>제목</th>
                             <th>등록일</th>
                             <th>좋아요</th>
-                            <th>오늘의 학습<br>노출여부</th>
-                            <th>오늘의 학습<br>노출기간</th>
+                            <th>오늘의 학습 노출기간</th>
                         </tr>
                     </thead>
                     <tbody>
                     	 <c:choose>
 					        <c:when test="${ not empty learningList }">
 					            <c:forEach var="post" items="${ learningList }">
-					                <tr class="viewButton" data-href="./view.do?idx=${ post.idx }">
+					                <tr class="viewButton">
 					                    <td>${ post.idx }</td>
-					                    <td class="learningTitle">${ post.learningTitle }</td>
-					                    <td>${ dUtil.localDateTimeToString(post.createdAt) }</td>
+					                    <td class="learningTitle"><a href="./view.do?idx=${ post.idx }">${ post.learningTitle }</a></td>
+					                    <td>${ dUtil.toString(post.createdAt) }</td>
 					                    <td>${ post.likeCnt }</td>
-					                    <td>${ post.isVisible ? 'Y' : 'N' }</td>
 					                    <td>
-					                        <c:if test="${ post.isVisible }">
-					                            ${ dUtil.localDateToString(post.learningStartedAt) } ~ ${ dUtil.localDateToString(post.learningEndedAt) }
-					                        </c:if>
+					                    	<c:choose>
+					                    		<c:when test="${ post.isVisible }">
+					                    			${ dUtil.localDateToString(post.learningStartedAt) } ~ ${ dUtil.localDateToString(post.learningEndedAt) }
+					                    		</c:when>
+					                    		<c:otherwise>
+					                    			N
+					                    		</c:otherwise>
+					                    	</c:choose>
 					                    </td>
 					                </tr>
 					            </c:forEach>
@@ -122,8 +125,8 @@
             <div class="paging">
                 ${ paging }
             </div>
-            
-            <button class="regist-btn" id="registButton">학습 등록</button>
+            <hr>
+            <button class="regist-btn" id="registButton">등록</button>
         </div>
     </div>
     
@@ -202,13 +205,6 @@
 		const params = new URLSearchParams(window.location.search);
 		params.set("orderColumn", "likeCnt");
 		window.location.href = "./my_list.do?"+ params.toString();
-	});
-	
-	// 게시글 상세 페이지 이동
-	document.querySelectorAll(".viewButton").forEach((e) => {
-		e.addEventListener("click", function () {
-			window.location.href = this.dataset.href;
-		});
 	});
 
     // 등록 버튼 클릭 이동
