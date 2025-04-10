@@ -10,6 +10,9 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.CommonUtil;
 import net.fullstack10.common.JSFunction;
+import net.fullstack10.validation.CommentValidationUtil;
+import net.fullstack10.validation.LearningValidationUtil;
+import net.fullstack10.validation.ValidationUtil;
 
 /**
  * Servlet implementation class LearningCommentController
@@ -43,18 +46,9 @@ public class LearningCommentRegistController extends HttpServlet {
 		String learningIdx = request.getParameter("learningIdx");
 		String content = request.getParameter("commentContent");
 		
-		if (loginMemberId == null || loginMemberId.isBlank()) {
-			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
-			return;
-		}
-		if (learningIdx == null || cUtil.parseInt(learningIdx) < 1) {
-			JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
-			return;
-		}
-		if (content == null || content.isBlank()) {
-			JSFunction.alertBack(response, "내용을 입력해주세요.");
-			return;
-		}
+		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
+		if(!CommentValidationUtil.isValidIdx(learningIdx, response)) return;
+		if(!LearningValidationUtil.isValidContent(content, response)) return;
 	
 		LearningCommentDAO commentDAO = new LearningCommentDAO();
 		int commentIdx = commentDAO.createLearningComment(learningIdx, loginMemberId, content);

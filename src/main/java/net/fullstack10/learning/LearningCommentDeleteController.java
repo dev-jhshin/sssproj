@@ -10,6 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.CommonUtil;
 import net.fullstack10.common.JSFunction;
+import net.fullstack10.validation.CommentValidationUtil;
+import net.fullstack10.validation.ValidationUtil;
 
 /**
  * Servlet implementation class LearningCommentDeleteController
@@ -51,22 +53,10 @@ public class LearningCommentDeleteController extends HttpServlet {
 		String learningIdx = request.getParameter("learningIdx");
 		String commentIdx = request.getParameter("commentIdx");
 		
-		if (loginMemberId == null || loginMemberId.isBlank()) {
-			JSFunction.alertLocation(response, "href", "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do");
-			return;
-		}
-		if (memberId == null || memberId.isBlank()) {
-			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
-			return;
-		}
-		if (!loginMemberId.equalsIgnoreCase(memberId)) {
-			JSFunction.alertBack(response, "사용자 정보가 일치하지 않습니다.");
-			return;
-		}
-		if (commentIdx == null || commentIdx.isBlank()) {
-			JSFunction.alertBack(response, "댓글 정보가 올바르지 않습니다.");
-			return;
-		}
+		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
+		if(!ValidationUtil.hasValidMemberId(memberId, response)) return;
+		if(!ValidationUtil.hasPermission(loginMemberId, memberId, response)) return;
+		if(!CommentValidationUtil.isValidIdx(commentIdx, response)) return;
 
 		LearningCommentDAO commentDAO = new LearningCommentDAO();
 		int result = commentDAO.deleteLearningCommentByIdx(commentIdx);

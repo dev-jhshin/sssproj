@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.CommonUtil;
 import net.fullstack10.common.JSFunction;
+import net.fullstack10.validation.ValidationUtil;
 
 /**
  * Servlet implementation class LearningLikeRegistController
@@ -29,21 +30,15 @@ public class LearningLikeRegistController extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 
 		HttpSession session = request.getSession();
-		String memberId = (String) session.getAttribute("memberId");
+		String loginMemberId = (String) session.getAttribute("memberId");
 
 		String idx = request.getParameter("idx");
 		
-		if (memberId == null || memberId.isBlank()) {
-			JSFunction.alertBack(response, "잘못된 접근입니다.");
-			return;
-		}
-		if (cUtil.parseInt(idx) < 1) {
-			JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
-			return;
-		}
+		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
+		if(!ValidationUtil.isValidIdx(idx, response)) return;
 		
 		LearningLikeDAO likeDAO = new LearningLikeDAO();
-		int result = likeDAO.createLearningLikeByMemberId(idx, memberId);
+		int result = likeDAO.createLearningLikeByMemberId(idx, loginMemberId);
 		likeDAO.close();
 		
 		// String msg = (result > 0 ? "좋아요를 등록을 성공했습니다." : "좋아요 등록에 실패했습니다.");

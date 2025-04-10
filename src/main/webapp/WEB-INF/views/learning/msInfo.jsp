@@ -206,12 +206,12 @@
 									<input type="hidden" name="commentIdx" value="${ comment.idx }" /> 
 				                	<input type="hidden" name="memberId" value="${ comment.memberId }" /> 
 				                	<div class="comment-header">
-				                        <div class="comment-header-content">
+				                        <div class="comment-user-date">
 				                           <div class="comment-user">${ comment.memberId }</div>
 				                           <div class="comment-date">
-				                           		${ dUtil.localDateTimeToString(comment.createdAt) } &nbsp;&nbsp;
+				                           		${ dUtil.localDateTimeToString(comment.createdAt) }
 				                           		<c:if test="${ not empty comment.updatedAt and (comment.createdAt ne comment.updatedAt) }">
-													${ dUtil.localDateTimeToString(comment.updatedAt) }	수정                           		
+													(수정: ${ dUtil.localDateTimeToString(comment.updatedAt) } )                          		
 				                           		</c:if>
 				                           </div>
 				                        </div>

@@ -17,6 +17,9 @@ import net.fullstack10.common.CommonFileUtil;
 import net.fullstack10.common.CommonUtil;
 import net.fullstack10.common.JSFunction;
 import net.fullstack10.file.FileDTO;
+import net.fullstack10.validation.CommentValidationUtil;
+import net.fullstack10.validation.LearningValidationUtil;
+import net.fullstack10.validation.ValidationUtil;
 
 /**
  * Servlet implementation class LearningModifyController
@@ -38,23 +41,18 @@ public class LearningModifyController extends HttpServlet {
 
 		HttpSession session = request.getSession();
 		String loginMemberId = (String)session.getAttribute("memberId");
-
-		if (loginMemberId == null || loginMemberId.isEmpty()) {
-			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
-			return;
-		}
-
 		String idx = request.getParameter("idx");
 
 		LearningDAO learningDAO = new LearningDAO();
 		LearningDTO learningDTO = learningDAO.getLearningByIdx(idx);
 		learningDAO.close();
-
-		if (!learningDTO.getMemberId().equalsIgnoreCase(loginMemberId)) {
-			JSFunction.alertBack(response, "권한이 없습니다.");
-			return;
-		}
-
+		
+		String memberId = learningDTO.getMemberId();
+		
+		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
+		if(!ValidationUtil.hasValidMemberId(memberId, response)) return;
+		if(!ValidationUtil.hasPermission(loginMemberId, memberId, response)) return;
+		if(!ValidationUtil.isValidIdx(idx, response)) return;
 		// learningDTO.setLearningContent(learningDTO.getLearningContent().replace("\n", "<br>"));
 		String[] topics = (learningDTO.getTopic() != null && !learningDTO.getTopic().isEmpty() ?
 				learningDTO.getTopic().split(",") : new String[0]);
@@ -106,29 +104,16 @@ public class LearningModifyController extends HttpServlet {
 		String hashtags = request.getParameter("hashtags");
 		String addShared = request.getParameter("addShared");
 		String deleteShared = request.getParameter("deleteShared");
-
-		// validation 체크 루틴
-		if (cUtil.parseInt(idx) < 1) {
-			JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
-			return;
-		}
-		if (!loginMemberId.equalsIgnoreCase(memberId)) {
-			JSFunction.alertLocation(response, "href", "권한이 없습니다.", url);
-			return;
-		}
-		if (learningTitle == null || learningTitle.length() < 1 || learningTitle.length() > 100) {
-			JSFunction.alertBack(response, "제목을 1자 이상 100자 이하로 입력하세요.");
-			return;
-		}
-		if (learningContent == null || learningContent.length() < 1) {
-			JSFunction.alertBack(response, "내용을 입력하세요.");
-			return;
-		}
-		if (isVisible.equals("Y") && (learningStartedAt == null || learningEndedAt == null)) {
-			JSFunction.alertBack(response, "오늘의 학습 노출기간을 입력하세요.");
-			return;
-		}
-
+		
+		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
+		if(!ValidationUtil.hasValidMemberId(memberId, response)) return;
+		if(!ValidationUtil.hasPermission(loginMemberId, memberId, response)) return;
+		if(!ValidationUtil.isValidIdx(idx, response)) return;
+		if(!LearningValidationUtil.isValidTitle(learningTitle, response)) return;
+		if(!LearningValidationUtil.isValidContent(learningContent, response)) return;
+		if(!LearningValidationUtil.isValidVisibilityPeriod(isVisible, learningStartedAt, learningEndedAt, response)) return;
+		if(!LearningValidationUtil.isValidDateOrder(learningStartedAt, learningEndedAt, response)) return;
+		
 		List<LearningSharedDTO> addList = getSharedDTOList(memberId, addShared);
 		List<LearningSharedDTO> deleteList = getSharedDTOList(memberId, deleteShared);
 		String[] deleteFileIdxList = request.getParameterValues("deleteFileIdx");

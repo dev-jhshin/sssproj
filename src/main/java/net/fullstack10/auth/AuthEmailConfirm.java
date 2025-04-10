@@ -1,15 +1,14 @@
 package net.fullstack10.auth;
 
+import java.io.IOException;
+
+import javax.mail.MessagingException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import net.fullstack10.common.JSFunction;
-
-import java.io.IOException;
-
-import javax.mail.MessagingException;
 
 
 

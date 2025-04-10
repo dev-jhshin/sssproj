@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.JSFunction;
+import net.fullstack10.validation.ReportValidationUtil;
+import net.fullstack10.validation.ValidationUtil;
 
 /**
  * Servlet implementation class LearningReportRegistController
@@ -44,18 +46,9 @@ public class LearningReportRegistController extends HttpServlet {
 		String idx = request.getParameter("idx");
 		String content = request.getParameter("content");
 		
-		if (loginMemberId == null || loginMemberId.isBlank()) {
-			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
-			return;
-		}
-		if (content == null || content.isBlank()) {
-			JSFunction.alertBack(response, "내용을 입력하세요.");
-			return;
-		}
-		if (content == null || content.isBlank()) {
-			JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
-			return;
-		}
+		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
+		if(!ValidationUtil.isValidIdx(idx, response)) return;
+		if(!ReportValidationUtil.isValidContent(content, response)) return;
 		
 		LearningDAO learningDAO = new LearningDAO();
 		int result = learningDAO.createLearningReport(loginMemberId, idx, content);

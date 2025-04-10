@@ -16,6 +16,8 @@ import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.CommonFileUtil;
 import net.fullstack10.common.JSFunction;
 import net.fullstack10.file.FileDTO;
+import net.fullstack10.validation.LearningValidationUtil;
+import net.fullstack10.validation.ValidationUtil;
 
 /**
  * Servlet implementation class LearningRegistController
@@ -73,24 +75,12 @@ public class LearningRegistController extends HttpServlet {
 			sharedDTO.setSharedTo(user);
 			sharedDTOList.add(sharedDTO);
 		}
-
-		// validation 체크 루틴
-		if (loginMemberId == null || loginMemberId.isEmpty()) {
-			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
-			return;
-		}
-		if (learningTitle == null || learningTitle.length() < 1 || learningTitle.length() > 100) {
-			JSFunction.alertBack(response, "제목을 1자 이상 100자 이하로 입력하세요.");
-			return;
-		}
-		if (learningContent == null || learningContent.length() < 1) {
-			JSFunction.alertBack(response, "내용을 입력하세요.");
-			return;
-		}
-		if (isVisible.equals("Y") && (learningStartedAt == null || learningEndedAt == null)) {
-			JSFunction.alertBack(response, "오늘의 학습 노출기간을 입력하세요.");
-			return;
-		}
+		
+		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
+		if(!LearningValidationUtil.isValidTitle(learningTitle, response)) return;
+		if(!LearningValidationUtil.isValidContent(learningContent, response)) return;
+		if(!LearningValidationUtil.isValidVisibilityPeriod(isVisible, learningStartedAt, learningEndedAt, response)) return;
+		if(!LearningValidationUtil.isValidDateOrder(learningStartedAt, learningEndedAt, response)) return;
 
 		LearningDTO learningDTO = new LearningDTO();
 		learningDTO.setMemberId(loginMemberId);
