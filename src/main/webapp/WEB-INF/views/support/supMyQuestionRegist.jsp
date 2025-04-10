@@ -32,9 +32,6 @@
                 <div class="boardCont">
                     <p>내용</p>
                 </div>
-                <div class="boardImg">
-                    <p>이미지 첨부</p>
-                </div>
             </div>
                 <form name="frmRegist" action="regist.do" method="post">
                     <div class="titleMain">
@@ -42,9 +39,6 @@
                     </div>
                     <div class="contentMain">
                         <textarea name="content"></textarea>
-                    </div>
-                    <div class="imgMain">
-                        <input type="file" id="file"> 
                     </div>
                     <div class="lastBtn">
                         <input class="endBtn" type="submit"  value="작성완료">

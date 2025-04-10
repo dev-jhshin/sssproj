@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import net.fullstack10.auth.AuthDTO;
 import net.fullstack10.file.FileDTO;
 
 public class LearningDTO {
@@ -22,6 +21,7 @@ public class LearningDTO {
 	private int likeCnt;
 	private boolean isPublic;
 	private boolean isVisible;
+	private boolean isLiked;
 	private List<LearningSharedDTO> sharedList;
 	private List<LearningSharedDTO> sharedToAdd;
 	private List<LearningSharedDTO> sharedToRemove;
@@ -29,7 +29,7 @@ public class LearningDTO {
 	private List<FileDTO> filesToAdd;
 	private List<FileDTO> filesToRemove;
 	private List<LearningCommentDTO> comments;
-	
+
 	public int getIdx() {
 		return idx;
 	}
@@ -113,6 +113,12 @@ public class LearningDTO {
 	}
 	public void setIsVisible(boolean isVisible) {
 		this.isVisible = isVisible;
+	}
+	public boolean getIsLiked() {
+		return isLiked;
+	}
+	public void setIsLiked(boolean isLiked) {
+		this.isLiked = isLiked;
 	}
 	public List<LearningSharedDTO> getSharedList() {
 		return sharedList;

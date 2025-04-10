@@ -1,5 +1,7 @@
 package net.fullstack10.manager;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,8 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.JSFunction;
-
-import java.io.IOException;
 
 /**
  * Servlet implementation class ManagerManagerAdd
@@ -20,12 +20,14 @@ public class ManagerManagerAdd extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		int managerStatus = (int)session.getAttribute("managerStatus");
@@ -38,7 +40,7 @@ public class ManagerManagerAdd extends HttpServlet {
 		String managerEmail = request.getParameter("managerEmail");
 		managerEmail = (managerEmail != null) ? managerEmail.trim() : "";
 		int managerStatus2 = Integer.parseInt(request.getParameter("managerStatus"));
-		
+
 		if(managerId == null || managerId.isEmpty() || !managerId.matches("^[a-z0-9]{5,20}$")) {
 			JSFunction.alertLocation(response, "replace", "아이디는 5~20자의 영문 소문자, 숫자만 가능합니다.", "./managerList.do");
 			return;
@@ -69,7 +71,7 @@ public class ManagerManagerAdd extends HttpServlet {
 			dto.setManagerName(managerName);
 			dto.setManagerEmail(managerEmail);
 			dto.setManagerStatus(managerStatus2);
-			
+
 			int rs =dao.managerAdd(dto);
 			dao.close();
 			if(rs>0) {

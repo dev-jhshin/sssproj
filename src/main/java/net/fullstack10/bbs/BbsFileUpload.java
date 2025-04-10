@@ -12,17 +12,17 @@ import net.fullstack10.common.CommonFileUtil;
 
 public class BbsFileUpload {
 	CommonFileUtil fUtil;
-	
+
 	public BbsFileUpload() {
 		fUtil = new CommonFileUtil();
 	}
 	public List<Map> fileUpload(HttpServletRequest request, String saveDir) throws ServletException, IOException {
-		
+
 		String newFile = "";
 		String fileExt = "";
 		List<Map> files = new ArrayList<>();
 		String virtualDir = "/Uploads";
-		
+
 		// 파일 업로드
 		List<String> orgFiles = fUtil.multiFileUpload(request, saveDir);
 		System.out.println(orgFiles);

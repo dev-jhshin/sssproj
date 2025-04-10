@@ -24,7 +24,7 @@ public class AuthDAO extends DBConnPool {
 	 * @example signUp(new AuthDTO("testUser", "testPwd", "홍길동", "1990-01-01", "test@naver.com", "MALE", 1, "답변"))
 	 */
 	public int signUp(AuthDTO dto) {
-	
+
 		StringBuilder sb = new StringBuilder();
 		sb.append("CALL insert_register_member(?,?,?,?,?,?,?,?)");
 		int rs = 0;
@@ -39,7 +39,7 @@ public class AuthDAO extends DBConnPool {
 			pstm.setInt(7, dto.getQuestionId());
 			pstm.setString(8, dto.getAnswer());
 			rs = pstm.executeUpdate();
-			
+
 			if(rs > 0) {
 				System.out.println("회원가입 성공");
 
@@ -52,7 +52,7 @@ public class AuthDAO extends DBConnPool {
 		}
 		return rs;
 	}
-	
+
 	/**
 	 * 아이디 중복 체크 메서드
 	 * @param memberId
@@ -63,28 +63,28 @@ public class AuthDAO extends DBConnPool {
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT memberName FROM tbl_member");
 		sb.append(" WHERE memberId = ?");
-		
+
 		try {
 			pstm = conn.prepareStatement(sb.toString());
 			pstm.setString(1, memberId);
 			rs = pstm.executeQuery();
-			
+
 			if(rs.next()) {
 				System.out.println("아이디 중복");
-				return 0; 
+				return 0;
 			}else {
 				System.out.println("아이디 사용 가능");
 				return 1;
 			}
-			
+
 		}catch(Exception e) {
 			e.printStackTrace();
 			System.out.println("아이디 중복 확인 오류" + e.getMessage());
 		}
-		
+
 		return 0;
 	}
-	
+
 	/**
 	 * 사용자 로그인 메서드
 	 * @param dto 로그인시 필요한 사용자 정보(memberId, memberPwd)
@@ -139,14 +139,14 @@ public class AuthDAO extends DBConnPool {
 		sb.append(" AND m.memberName = ?");
 		sb.append(" AND p.questionId = ?");
 		sb.append(" AND p.answer LIKE CONCAT('%', ?, '%')");
-		
+
 		try {
 			pstm = conn.prepareStatement(sb.toString());
 			pstm.setString(1, dto.getMemberId());
 			pstm.setString(2, dto.getMemberName());
 			pstm.setInt(3, dto.getQuestionId());
 			pstm.setString(4, dto.getAnswer());
-			
+
 			rs = pstm.executeQuery();
 			if(rs.next()) {
 				System.out.println("확인 완료");
@@ -162,20 +162,20 @@ public class AuthDAO extends DBConnPool {
 		}
 		return memberId;
 	}
-	
+
 
 	/**
 	 * 관리자 페이지에서 총 회원수 조회
 	 * @param map 검색 조건을 담은 Map(search_category, search_word)
 	 * @return MemberDTO
-	 * @example int 총 회원 수 (검색 조건 없으면 전체 회원 수)  
+	 * @example int 총 회원 수 (검색 조건 없으면 전체 회원 수)
 	 */
 	public int getMemberTotalCount(Map<String, Object> map) {
 		int totalCount = 0;
-		
+
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT COUNT(*) FROM tbl_member");
-		
+
 		if ( map.get("search_category") != null && map.get("search_word") != null ) {
 			sb.append(" WHERE "+ map.get("search_category"));
 			sb.append(" LIKE '%"+ map.get("search_word") +"%'");
@@ -191,39 +191,39 @@ public class AuthDAO extends DBConnPool {
 		}
 		return totalCount;
 	}
-	
+
 	/**
 	 * 관리자 페이지에서 회원 목록을 조회
-	 * 
+	 *
 	 * @param map 검색 조건을 포함한 Map (search_category, search_word, page_skip_count, page_size)
 	 * @return List<BbsDTO>
-	 * 
+	 *
 	 * @example getMemberList(map)
 	 */
 	public List<AuthDTO> getMemberList(Map<String, Object> map){
-		
-		List<AuthDTO> list = new Vector<AuthDTO>();
-		
+
+		List<AuthDTO> list = new Vector<>();
+
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT idx, memberId, memberName, memberBirthdate");
 		sb.append(", memberEmail, memberStatus, memberGender, createdAt, lastLoginAt");
 		sb.append(" FROM tbl_member");
-		
+
 		if ( map.get("search_category") != null && map.get("search_word") != null ) {
 			sb.append(" WHERE "+ map.get("search_category"));
 			sb.append(" LIKE '%"+ map.get("search_word") +"%'");
 		}
 
 		sb.append(" ORDER BY idx DESC");
-		
+
 		if ( map.get("page_skip_count") != null && map.get("page_size") != null ) {
 			sb.append(" LIMIT "+ map.get("page_skip_count") +", "+ map.get("page_size"));
 		}
-		
+
 		try {
 			pstm = conn.prepareStatement(sb.toString());
 			rs = pstm.executeQuery();
-			
+
 			while(rs.next()) {
 				AuthDTO dto = new AuthDTO();
 				dto.setIdx(rs.getInt("idx"));
@@ -237,18 +237,18 @@ public class AuthDAO extends DBConnPool {
 				dto.setMemberLoginAt(dUtil.toLocalDateTime(rs.getDate("lastLoginAt")));
 				list.add(dto);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("회원 리스트 조회 에러 : "+ e.getMessage());
 		}
-		
+
 		return list;
 	}
 	/**
 	 * 비밀번호  변경 메서드
 	 * @param memberId, memberPwd
-	 * @return 비밀번호 변경 성공 여부 
+	 * @return 비밀번호 변경 성공 여부
 	 * @example changePwd(memberId, memberPwd)
 	 */
 	public int chagePwd(String memberId,String memberPwd) {
@@ -257,13 +257,13 @@ public class AuthDAO extends DBConnPool {
 		sb.append("UPDATE tbl_member");
 		sb.append(" SET memberPwd = SHA2(?,256)");
 		sb.append(" WHERE memberId = ?");
-		
+
 		try {
 			pstm = conn.prepareStatement(sb.toString());
 			pstm.setString(1, memberPwd);
 			pstm.setString(2, memberId);
 			rs = pstm.executeUpdate();
-			
+
 			if(rs>0) {
 				System.out.println("비밀번호 변경성공");
 			}else {
@@ -273,10 +273,10 @@ public class AuthDAO extends DBConnPool {
 			e.printStackTrace();
 			System.out.println("비밀번호 변경 에러" + e.getMessage());
 		}
-		
+
 		return rs;
 	}
-	
+
 	/**
 	 * @desc 아이디로 회원 정보 조회
 	 * @param memberId String
@@ -292,7 +292,7 @@ public class AuthDAO extends DBConnPool {
 		//2. 쿼리 구문 작성
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT");
-		// 이름, 아이디, 이메일, 생일, 서별 
+		// 이름, 아이디, 이메일, 생일, 서별
 		sb.append(" memberId, memberName, memberEmail, memberStatus, memberGender, memberBirthdate ");
 		sb.append(" FROM tbl_member");
 		sb.append(" WHERE memberId = ?");
@@ -316,7 +316,7 @@ public class AuthDAO extends DBConnPool {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return dto;
 	}
 	/**
@@ -331,16 +331,16 @@ public class AuthDAO extends DBConnPool {
 		sb.append(" UPDATE tbl_member");
 		sb.append(" SET lastLoginAt = now()");
 		sb.append(" WHERE memberId = ?");
-		
+
 		try {
 			pstm = conn.prepareStatement(sb.toString());
 			pstm.setString(1, memberId);
-			
+
 			rs = pstm.executeUpdate();
 		}catch(Exception e){
 			e.printStackTrace();
 			System.out.println("마지막 로그인 업데이토 오류 :" + e.getMessage());
-		
+
 		}
 		return rs;
 	}

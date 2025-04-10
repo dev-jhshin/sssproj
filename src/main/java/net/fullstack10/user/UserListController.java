@@ -25,19 +25,19 @@ public class UserListController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=UTF-8");
-        
+
         HttpSession session = request.getSession();
-        // String memberId = session.getAttribute("memberId").toString();
-     	String memberId = "test1234";
-        
+        String memberId = session.getAttribute("memberId").toString();
+
         String keyword = URLDecoder.decode(request.getParameter("keyword"), "UTF-8");
-		
+
 		UserDAO userDAO = new UserDAO();
 		List<AuthDTO> users = userDAO.getOtherUserList(memberId, keyword);
-		
+
 		// Jackson 으로 JSON 변환
 		ObjectMapper mapper = new ObjectMapper();
 		mapper.registerModule(new JavaTimeModule()); // LocalDate, LocalDateTime 처리

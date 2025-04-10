@@ -11,17 +11,7 @@
 <link href="<c:url value='/css/sidebar.css?ver=${ date }' />" rel="stylesheet" type="text/css">
 <title>나의학습</title>
 	<style>
-	@charset "UTF-8";
-	* {
-	    box-sizing: border-box;
-	}
-	body {
-	    margin: 0;
-	    padding: 0;
-	}
-	.page-container {
-	    display: flex;
-	    min-height: 100vh;
+
 	</style>
 </head>
 <body>
@@ -70,49 +60,53 @@
             <!-- 카테고리 섹션 -->
             <div class="category-section">
                 <div class="category-list-part">
-                   <div class="category-list-active" id="orderCreatedAtButton">
+                   <div id="orderCreatedAtButton">
                       등록 순
                    </div>
-                   <div class="category-list" id="orderLikeCntButton">
+                   <div id="orderLikeCntButton">
                       좋아요 순
                    </div>
                 </div>
+                <span>
                 <select class="pagedropdown" id=pageSize>
 	            	<option value="5" ${ map.pageSize eq 5 ? 'selected' : '' }>5</option>
 	                <option value="10" ${ map.pageSize eq 10 ? 'selected' : '' }>10</option>
 	                <option value="20" ${ map.pageSize eq 20 ? 'selected' : '' }>20</option>
 	                <option value="30" ${ map.pageSize eq 30 ? 'selected' : '' }>30</option>
 	                <option value="40" ${ map.pageSize eq 40 ? 'selected' : '' }>50</option>
-	            </select>
+	            </select>개씩 보기</span>
             </div>
             
             <!-- 리스트 테이블 -->
             <div class="table-container">
                 <table>
                     <thead>
-                        <tr>
+                        <tr style="font-size:14px;">
                             <th>No</th>
                             <th>제목</th>
                             <th>등록일</th>
                             <th>좋아요</th>
-                            <th>오늘의 학습<br>노출여부</th>
-                            <th>오늘의 학습<br>노출기간</th>
+                            <th>오늘의 학습 노출기간</th>
                         </tr>
                     </thead>
                     <tbody>
                     	 <c:choose>
 					        <c:when test="${ not empty learningList }">
 					            <c:forEach var="post" items="${ learningList }">
-					                <tr class="viewButton" data-href="./view.do?idx=${ post.idx }">
+					                <tr class="viewButton">
 					                    <td>${ post.idx }</td>
-					                    <td>${ post.learningTitle }</td>
-					                    <td>${ dUtil.localDateTimeToString(post.createdAt) }</td>
+					                    <td class="learningTitle"><a href="./view.do?idx=${ post.idx }">${ post.learningTitle }</a></td>
+					                    <td>${ dUtil.toString(post.createdAt) }</td>
 					                    <td>${ post.likeCnt }</td>
-					                    <td>${ post.isVisible ? 'Y' : 'N' }</td>
 					                    <td>
-					                        <c:if test="${ post.isVisible }">
-					                            ${ dUtil.localDateToString(post.learningStartedAt) } ~ ${ dUtil.localDateToString(post.learningEndedAt) }
-					                        </c:if>
+					                    	<c:choose>
+					                    		<c:when test="${ post.isVisible }">
+					                    			${ dUtil.localDateToString(post.learningStartedAt) } ~ ${ dUtil.localDateToString(post.learningEndedAt) }
+					                    		</c:when>
+					                    		<c:otherwise>
+					                    			N
+					                    		</c:otherwise>
+					                    	</c:choose>
 					                    </td>
 					                </tr>
 					            </c:forEach>
@@ -131,12 +125,36 @@
             <div class="paging">
                 ${ paging }
             </div>
-            
-            <button class="regist-btn" id="registButton">학습 등록</button>
+            <hr>
+            <button class="regist-btn" id="registButton">등록</button>
         </div>
     </div>
     
 <script>
+	//로더 시 등록순, 조회수순 CSS 변경
+	function setActiveOrderButton(activeId) {
+		const buttons = document.querySelectorAll('.category-list-part > div');
+		buttons.forEach(btn => {
+			btn.classList.remove('category-list-active');
+			btn.classList.add('category-list');
+		});
+		
+		const activeBtn = document.getElementById(activeId);
+		activeBtn.classList.remove('category-list');
+		activeBtn.classList.add('category-list-active');
+	}
+	
+	window.addEventListener("DOMContentLoaded", () => {
+		const params = new URLSearchParams(window.location.search);
+		const order = params.get("orderColumn");
+
+		if (order === "likeCnt") {
+			setActiveOrderButton("orderLikeCntButton");
+		} else {
+			setActiveOrderButton("orderCreatedAtButton");
+		}
+	});
+
 	// 조회 버튼
 	document.getElementById('searchButton').addEventListener('click', () => {
 		const startDate = document.getElementById('startDate').value;
@@ -187,13 +205,6 @@
 		const params = new URLSearchParams(window.location.search);
 		params.set("orderColumn", "likeCnt");
 		window.location.href = "./my_list.do?"+ params.toString();
-	});
-	
-	// 게시글 상세 페이지 이동
-	document.querySelectorAll(".viewButton").forEach((e) => {
-		e.addEventListener("click", function () {
-			window.location.href = this.dataset.href;
-		});
 	});
 
     // 등록 버튼 클릭 이동

@@ -10,41 +10,41 @@ public class CommonUtil {
 	public boolean isNumberic(String str) {
 		return str != null && !str.isEmpty() && !str.isBlank() && str.matches("[0-9]+");
  	}
-	
+
 	public int parseInt(String no) {
 		return (isNumberic(no) ? Integer.parseInt(no) : 0);
 	}
-	
+
 	public int parseInt(String no, String def) {
 		return (isNumberic(no) ? Integer.parseInt(no) : (def != null && !def.isEmpty() && !def.isBlank() ? Integer.parseInt(def) : 0));
 	}
-	
+
 //	public int parseStringToInt(String param, String def) {
 //		return (StringUtils.isNumeric(param) ? Integer.parseInt(param) : (def != null && !def.isEmpty() && !def.isBlank() ? Integer.parseInt(def) : 0));
 //	}
 
 	/**
-	 * @description 페이지 파라미터 값 처리 
+	 * @description 페이지 파라미터 값 처리
 	 * @param src
 	 * @param def
 	 * @return
 	 */
 	public String setPageParam(String src, String def) {
-		// src 값이 null이거나 숫자가 아니면 def 반환 
+		// src 값이 null이거나 숫자가 아니면 def 반환
 		if (src == null || src.equals("") || !isNumberic(src)) {
 			return def;
 		}
 		return src.trim();
 	}
 	/**
-	 * @description 검색 카테고리, 검색어 처리 
+	 * @description 검색 카테고리, 검색어 처리
 	 * @param src
 	 * @return
 	 */
 	public String setSearchParam(String src) {
 		return src != null && !src.isEmpty() ? src.trim() : "";
 	}
-	
+
 	// 쿠키 등록
 	public void makeCookie(HttpServletResponse res
 			, String domain, String path, int exp
@@ -61,7 +61,7 @@ public class CommonUtil {
 		cookie.setMaxAge(exp);
 		res.addCookie(cookie);
 	}
-	
+
 	// 쿠키정보 조회
 	public String getCookieInfo(HttpServletRequest req, String cName) {
 		String rtnValue = "";

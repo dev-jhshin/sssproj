@@ -76,7 +76,7 @@ public class JSFunction {
                 script += "window.location.href='" + url + "'";
             }
             script += "</script>";
-            
+
         	resp.setContentType("text/html;charset=UTF-8");
             PrintWriter writer = resp.getWriter();
             writer.print(script);

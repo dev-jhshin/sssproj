@@ -1,5 +1,7 @@
 package net.fullstack10.manager;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,8 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.JSFunction;
-
-import java.io.IOException;
 
 /**
  * Servlet implementation class ManagerManagerChangeController
@@ -20,14 +20,15 @@ public class ManagerManagerChangeController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		String managerId = (String)session.getAttribute("managerId");
 		int managerStatus = (int)session.getAttribute("managerStatus");
 		String CmanagerId = request.getParameter("manager_id");
 		String CmanagerStatus = request.getParameter("manager_status");
-		
-		
+
+
 		if(managerId != null && managerStatus > 2) {
 			if(CmanagerStatus.equals("1")) {
 				ManagerDAO dao = new ManagerDAO();
@@ -49,11 +50,12 @@ public class ManagerManagerChangeController extends HttpServlet {
 				}
 			}else {
 				JSFunction.alertLocation(response, "replace", "관리자 상태 이상합니다.", "./managerList.do");
-			}		
+			}
 		}else {
 			 JSFunction.alertLocation(response, "replace", "권한이 없습니다.", "./managerList.do");
 		}
 	}
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

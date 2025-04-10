@@ -16,6 +16,7 @@
 </head>
 
 <body>
+	<c:set var="dUtil" value="<%=new CommonDateUtil() %>" />
     <div class="page-container">
          <!-- 사이드바 -->
         <c:import url="../sidebar.jsp"/>
@@ -59,10 +60,10 @@
             <!-- 카테고리 섹션 -->
             <div class="category-section">
                 <div class="category-list-part">
-                   <div class="category-list-active" id="orderSharedToButton" >
+                   <div id="orderSharedToButton" >
                       내가 한 공유
                    </div>
-                   <div class="category-list" id="orderSharedFromButton">
+                   <div id="orderSharedFromButton">
                       내가 받은 공유
                    </div>
                 </div>
@@ -92,17 +93,25 @@
                         <c:choose>
 					        <c:when test="${ not empty learningList }">
 					            <c:forEach var="post" items="${ learningList }">
-					                <tr class="viewButton" data-href="./view.do?idx=${ post.idx }">
+					                <tr class="viewButton">
 					                    <td>${ post.idx }</td>
-					                    <td>${ post.learningTitle }</td>
+					                    <td class="learningTitle"><a href="./view.do?idx=${ post.idx }">${ post.learningTitle }</td>
 					                    <td>
 					                    	<c:if test="${ not empty post.sharedList }">
-					                    		<c:forEach items="${ post.sharedList }" var="shareInfo">
-							                    	${ shareInfo.sharedToName } ( ${ dUtil.localDateTimeToString(shareInfo.createdAt) } )
+					                    		<c:forEach items="${ post.sharedList }" var="shareInfo" varStatus="status">
+					                    			<c:choose>
+					                    				<c:when test="${ param.type eq 'sharedFrom' }">
+					                    					${ shareInfo.sharedFromName }
+					                    				</c:when>
+					                    				<c:otherwise>
+					                    					${ shareInfo.sharedToName }
+					                    				</c:otherwise>
+					                    			</c:choose>
+							                    	(${ dUtil.localDateTimeToString(shareInfo.createdAt) })<c:if test="${ not status.last }">, </c:if>
 							                    </c:forEach>
 					                    	</c:if>
 					                    </td>
-					                    <td>${ post.createdAt }</td>
+					                    <td>${ dUtil.toString(post.createdAt) }</td>
 					                </tr>
 					            </c:forEach>
 					        </c:when>
@@ -123,6 +132,30 @@
         </div>
     </div>
    	<script>
+	    //로더 시 등록순, 조회수순 CSS 변경
+		function setActiveOrderButton(activeId) {
+			const buttons = document.querySelectorAll('.category-list-part > div');
+			buttons.forEach(btn => {
+				btn.classList.remove('category-list-active');
+				btn.classList.add('category-list');
+			});
+			
+			const activeBtn = document.getElementById(activeId);
+			activeBtn.classList.remove('category-list');
+			activeBtn.classList.add('category-list-active');
+		}
+		
+		window.addEventListener("DOMContentLoaded", () => {
+			const params = new URLSearchParams(window.location.search);
+			const order = params.get("type");
+	
+			if (order === "sharedFrom") {
+				setActiveOrderButton("orderSharedFromButton");
+			} else {
+				setActiveOrderButton("orderSharedToButton");
+			}
+		});
+   	
 	 	// 조회 버튼
 		document.getElementById('searchButton').addEventListener('click', () => {
 			const startDate = document.getElementById('startDate').value;
@@ -173,13 +206,6 @@
 			const params = new URLSearchParams(window.location.search);
 			params.set("type", "sharedFrom");
 			window.location.href = "./shared_list.do?"+ params.toString();
-		});
-		
-		// 게시글 상세 페이지 이동
-		document.querySelectorAll(".viewButton").forEach((e) => {
-			e.addEventListener("click", function () {
-				window.location.href = this.dataset.href;
-			});
 		});
    	</script>
 </body>

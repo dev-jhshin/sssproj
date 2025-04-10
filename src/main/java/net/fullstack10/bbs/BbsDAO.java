@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,11 +45,11 @@ public class BbsDAO extends DBConnPool {
 			sql.append(" AND " + map.get("searchCategory"));
 			sql.append(" LIKE ? ");
 		}
-		// 검색 조건 3) 작성일자 
+		// 검색 조건 3) 작성일자
 		if (map.get("searchStart") != null && !map.get("searchStart").toString().equals("")) {
 			sql.append(" AND DATE(createdAt) >= ? " );
-		}		
-		
+		}
+
 		// 검색 조건 3) 작성일자
 		if (map.get("searchEnd") != null && !map.get("searchEnd").toString().equals("")) {
 			sql.append(" AND DATE(createdAt) <= ? " );
@@ -88,36 +87,36 @@ public class BbsDAO extends DBConnPool {
 	 * @return List<BbsDTO>
 	 */
 	public List<BbsDTO> getBbsList(Map<String, Object> map) {
-		
+
 		List<BbsDTO> list = new ArrayList<>();
 		StringBuilder sql = new StringBuilder();
-		
+
 		sql.append("SELECT tb.idx as idx, tb.bbsCategory as bbsCategory, tb.bbsTitle as bbsTitle, tb.bbsContent as bbsContent");
 		sql.append(", tb.memberId as memberId, tb.viewCnt as viewCnt, count(tbl.idx) as likeCnt, tb.createdAt as createdAt");
 		sql.append(" FROM tbl_bbs tb");
 		sql.append(" LEFT OUTER JOIN tbl_bbs_like tbl ON tb.idx = tbl.bbsIdx");
 		sql.append(" WHERE 1 = 1 ");
-		
+
 		// 검색 조건 1) 검색어
 		if (map.get("searchCategory") != null && !map.get("searchCategory").equals("") && map.get("searchWord") != null && !map.get("searchWord").equals("")) {
 			sql.append(" AND tb." + map.get("searchCategory").toString() + " LIKE ?");
 		}
-		
-		// 검색 조건 2) 게시판 카테고리별 
+
+		// 검색 조건 2) 게시판 카테고리별
 		if (map.get("category") != null && !map.get("category").toString().equals("")) {
 			sql.append(" AND tb.bbsCategory = ? " );
 		}
-		
-		// 검색 조건 3) 작성일자 
+
+		// 검색 조건 3) 작성일자
 		if (map.get("searchStart") != null && !map.get("searchStart").toString().equals("")) {
 			sql.append(" AND DATE(tb.createdAt) >= ? " );
-		}		
-		
+		}
+
 		// 검색 조건 3) 작성일자
 		if (map.get("searchEnd") != null && !map.get("searchEnd").toString().equals("")) {
 			sql.append(" AND DATE(tb.createdAt) <= ? " );
 		}
-		
+
 		sql.append(" GROUP BY tb.idx"); // 좋아요 수 group by
 		String searchOrder = (String)map.get("searchOrder");
 		if (searchOrder!=null && !searchOrder.equals("") && searchOrder.length()>0) {
@@ -128,14 +127,14 @@ public class BbsDAO extends DBConnPool {
 				sql.append(" ORDER BY likeCnt desc");
 			}
 		} else {
-			sql.append(" ORDER BY tb.idx desc"); // idx 내림차순 
+			sql.append(" ORDER BY tb.idx desc"); // idx 내림차순
 		}
-		
-		// 페이징 부분 
+
+		// 페이징 부분
 		if (map.get("pageSkipCount") != null && map.get("pageSize") != null) {
 			sql.append(" LIMIT ? , ?");
 		}
-		
+
 		try {
 			pstm = conn.prepareStatement(sql.toString());
 			int index = 1;
@@ -156,7 +155,7 @@ public class BbsDAO extends DBConnPool {
 				pstm.setInt(index++, cUtil.parseInt(map.get("pageSize").toString()));
 			}
 			rs = pstm.executeQuery();
-			
+
 			while (rs.next()) {
 				BbsDTO dto = new BbsDTO();
 				dto.setIdx(rs.getInt("idx"));
@@ -169,7 +168,7 @@ public class BbsDAO extends DBConnPool {
 				dto.setCreatedAt(dUtil.toLocalDateTime(rs.getDate("createdAt")));
 				list.add(dto);
 			}
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -184,7 +183,7 @@ public class BbsDAO extends DBConnPool {
 	 * @return BbsDTO
 	 */
 	public BbsDTO getBbs(String idx, String memberId) {
-		
+
 		BbsDTO dto = new BbsDTO();
 		List<Map> commentList = new ArrayList<>();
 		List<Map> fileList = new ArrayList<>();
@@ -198,11 +197,11 @@ public class BbsDAO extends DBConnPool {
 		if(memberId!=null && !memberId.equalsIgnoreCase("")) {
 			sql.append(", MAX(CASE WHEN tbl.memberId = ? THEN 1 ELSE 0 END) as isLike ");
 		}
-		
+
 		sql.append(" FROM tbl_bbs tb");
 		sql.append(" LEFT OUTER JOIN tbl_bbs_like tbl ON tb.idx = tbl.bbsIdx");
 		sql.append(" WHERE tb.idx = ?");
-		
+
 		// 파일 불러오기 쿼리
 		sql2.append("SELECT tf.* ");
 		sql2.append(" FROM tbl_bbs_file tbf ");
@@ -213,6 +212,7 @@ public class BbsDAO extends DBConnPool {
 		sql3.append("SELECT idx, bbsIdx, memberId, commentContent, createdAt, updatedAt ");
 		sql3.append(" FROM tbl_bbs_comment ");
 		sql3.append(" WHERE bbsIdx = ? ");
+		sql3.append(" ORDER BY idx desc ");
 
 		try {
 			int index = 1;
@@ -240,7 +240,7 @@ public class BbsDAO extends DBConnPool {
 				if (rs.getDate("updatedAt") != null) {
 					dto.setUpdatedAt(dUtil.toLocalDateTime(rs.getDate("updatedAt")));
 				}
-				
+
 			}
 
 			// get items from tbl_file & tbl_bbs_file
@@ -334,7 +334,7 @@ public class BbsDAO extends DBConnPool {
 					throw new SQLException("게시글 등록 실패");
 				}
 			}
-			
+
 			// 게시글이 잘 등록되었고 파일이 없는 경우 바로 커밋하고 종료
 			if (result > 0 && dto.getFiles().size() < 1) {
 				if(conn!=null) {
@@ -429,22 +429,31 @@ public class BbsDAO extends DBConnPool {
 	 * @return int
 	 */
 	public int setBbsCommentRegist(String bbsIdx, String memberId, String comment) {
+		
+		int commentIdx = 0;
 		StringBuilder sql = new StringBuilder();
 		sql.append("insert into tbl_bbs_comment ( ");
 		sql.append(" bbsIdx, memberId, commentContent ");
 		sql.append(") values (");
 		sql.append("?, ?, ? )");
-
+		
 		try {
-			pstm = conn.prepareStatement(sql.toString());
+			pstm = conn.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			pstm.setString(1, bbsIdx);
 			pstm.setString(2, memberId);
 			pstm.setString(3, comment);
-			return pstm.executeUpdate();
+			pstm.executeUpdate();
+			try (ResultSet rs = pstm.getGeneratedKeys()) {
+				if(rs.next()) {
+					commentIdx = rs.getInt(1);
+				} else {
+					throw new SQLException("게시글 등록 실패");
+				}
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return 0;
+		return commentIdx;
 	}
 	public int setBbsCommentModify(String commentIdx, String comment) {
 		StringBuilder sql = new StringBuilder();
@@ -464,8 +473,8 @@ public class BbsDAO extends DBConnPool {
 		}
 		return 0;
 	}
-	
-	
+
+
 	public int setBbsCommentDelete(String commentIdx) {
 		StringBuilder sql = new StringBuilder();
 		sql.append("DELETE FROM tbl_bbs_comment WHERE");
@@ -478,9 +487,9 @@ public class BbsDAO extends DBConnPool {
 			e.printStackTrace();
 		}
 		return 0;
-		
+
 	}
-	
+
 	/**
 	 * @description 게시글 인덱스로 파일 조회
 	 * @param idx
@@ -493,7 +502,7 @@ public class BbsDAO extends DBConnPool {
 		sql.append(" FROM tbl_bbs_file tbf ");
 		sql.append(" JOIN tbl_file tf ON tbf.fileIdx = tf.idx ");
 		sql.append(" WHERE tbf.bbsIdx = ?");
-		
+
 		try {
 			pstm = conn.prepareStatement(sql.toString());
 			pstm.setString(1, idx);
@@ -624,7 +633,7 @@ public class BbsDAO extends DBConnPool {
 		int[] arrFileIdx;
 		int fileCnt = 0;
 		int result = 0;
-		
+
 		sql.append("UPDATE tbl_bbs SET");
 		sql.append(" bbsTitle = ?, ");
 		sql.append(" bbsContent = ?, ");
@@ -728,30 +737,32 @@ public class BbsDAO extends DBConnPool {
 
 		return 0;
 	}
-	
+
 	/**
-	 * @description 파일 삭제 
+	 * @description 파일 삭제
 	 * @param fileIdx
 	 * @return
 	 */
 	public int setFileDelete(String fileIdx) {
-		
+
 		StringBuilder sql = new StringBuilder();
 		StringBuilder sql2 = new StringBuilder();
-		
+
 		sql.append("DELETE FROM tbl_file ");
 		sql.append(" WHERE idx = ? ");
 		sql2.append("DELETE FROM tbl_bbs_file ");
 		sql2.append(" WHERE fileIdx = ? ");
-		
+
 		try {
 			conn.setAutoCommit(false);
 			pstm = conn.prepareStatement(sql.toString());
 			pstm.setString(1, fileIdx);
 			int result = pstm.executeUpdate();
-			
-			if(pstm!=null) pstm.close();
-			
+
+			if(pstm!=null) {
+				pstm.close();
+			}
+
 			pstm = conn.prepareStatement(sql2.toString());
 			pstm.setString(1, fileIdx);
 			result += pstm.executeUpdate();
@@ -767,9 +778,9 @@ public class BbsDAO extends DBConnPool {
 		}
 		return 0;
 	}
-	
+
 	/**
-	 * @description 게시글 신고 처리 
+	 * @description 게시글 신고 처리
 	 * @param memberId
 	 * @param idx
 	 * @param content
@@ -781,7 +792,7 @@ public class BbsDAO extends DBConnPool {
 		sql.append(" memberId, targetId, targetType, description) ");
 		sql.append(" VALUES ");
 		sql.append(" (?, ?, ?, ?) ");
-	
+
 		try {
 			pstm = conn.prepareStatement(sql.toString());
 			pstm.setString(1, memberId);
@@ -794,7 +805,29 @@ public class BbsDAO extends DBConnPool {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+
 		return 0;
+	}
+
+	/**
+	 * @description 커뮤니티 카테고리 조회
+	 * @return
+	 */
+	public List<String> getBbsCategory() {
+		List<String> categories = new ArrayList<>();
+		String sql = "SELECT distinct bbsCategory FROM tbl_bbs";
+
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			while(rs.next()) {
+				categories.add(rs.getString("bbsCategory"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return categories;
 	}
 }

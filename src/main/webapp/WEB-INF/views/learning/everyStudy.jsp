@@ -74,7 +74,7 @@
             <div class="table-container">
                 <table>
                     <thead>
-                        <tr>
+                        <tr style="font-size:14px;">
                             <th>No</th>
                             <th>제목</th>
                             <th>등록일</th>
@@ -86,10 +86,10 @@
                     	<c:choose>
 					        <c:when test="${ not empty learningList }">
 					            <c:forEach var="post" items="${ learningList }">
-					                <tr class="viewButton" data-href="./view.do?idx=${ post.idx }">
+					                <tr class="viewButton">
 					                    <td>${ post.idx }</td>
-					                    <td>${ post.learningTitle }</td>
-					                    <td>${ dUtil.localDateTimeToString(post.createdAt) }</td>
+					                    <td class="learningTitle"><a href="./view.do?idx=${ post.idx }">${ post.learningTitle }</td>
+					                    <td>${ dUtil.toString(post.createdAt) }</td>
 					                    <td>${ post.memberId }</td>
 					                    <td>${ post.likeCnt }</td>
 					                </tr>
@@ -148,14 +148,6 @@
 		params.set("page_size", this.value);
 		window.location.href = "./list.do?"+ params.toString();
 	});
-	
-	// 게시글 상세 페이지 이동
-	document.querySelectorAll(".viewButton").forEach((e) => {
-		e.addEventListener("click", function () {
-			window.location.href = this.dataset.href;
-		});
-	});
-    
 </script>
 </body>
 </html>

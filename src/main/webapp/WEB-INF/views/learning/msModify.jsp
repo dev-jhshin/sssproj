@@ -61,11 +61,9 @@
 	                        </div>
 	                    </td>
 	                    <td style="text-align: center">
-	                    	<c:if test="${ dto.isVisible }">
-		                        <input type="date" class="date-input" disabled value="${ dUtil.localDateToString(dto.learningStartedAt) }"/> 
-		                        &nbsp;&nbsp;~ &nbsp;&nbsp;
-		                        <input type="date" class="date-input" disabled value="${ dUtil.localDateToString(dto.learningEndedAt) }"/>
-		                    </c:if>
+		                    <input type="date" class="date-input" name="learningStartedAt" disabled value="${ not empty dto.learningStartedAt ? dUtil.localDateToString(dto.learningStartedAt) : '' }"/> 
+		                    &nbsp;&nbsp;~ &nbsp;&nbsp;
+		                    <input type="date" class="date-input" name="learningEndedAt" disabled value="${ not empty dto.learningEndedAt ? dUtil.localDateToString(dto.learningEndedAt) : '' }"/>
 	                    </td>
 	                </tr>
 	            </table>
@@ -317,6 +315,7 @@
            
                 const newFiles = Array.from(e.target.files);
                 selectedFiles = selectedFiles.concat(newFiles);
+                e.value = "";
                
                 updateFileList();
             }
@@ -530,6 +529,38 @@
         	if (!confirm('해당 학습내용을 등록하시겠습니까?')) return;
         	
 			const frm = document.getElementById("frmModify");
+			const title = frm.learningTitle.value;
+			const content = frm.learningContent.value;
+			const isVisible = frm.isVisible.value;
+			const startedAt = frm.learningStartedAt.value;
+			const endedAt = frm.learningEndedAt.value;
+			
+			if (title == null || title.length < 1 || title.length > 100) {
+				alert("제목을 1자 이상 100자 이하로 입력하세요.");
+				return;
+			}
+			if (content == null || content.length < 1) {
+				alert("내용을 입력하세요.");
+				return;
+			}
+			if (isVisible === "Y") {
+				if (!startedAt || !endedAt) {
+					alert("오늘의 학습 노출기간을 입력하세요.");
+					return;
+				}
+				
+				const start = new Date(startedAt);
+				const end = new Date(endedAt);
+				
+				if (start > end) {
+					alert("시작일은 종료일보다 이후일 수 없습니다.");
+					return;
+				}
+			}
+			
+			const dataTransfer = new DataTransfer();
+          	selectedFiles.forEach(file => dataTransfer.items.add(file));
+          	document.getElementById('fileInput').files = dataTransfer.files;
         	
         	const topics = [...document.querySelectorAll('.field .tagName')].map(topic => topic.textContent.trim());
         	const tags = [...document.querySelectorAll('.hashtag .tagName')].map(tag => tag.textContent.replace('#', '').trim());

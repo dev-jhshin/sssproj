@@ -1,24 +1,23 @@
 @charset "UTF-8";
 /*나의학습 홈 리스트 */
-
-* {
-    margin:0; padding:0;
-    box-sizing:border-box;
-}
-a {
-  text-decoration:none;
-  color:#333;
-}
 @font-face {
     font-family: 'Dovemayo_gothic';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
-body {
-  font-family: 'Dovemayo_gothic';
+* {
+	font-family: 'Dovemayo_gothic';
+    box-sizing: border-box;
 }
-
+body {
+    margin: 0;
+    padding: 0;
+}
+a {
+  text-decoration:none;
+  color:#333;
+}
 .page-container {
   display: flex;
   min-height: 100vh;
@@ -189,16 +188,17 @@ body {
 
 /* 리스트 테이블 */
 .table-container {
-    width: 100%;
     overflow-x: auto;
     background-color: white; 
     border-radius: 8px;
-
 }
 
 table {
-    width: 100%;
+	width: 100%;
     border-collapse: collapse;
+  	table-layout: auto;   
+  	min-width: max-content;
+	white-space: nowrap;
 }
 
 th, td {
@@ -222,15 +222,41 @@ td {
 	background-color : white;
 }
 
+.learningTitle {
+	width: 40%;
+	max-width: 1px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.learningTitle a {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.learningTitle a:hover {
+	color: green;
+	text-decoration: underline;
+	cursor:pointer;
+}
+
 /* 페이징 */
 .paging {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
+    margin-top: 30px;
     align-items: center;
+    margin-bottom: 20px;
 }
 
 .page-btn {
+	background-color: #FCFDFA;
+	color: #000000;
     width: 25px; 
     height: 25px;
     margin: 0 5px;
@@ -240,28 +266,21 @@ td {
     align-items: center;
     cursor: pointer;
     border-radius: 4px; 
-    background-color: #FCFDFA;
+}
+.page-btn a, .page-nav a {
+	text-decoration: none;	
+	color: #BBB;
 }
 
 .page-nav {
     margin: 0 5px;
     cursor: pointer;
+    color: white;
 }
 
-.page-btn-active {
-	width: 25px; 
-    height: 25px;
-    margin: 0 5px;
-    border: 1px solid #ddd; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border-radius: 4px; 
-    background-color: #F2F7EA;
-    
+hr {
+	border: 0.1px solid #eee;
 }
-
 .regist-btn {
     float: right;
     padding: 10px 20px; 
@@ -269,10 +288,83 @@ td {
     color: white; 
     border: none;
     border-radius: 5px;
-    margin-top: 40px;
+    margin-top: 10px;
     cursor: pointer;
     font-weight: 500;
     transition: background-color 0.2s; 
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .search-section {
+    width: 100%;
+    overflow: hidden;
+  }
+  
+  .search-row {
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .search-content {
+    flex-direction: column;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  
+  .search-name {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #eee;
+    padding: 8px 0;
+    margin-bottom: 10px;
+  }
+  
+  .dropdown,
+  .date-input,
+  .search-input {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+
+  .date-range {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .search-row {
+    white-space: normal;
+  }
+  
+  .search-content {
+    white-space: normal;
+  }
+  
+  .search-btn-set {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+  }
+  
+  .search-btn, 
+  .delete-btn {
+    width: auto;
+    min-width: 80px;
+    margin: 5px;
+  }
+
+  .category-section {
+    flex-direction: column;
+  }
+
+  th, td {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
 }
 
 /*반응형 스타일*/
@@ -292,7 +384,7 @@ td {
   }
   
   .search-btn, 
-  .search-init {
+  .delete-btn {
     min-width: 70px;
     padding: 6px 12px;
     font-size: 0.9rem;
@@ -328,9 +420,5 @@ td {
     width: 22px;
     height: 22px;
     margin: 0 3px;
-  }
-
-  .table-container {
-    overflow-x: auto;
   }
 }

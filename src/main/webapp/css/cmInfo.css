@@ -16,12 +16,15 @@ a {
     font-style: normal;
 }
 
+input {
+	font-family: 'Dovemayo_gothic';
+}
+
 body {
 	margin: 0;
     padding: 0;
 	font-family: 'Dovemayo_gothic';
 }
-
 
 .page-container {
     display: flex;
@@ -35,23 +38,24 @@ body {
     width: 100%;
 }
 
-
-
 .header-section{
 	display: block;
 	margin-bottom: 20px;
 }
+
 .content-header {
     font-weight: bold;
     font-size: 20px;
     margin-bottom : 10px;
 }
+
 .content-header-nav {
 	display: flex;
 	gap:10px;
     flex-wrap: nowrap;
     white-space: nowrap; 
 }
+
 /* 테이블 */
 .info-table {
     width: 100%;
@@ -66,6 +70,7 @@ body {
     padding: 12px;
     height: 50px;
 }
+
 .td-like-btn {
 	width: 70px;
 	text-align: center;
@@ -103,13 +108,21 @@ body {
     flex: 3;
     padding: 20px;
     position: relative;
-    height : 250px;
+    min-height : 250px;
 }
 
 
+
+
+/*이미지 섹션*/
+
 .image-part {
-    border-right: 1px solid #eee;
+    min-height: 300px;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom:20px;
 }
 
 .image-placeholder {
@@ -120,10 +133,116 @@ body {
     justify-content: center;
     align-items: center;
 }
-.image {
-	width: 200px;
-	border-radius: 15px;
-} 
+
+.nav-button {
+    color: #555;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin : 0px 150px;
+}
+
+.image-container {
+    width: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.slider-wrapper {
+    display: flex;
+    transition: transform 0.3s ease;
+}
+
+.slide-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+    cursor: pointer; 
+}
+
+/* 이미지 모달  */
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    overflow: auto;
+}
+
+.modal-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.modal-image {
+    max-width: 90%;
+    max-height: 90%;
+    object-fit: contain;
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-nav {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 24px;
+    color: white;
+}
+
+.modal-prev {
+    left: 20px;
+}
+
+.modal-next {
+    right: 20px;
+}
+
+/*  이미지 swiper */
+.image-swiper{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    margin-bottom:10px;
+    gap: 5px;
+}
+
+.swiper-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.swiper-dot.active {
+    background-color: #95C14F;
+}
 
 /* 좋아요 */
 .like-btn {
@@ -151,6 +270,7 @@ body {
    margin-bottom : 20px;
    display : block;
 }
+
 .comment-list-section {
   margin-bottom: 15px;
   width: 100%;
@@ -169,15 +289,17 @@ body {
 	width:100%;
 	margin-bottom : 10px;
 }
-.comment-btn {
-	font-size: 11px;
-	font-family: 'Dovemayo_gothic';
-}
+
 .commentDeleteButton{
 	color: #ed6666;
+	cursor : pointer;
+	margin-left : 5px;
 }
+
 #commentEditButton {
 	color: #999;
+	cursor:pointer;
+	margin-left : 5px;
 }
 
 .comment-on-section{
@@ -185,7 +307,7 @@ body {
    display: block;
    flex-direction: column;
    width: 100%;
-	
+   margin-bottom: 15px;
 }
 
 .comment-header {
@@ -196,10 +318,12 @@ body {
 }
 
 .comment-user {
-    font-weight: bold;
-    color: #333;
+	font-weight: bold;
+	color: #333;
 }
-
+.comment-edit-delete-btn {
+	
+}
 .comment-date {
     color: #888;
     font-size: 12px;
@@ -210,6 +334,13 @@ body {
     color: #333;
     line-height: 1.4;
 }
+
+.comment-text {
+  word-wrap: break-word; /* 긴 단어가 있을 때 줄 바꿈 */
+  white-space: normal;   /* 텍스트가 너무 길어지면 자동으로 줄 바꿈 */
+  overflow-wrap: break-word; /* 긴 단어가 잘리거나 화면을 넘어가지 않도록 함 */
+}
+
 .comment-input-section {
 	height: 60px;
     position: relative;
@@ -217,9 +348,11 @@ body {
     margin-top:30px;
 
 }
+
 .comment-on-section form {
 	width: 100%;
 }
+
 .comment-input{
     width: 100%;
     border-radius: 10px;
@@ -230,13 +363,14 @@ body {
 .comment-input:focus {
     outline: 1px solid #E2F6CA;
 }
+
 .comment-button{
     position: absolute;
-    top: 5px;
-    bottom: 5px;
-    right: 5px;
+    top: 8px;
+    bottom: 8px;
+    right: 8px;
     border-radius: 10px;
-    margin: 5px 5px 0px 0px;
+    margin: 4px;
     background-color:#E2F6CA;
     color:black;
     border:none;
@@ -246,10 +380,12 @@ body {
   background-color: #a7d96a;
   color:white;
 }
+
 .comment-notice {
 	padding: 20px 10px;
 	border-radius: 20px;
 }
+
 /* 댓글 편집용 텍스트에어리어 */
 .edit-textarea {
 	display: block;
@@ -324,6 +460,7 @@ body {
     cursor: pointer;
     font-weight: 500;
 	font-family: 'Dovemayo_gothic';
+    font-size: 13px;
 }
 
 #listButton {
@@ -344,7 +481,6 @@ body {
     border-radius: 5px;
     cursor: pointer;
     font-weight: 800;
-  
 }
 
 #modifyButton:hover {
@@ -360,7 +496,6 @@ body {
 	max-width: 12000px;
 	margin-left: 0;
 }
-	
 	
 /*반응형*/
 
