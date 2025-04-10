@@ -17,15 +17,15 @@ public class SupportDAO extends DBConnPool{
 		dUtil = new CommonDateUtil();
 		cUtil = new CommonUtil();
 	}
-	
+
 	public SupportDAO(String ct, String ds) {
 		super(ct, ds);
 		dUtil = new CommonDateUtil();
 		cUtil = new CommonUtil();
 	}
-	
+
 	/**
-	 * @description 문의 글 개수 조회 
+	 * @description 문의 글 개수 조회
 	 * @param map
 	 * @return
 	 */
@@ -62,7 +62,7 @@ public class SupportDAO extends DBConnPool{
 		return 0;
 	}
 	/**
-	 * @description 문의 게시글 작성 
+	 * @description 문의 게시글 작성
 	 * @param memberId
 	 * @param inquiryTitle
 	 * @param inquiryContent
@@ -74,7 +74,7 @@ public class SupportDAO extends DBConnPool{
 		sql.append(" memberId, inquiryTitle, inquiryContent  ");
 		sql.append(" ) VALUES ( ");
 		sql.append(" ?, ?, ?) ");
-		
+
 		try {
 			pstm = conn.prepareStatement(sql.toString());
 			pstm.setString(1, memberId);
@@ -86,45 +86,47 @@ public class SupportDAO extends DBConnPool{
 		}
 		return 0;
 	}
-	
+
 	/**
-	 * @description 회원의 문의 내역 조회 
+	 * @description 회원의 문의 내역 조회
 	 * @param memberId
 	 * @return
 	 */
 	public List<InquiryDTO> getInquiryList(Map<String, Object> map) {
-		if(map.get("memberId")==null || map.get("memberId").equals("")) return null;
+		if(map.get("memberId")==null || map.get("memberId").equals("")) {
+			return null;
+		}
 		List<InquiryDTO> inquirys = new ArrayList<>();
 		StringBuilder sql = new StringBuilder();
 		int index = 1;
 		sql.append("SELECT ");
-		// tbl_customer_inquiry 정보 
+		// tbl_customer_inquiry 정보
 		sql.append(" tci.idx as 'idx', tci.inquiryTitle as 'inquiryTitle', tci.inquiryContent as 'inquiryContent', tci.memberId as 'memberId', tci.createdAt as 'createdAt', tci.updatedAt as 'updatedAt'");
 		// tbl_inquiry_resolution 정보
 		sql.append(", CASE WHEN tir.inquiryIdx IS NOT NULL THEN 1 ELSE 0 END AS 'inquiryStatus'");
-		
+
 		sql.append(" FROM tbl_customer_inquiry tci ");
 		sql.append(" LEFT OUTER JOIN tbl_inquiry_resolution tir ");
 		sql.append(" ON tci.idx = tir.inquiryIdx ");
-		
+
 		sql.append(" WHERE tci.memberId = ? ");
-		
+
 		if(map.get("searchWord")!=null && !map.get("searchWord").equals("") && map.get("searchCategory")!=null && !map.get("searchCategory").equals("")) {
 			sql.append(" AND tci.");
 			sql.append(map.get("searchCategory"));
 			sql.append(" LIKE ?");
 		}
 		sql.append(" ORDER BY tci.idx desc ");
-		// 페이징 부분 
+		// 페이징 부분
 		if (map.get("pageSkipCount") != null && map.get("pageSize") != null) {
 			sql.append(" LIMIT ? , ?");
 		}
-				
+
 		try {
 			pstm = conn.prepareStatement(sql.toString());
 			pstm.setString(index++, map.get("memberId").toString());
 			if(map.get("searchWord")!=null && !map.get("searchWord").equals("") && map.get("searchCategory")!=null && !map.get("searchCategory").equals("")) {
-				
+
 				pstm.setString(index++, "%" + map.get("searchWord").toString()+ "%");
 			}
 			if(map.get("pageSkipCount")!=null && map.get("pageSize")!=null) {
@@ -141,7 +143,7 @@ public class SupportDAO extends DBConnPool{
 				dto.setMemberId(rs.getString("memberId"));
 				if (rs.getDate("createdAt")!=null) {
 					dto.setCreatedAt(dUtil.toLocalDateTime(rs.getDate("createdAt")));
-				} 
+				}
 				if (rs.getDate("updatedAt")!=null) {
 					dto.setUpdatedAt(dUtil.toLocalDateTime(rs.getDate("updatedAt")));
 				}
@@ -150,19 +152,19 @@ public class SupportDAO extends DBConnPool{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return inquirys;
 	}
 
 	/**
-	 * @description 문의 게시글 한 건 조회 
+	 * @description 문의 게시글 한 건 조회
 	 * @param idx
 	 * @return
 	 */
 	public InquiryDTO getInquiry(String idx) {
 		StringBuilder sql = new StringBuilder();
 		InquiryDTO dto = new InquiryDTO();
-		
+
 		sql.append("SELECT ");
 		sql.append(" tci.idx as 'idx', tci.inquiryTitle as 'inquiryTitle', tci.inquiryContent as 'inquiryContent', tci.memberId as 'memberId', tci.createdAt as 'createdAt' , tci.updatedAt as 'updatedAt' ");
 		sql.append(", iResolutionContent as 'iResolutionContent', tir.managerId as 'managerId',  CASE WHEN tir.inquiryIdx IS NOT NULL THEN 1 ELSE 0 END AS 'inquiryStatus' ");
@@ -191,11 +193,11 @@ public class SupportDAO extends DBConnPool{
 			e.printStackTrace();
 		}
 		return null;
-		
+
 	}
-	
+
 	/**
-	 * @description 문의 게시글 삭제 
+	 * @description 문의 게시글 삭제
 	 * @param idx
 	 * @return
 	 */
@@ -203,7 +205,7 @@ public class SupportDAO extends DBConnPool{
 		StringBuilder sql = new StringBuilder();
 		sql.append("DELETE FROM tbl_customer_inquiry");
 		sql.append(" WHERE idx = ? ");
-		
+
 		try {
 			pstm = conn.prepareStatement(sql.toString());
 			pstm.setString(1, idx);
@@ -212,7 +214,7 @@ public class SupportDAO extends DBConnPool{
 			e.printStackTrace();
 		}
 		return 0;
-		
+
 	}
-	
+
 }

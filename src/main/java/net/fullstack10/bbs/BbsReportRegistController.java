@@ -1,5 +1,7 @@
 package net.fullstack10.bbs;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,9 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.JSFunction;
-
-import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * Servlet implementation class BbsReportRegistController
@@ -29,6 +28,7 @@ public class BbsReportRegistController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -37,30 +37,29 @@ public class BbsReportRegistController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+
 		HttpSession session = request.getSession();
 		String sMemberId = (String) session.getAttribute("memberId");
 		String content = request.getParameter("content");
 		String idx = request.getParameter("idx");
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter wrt = response.getWriter();
-		
-		if(sMemberId == null || sMemberId.length() < 1) { JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do"); }
-		
-		if(content == null || content.length() < 1) { JSFunction.alertBack(response, "내용을 입력해주세요."); }
-		
-		if(idx == null || idx.length() < 1) { JSFunction.alertBack(response, "게시글 정보가 없습니다."); }
-		
+
+		if(sMemberId == null || sMemberId.length() < 1) { JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do"); return; }
+
+		if(content == null || content.length() < 1) { JSFunction.alertBack(response, "내용을 입력해주세요."); return; }
+
+		if(idx == null || idx.length() < 1) { JSFunction.alertBack(response, "게시글 정보가 없습니다."); return; }
+
 		bbsDAO = new BbsDAO();
 		int result = bbsDAO.setBbsReportRegist(sMemberId, idx, content);
 		if (result > 0) {
-			JSFunction.alertLocation(response, "신고 접수가 완료되었습니다.", "/sssproj/bbs/view.do?idx="+idx);
-		} else {
-			JSFunction.alertBack(response, "신고 접수에 실패했습니다.");
+			JSFunction.alertLocation(response, "신고 접수가 완료되었습니다.", "/sssproj/bbs/view.do?idx="+idx); return;
 		}
-		
+		JSFunction.alertBack(response, "신고 접수에 실패했습니다."); return;
+
 	}
 
 }

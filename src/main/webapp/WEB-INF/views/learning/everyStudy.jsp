@@ -88,7 +88,7 @@
 					            <c:forEach var="post" items="${ learningList }">
 					                <tr class="viewButton" data-href="./view.do?idx=${ post.idx }">
 					                    <td>${ post.idx }</td>
-					                    <td>${ post.learningTitle }</td>
+					                    <td class="learningTitle">${ post.learningTitle }</td>
 					                    <td>${ dUtil.localDateTimeToString(post.createdAt) }</td>
 					                    <td>${ post.memberId }</td>
 					                    <td>${ post.likeCnt }</td>

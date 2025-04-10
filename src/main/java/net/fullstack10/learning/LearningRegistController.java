@@ -31,6 +31,7 @@ public class LearningRegistController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/views/learning/msRegist.jsp").forward(request, response);
@@ -40,6 +41,7 @@ public class LearningRegistController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
@@ -52,7 +54,7 @@ public class LearningRegistController extends HttpServlet {
 			url = redirectURL.toString();
 		}
 
-		
+
 		String loginMemberId = (String)session.getAttribute("memberId");
 
 		String learningTitle = request.getParameter("learningTitle");
@@ -63,7 +65,7 @@ public class LearningRegistController extends HttpServlet {
 		String isPublic = request.getParameter("isPublic");
 		String topics = request.getParameter("topics");
 		String hashtags = request.getParameter("hashtags");
-		
+
 		String sharedStr = request.getParameter("sharedList");
 		List<String> sharedList = ( sharedStr != null && !sharedStr.isEmpty() ?
 				Arrays.asList(sharedStr.split(",")) : List.of());
@@ -71,7 +73,7 @@ public class LearningRegistController extends HttpServlet {
 		for (String user : sharedList) {
 			LearningSharedDTO sharedDTO = new LearningSharedDTO();
 			sharedDTO.setSharedTo(user);
-			sharedDTOList.add(sharedDTO); 
+			sharedDTOList.add(sharedDTO);
 		}
 		
 		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;

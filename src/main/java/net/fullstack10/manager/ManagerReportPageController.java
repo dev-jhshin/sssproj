@@ -1,14 +1,13 @@
 package net.fullstack10.manager;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.JSFunction;
-
-import java.io.IOException;
 
 /**
  * Servlet implementation class ManagerReportPageController
@@ -19,8 +18,9 @@ public class ManagerReportPageController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		int reportIdx = Integer.parseInt(request.getParameter("reportIdx"));
 		int targetId =Integer.parseInt(request.getParameter("targetId"));
 		String targetType = request.getParameter("targetType");
@@ -51,13 +51,14 @@ public class ManagerReportPageController extends HttpServlet {
 		}
 		request.setAttribute("reportIdx", reportIdx);
 		request.setAttribute("dto", dto);
-	
+
 		request.getRequestDispatcher("/WEB-INF/views/manager/report_page_handle.jsp").forward(request, response);
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

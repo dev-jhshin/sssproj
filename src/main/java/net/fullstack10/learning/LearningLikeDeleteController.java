@@ -1,5 +1,7 @@
 package net.fullstack10.learning;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,27 +12,26 @@ import net.fullstack10.common.CommonUtil;
 import net.fullstack10.common.JSFunction;
 import net.fullstack10.validation.ValidationUtil;
 
-import java.io.IOException;
-
 /**
  * Servlet implementation class LearningLikeDeleteController
  */
 @WebServlet("/learning/like/delete.do")
 public class LearningLikeDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	private CommonUtil cUtil = new CommonUtil();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
+
 		HttpSession session = request.getSession();
 		String loginMemberId = (String) session.getAttribute("memberId");
-		
+
 		String idx = request.getParameter("idx");
 		
 		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
@@ -48,6 +49,7 @@ public class LearningLikeDeleteController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

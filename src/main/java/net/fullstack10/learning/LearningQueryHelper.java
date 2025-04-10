@@ -11,7 +11,7 @@ public class LearningQueryHelper {
 			params.add(endDate);
 		}
 	}
-	
+
 	// 검색 카테고리
 	public static void addCategoryFilter(StringBuilder sql, List<String> params, String category, String value) {
 		if (category != null && !category.isBlank() && value != null && !value.isBlank()) {
@@ -35,7 +35,7 @@ public class LearningQueryHelper {
 			}
 		}
 	}
-	
+
 	// 정렬 조건 (화이트리스트 방식)
 	public static void addOrderBy(StringBuilder sql, String column, String direction) {
 		List<String> allowedColumns = List.of("createdAt", "likeCnt", "viewCnt");
@@ -47,7 +47,7 @@ public class LearningQueryHelper {
 			sql.append(" ORDER BY createdAt DESC ");
 		}
 	}
-	
+
 	// 페이징
 	public static void addPagination(StringBuilder sql, String pageSkipCount, String pageSize) {
 		if (pageSkipCount != null && !pageSkipCount.isBlank() && pageSize != null && !pageSize.isBlank()) {

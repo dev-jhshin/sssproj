@@ -1,11 +1,13 @@
 package net.fullstack10.auth;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
 
 /**
  * Servlet implementation class AuthIdDuplicationController
@@ -13,12 +15,15 @@ import java.io.IOException;
 @WebServlet("/auth/idDuplicate.do")
 public class AuthIdDuplicateController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		String memberId = request.getParameter("member_id");
+		memberId = (memberId != null) ? memberId.trim() : "";
 		AuthDAO dao = new AuthDAO();
 		int rs = dao.idDuplicate(memberId);
 		dao.close();
@@ -29,6 +34,7 @@ public class AuthIdDuplicateController extends HttpServlet {
 			//아이디 중복
 			request.setAttribute("duplicate", 0);
 		}
+		System.out.println(memberId);
 		request.setAttribute("savedId", memberId);
 		request.getRequestDispatcher("/WEB-INF/views/auth/regist_page.jsp").forward(request, response);
 	}
@@ -36,6 +42,7 @@ public class AuthIdDuplicateController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		doGet(request, response);

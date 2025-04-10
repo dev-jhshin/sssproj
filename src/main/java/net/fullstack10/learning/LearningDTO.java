@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import net.fullstack10.auth.AuthDTO;
 import net.fullstack10.file.FileDTO;
 
 public class LearningDTO {
@@ -30,7 +29,7 @@ public class LearningDTO {
 	private List<FileDTO> filesToAdd;
 	private List<FileDTO> filesToRemove;
 	private List<LearningCommentDTO> comments;
-	
+
 	public int getIdx() {
 		return idx;
 	}

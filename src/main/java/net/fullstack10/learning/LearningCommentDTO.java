@@ -9,7 +9,7 @@ public class LearningCommentDTO {
 	private String commentContent;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
-	
+
 	public int getIdx() {
 		return idx;
 	}

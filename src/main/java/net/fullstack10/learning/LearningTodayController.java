@@ -27,18 +27,19 @@ public class LearningTodayController extends HttpServlet {
 
 	private CommonUtil cUtil = new CommonUtil();
 	private CommonPageUtil pUtil = new CommonPageUtil();
-	
+
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String requestURL = request.getRequestURL().toString();
-		
+
 		HttpSession session = request.getSession();
 		session.setAttribute("redirectURL", requestURL);
-		
+
 		Map<String, String> map = new HashMap<>();
-		
+
 		String loginMemberId = (String)session.getAttribute("memberId");
 		
 		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
@@ -51,17 +52,17 @@ public class LearningTodayController extends HttpServlet {
 		} else {
 			date = LocalDate.now();
 		}
-		
+
 		String pageNo = cUtil.setPageParam(request.getParameter("page_no"), "1");
 		String pageSize = cUtil.setPageParam(request.getParameter("page_size"), "1");
 		String pageBlockSize = cUtil.setPageParam(request.getParameter("page_block_size"), "5");
 		String pageSkipCount = String.valueOf((cUtil.parseInt(pageNo) - 1) * cUtil.parseInt(pageSize));
-		
+
 		String queryString = "date=" + date.toString();
-		
+
 		map.put("pageSkipCount", pageSkipCount);
 	    map.put("pageSize", pageSize);
-	    
+
 	    LearningDAO learningDAO = new LearningDAO();
 		LearningFileDAO fileDAO = new LearningFileDAO();
 		LearningSharedDAO sharedDAO = new LearningSharedDAO();
@@ -74,7 +75,7 @@ public class LearningTodayController extends HttpServlet {
 			learningDTO.setSharedList(sharedDAO.getLearningShareList(myIdx, 3));
 			learningDTO.setFiles(fileDAO.getFileListByLearningIdx(myIdx));
 		}
-		
+
 		// 공유 학습
 		List<LearningDTO> sharedList = learningDAO.getTodaySharedList(loginMemberId, date);
 		for (LearningDTO learningDTO : sharedList) {
@@ -82,11 +83,11 @@ public class LearningTodayController extends HttpServlet {
 			learningDTO.setFiles(fileDAO.getFileListByLearningIdx(sharedIdx));
 			learningDTO.setIsLiked(likeDAO.isAlreadyLiked(sharedIdx, loginMemberId));
 		}
-	    
+
 	    request.setAttribute("learningList", learningList);
 	    request.setAttribute("sharedList", sharedList);
-	    request.setAttribute("paging", pUtil.pagingArea(learningDAO.getTodayLearningListSize(loginMemberId, date), cUtil.parseInt(pageNo), cUtil.parseInt(pageSize), cUtil.parseInt(pageBlockSize), "today.do?" + queryString));
-	    
+	    request.setAttribute("paging", CommonPageUtil.pagingArea(learningDAO.getTodayLearningListSize(loginMemberId, date), cUtil.parseInt(pageNo), cUtil.parseInt(pageSize), cUtil.parseInt(pageBlockSize), "today.do?" + queryString));
+
 	    learningDAO.close();
 		sharedDAO.close();
 		fileDAO.close();

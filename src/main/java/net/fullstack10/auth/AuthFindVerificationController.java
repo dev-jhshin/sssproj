@@ -1,13 +1,13 @@
 package net.fullstack10.auth;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.fullstack10.common.JSFunction;
-
-import java.io.IOException;
 
 /**
  * Servlet implementation class AuthFindPwdController
@@ -20,6 +20,7 @@ public class AuthFindVerificationController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/views/auth/found_pw_page.jsp").forward(request, response);
 	}
@@ -27,6 +28,7 @@ public class AuthFindVerificationController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			String memberId = request.getParameter("memberId");
 			memberId = (memberId != null) ? memberId.trim() : "";
@@ -35,13 +37,13 @@ public class AuthFindVerificationController extends HttpServlet {
 			String questionId = request.getParameter("security_question");
 			questionId = (questionId != null) ? questionId.trim() : "";
 			String answer = request.getParameter("answer");
-			answer = (answer != null) ? answer.trim() : "";;
-			
+			answer = (answer != null) ? answer.trim() : "";
+
 
 			if(memberId == null || memberId.isEmpty() || !memberId.matches("^[a-z0-9]{5,20}$")) {
 				JSFunction.alertLocation(response, "replace", "인증실패 다시 입력하세요.", "./memberVerification.do");
 			}
-			
+
 			if(questionId == null || questionId.isEmpty()) {
 				JSFunction.alertLocation(response, "replace", "인증실패 다시 입력하세요.", "./memberVerification.do");
 			}
@@ -63,7 +65,7 @@ public class AuthFindVerificationController extends HttpServlet {
 			}else{
 				JSFunction.alertLocation(response, "replace", "인증실패 다시 입력하세요.", "./memberVerification.do");
 			}
-			
+
 	}
 
 }

@@ -1,5 +1,7 @@
 package net.fullstack10.auth;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.Cookie;
@@ -9,9 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.CommonUtil;
 import net.fullstack10.common.JSFunction;
-
-import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * Servlet implementation class AuthLoginController
@@ -26,6 +25,7 @@ public class AuthLoginController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/views/auth/login_page.jsp").forward(request, response);
 	}
@@ -33,6 +33,7 @@ public class AuthLoginController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// 세션사용 선언
 		dao = new AuthDAO();
@@ -43,8 +44,8 @@ public class AuthLoginController extends HttpServlet {
 		memberPwd = (memberPwd != null) ? memberPwd.trim() : "";
 		String saveIdFlag = request.getParameter("saveId");
 		System.out.println(memberId + ""+ saveIdFlag);
-		
-		
+
+
 		//ID, PWD 유효성검사 진행
 		if(memberId == null || memberId.isEmpty() || !memberId.matches("^[a-z0-9]{5,20}$")) {
 			request.setAttribute("error1", "아이디는 5~20자의 영문 소문자, 숫자만 가능합니다.");
@@ -57,15 +58,15 @@ public class AuthLoginController extends HttpServlet {
 			JSFunction.alertLocation(response, "replace", "비밀번호는 8~16자이며, 영문, 숫자, 특수문자를 포함해야 합니다.", "./login.do");
 			return;
 		}
-		
+
 		AuthDTO dto = new AuthDTO();
 		CommonUtil cUtil = new CommonUtil();
 		dto.setMemberId(memberId);
-		dto.setMemberPwd(memberPwd);		
+		dto.setMemberPwd(memberPwd);
 		AuthDAO dao = new AuthDAO();
 		dto = dao.authLogin(dto);
-		
-		// Login 성공 
+
+		// Login 성공
 		if(dto != null && dto.getMemberId()!=null) {
 			if(saveIdFlag != null && saveIdFlag.equals("Y")) {
 				//아이디저장은 7일간만 유지
@@ -77,14 +78,14 @@ public class AuthLoginController extends HttpServlet {
 			}
 			dao.updateLastLoginAt(memberId);
 			dao.close();
-			
+
 			session.setAttribute("memberId", dto.getMemberId());
 			session.setAttribute("memberStatus", dto.getMemberStatus());
 			session.setMaxInactiveInterval(3600);
-			// 로그인 성공시 쿠키 삭제 
+			// 로그인 성공시 쿠키 삭제
 			cUtil.makeCookie(response, "", "/", 0, "failId", "");
 			response.sendRedirect("/sssproj/learning/today.do");
-		} else { 
+		} else {
 			// Login 실패
 			dao.close();
 			Cookie cookie = new Cookie("failId", "1");
@@ -109,7 +110,7 @@ public class AuthLoginController extends HttpServlet {
 					response.addCookie(cookie);
 					JSFunction.alertLocation(response, "replace", "로그인정보가 올바르지 않습니다.. 비밀번호 5회 틀릴시에 로그인 페이지로 이동합니다.", "./login.do");
 				}
-			} 
+			}
 		}
 	}
 

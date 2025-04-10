@@ -11,17 +11,7 @@
 <link href="<c:url value='/css/sidebar.css?ver=${ date }' />" rel="stylesheet" type="text/css">
 <title>나의학습</title>
 	<style>
-	@charset "UTF-8";
-	* {
-	    box-sizing: border-box;
-	}
-	body {
-	    margin: 0;
-	    padding: 0;
-	}
-	.page-container {
-	    display: flex;
-	    min-height: 100vh;
+
 	</style>
 </head>
 <body>
@@ -77,13 +67,14 @@
                       좋아요 순
                    </div>
                 </div>
+                <span>
                 <select class="pagedropdown" id=pageSize>
 	            	<option value="5" ${ map.pageSize eq 5 ? 'selected' : '' }>5</option>
 	                <option value="10" ${ map.pageSize eq 10 ? 'selected' : '' }>10</option>
 	                <option value="20" ${ map.pageSize eq 20 ? 'selected' : '' }>20</option>
 	                <option value="30" ${ map.pageSize eq 30 ? 'selected' : '' }>30</option>
 	                <option value="40" ${ map.pageSize eq 40 ? 'selected' : '' }>50</option>
-	            </select>
+	            </select>개씩 보기</span>
             </div>
             
             <!-- 리스트 테이블 -->
@@ -105,7 +96,7 @@
 					            <c:forEach var="post" items="${ learningList }">
 					                <tr class="viewButton" data-href="./view.do?idx=${ post.idx }">
 					                    <td>${ post.idx }</td>
-					                    <td>${ post.learningTitle }</td>
+					                    <td class="learningTitle">${ post.learningTitle }</td>
 					                    <td>${ dUtil.localDateTimeToString(post.createdAt) }</td>
 					                    <td>${ post.likeCnt }</td>
 					                    <td>${ post.isVisible ? 'Y' : 'N' }</td>

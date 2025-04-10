@@ -1,5 +1,7 @@
 package net.fullstack10.learning;
 
+import java.io.IOException;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,8 +11,6 @@ import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.JSFunction;
 import net.fullstack10.validation.ReportValidationUtil;
 import net.fullstack10.validation.ValidationUtil;
-
-import java.io.IOException;
 
 /**
  * Servlet implementation class LearningReportRegistController
@@ -22,6 +22,7 @@ public class LearningReportRegistController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -30,6 +31,7 @@ public class LearningReportRegistController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 		Object redirectURL = session.getAttribute("redirectURL");
@@ -38,9 +40,9 @@ public class LearningReportRegistController extends HttpServlet {
 			url = redirectURL.toString();
 			session.removeAttribute("redirectURL");
 		}
-		
+
 		String loginMemberId = (String) session.getAttribute("memberId");
-		
+
 		String idx = request.getParameter("idx");
 		String content = request.getParameter("content");
 		
@@ -51,7 +53,7 @@ public class LearningReportRegistController extends HttpServlet {
 		LearningDAO learningDAO = new LearningDAO();
 		int result = learningDAO.createLearningReport(loginMemberId, idx, content);
 		learningDAO.close();
-		
+
 		String msg = (result > 0 ? "신고 처리가 완료되었습니다." : "신고 접수에 실패했습니다.");
 		JSFunction.alertLocation(response, "href", msg, url);
 	}

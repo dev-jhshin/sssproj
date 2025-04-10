@@ -1,5 +1,9 @@
 package net.fullstack10.auth;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.time.LocalDate;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,10 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.fullstack10.common.CommonDateUtil;
 import net.fullstack10.common.JSFunction;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.time.LocalDate;
 
 /**
  * Servlet implementation class AuthRegistController
@@ -21,6 +21,7 @@ public class AuthRegistController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.getRequestDispatcher("/WEB-INF/views/auth/regist_page.jsp").forward(request, response);
 	}
@@ -28,13 +29,14 @@ public class AuthRegistController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		AuthDTO dto = new AuthDTO();
 		AuthDAO dao = new AuthDAO();
 		CommonDateUtil cUtil = new CommonDateUtil();
-		
+
 		PrintWriter pw = response.getWriter();
-		
+
 		String memberId = request.getParameter("memberId");
 		memberId = (memberId != null) ? memberId.trim() : "";
 		String memberPwd = request.getParameter("memberPwd");
@@ -105,7 +107,7 @@ public class AuthRegistController extends HttpServlet {
 			JSFunction.alertLocation(response, "replace", "비밀번호 답변은 한글 또는 영문, 숫자만 입력 가능합니다.", "./regist.do");
 			return;
 		}
-		
+
 		// dto에 저장
 		dto.setMemberId(memberId);
 		dto.setMemberPwd(memberPwd);
