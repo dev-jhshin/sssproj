@@ -120,7 +120,7 @@ body {
 }
 
 .info-table td {
-<<<<<<< HEAD
+
 	background-color : white;
 	color: #555;
 	height : 50px;
@@ -129,13 +129,13 @@ body {
 .td-like-btn {
 	width: 70px;
 	text-align: center;
-=======
+
     text-align: left;
     height: 50px;
 }
 .td-like-btn {
 	width: 70px;
->>>>>>> origin/hyeon
+
 }
 
 
@@ -156,7 +156,8 @@ body {
     min-heigh : 250px;
 }
 
-/* 이미지 섹션*/
+/*이미지 섹션*/
+
 .image-part {
     min-height: 300px;
     position: relative;
@@ -269,7 +270,7 @@ body {
     display: flex;
     justify-content: center;
     margin-top: 10px;
-    margin-bottom : 20px;
+    margin-bottom:10px;
     gap: 5px;
 }
 

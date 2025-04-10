@@ -255,6 +255,8 @@ td {
 }
 
 .page-btn {
+	background-color: #FCFDFA;
+	color: #000000;
     width: 25px; 
     height: 25px;
     margin: 0 5px;
@@ -264,27 +266,18 @@ td {
     align-items: center;
     cursor: pointer;
     border-radius: 4px; 
-    background-color: #FCFDFA;
+}
+.page-btn a, .page-nav a {
+	text-decoration: none;	
+	color: #BBB;
 }
 
 .page-nav {
     margin: 0 5px;
     cursor: pointer;
+    color: white;
 }
 
-.page-btn-active {
-	width: 25px; 
-    height: 25px;
-    margin: 0 5px;
-    border: 1px solid #ddd; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border-radius: 4px; 
-    background-color: #F2F7EA;
-    
-}
 hr {
 	border: 0.1px solid #eee;
 }
@@ -300,6 +293,8 @@ hr {
     font-weight: 500;
     transition: background-color 0.2s; 
 }
+
+
 
 /* 반응형 */
 @media (max-width: 768px) {
@@ -372,9 +367,23 @@ hr {
     font-size: 0.9rem;
     padding: 10px;
   }
+
+
+
+/* 게시글 상세보기 */
+.viewButton { 
+	cursor: pointer;
+}
+
+.viewButton:hover td {
+	color: rgb(90, 219, 75);
 }
 
 /*반응형 스타일*/
+
+
+/*반응형 스타일*/
+
 @media (max-width: 480px) {
   .content-header {
     font-size: 1rem;
@@ -428,4 +437,4 @@ hr {
     height: 22px;
     margin: 0 3px;
   }
-}
+}}

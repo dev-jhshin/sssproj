@@ -172,7 +172,7 @@
 		</div>
 	</div>
 	
-	<!-- 추가: 이미지 모달창 -->
+	<!-- 이미지 모달창 -->
 	<div id="imageModal" class="image-modal">
 	    <span class="modal-close" onclick="closeModal()">&times;</span>
 	    <div class="modal-content">
@@ -180,10 +180,6 @@
 	            <img class="modal-image" src="<c:url value='/Uploads/${ file.fileName }' />" style="display: none;">
 	        </c:forEach>
 	    </div>
-	    <!-- 모달 내부 이미지 네비게이션 버튼 -->
-	    <div class="modal-nav modal-prev" onclick="changeModalSlide(-1)">&#10094;</div>
-	    <div class="modal-nav modal-next" onclick="changeModalSlide(1)">&#10095;</div>
-	</div>
 	
 	
 	<script>
@@ -405,6 +401,7 @@
 
 			images[n].style.display = 'block';
 		}
+		
 
 		document.addEventListener('keydown', function(event) {
 			if (event.key === 'Escape') {
