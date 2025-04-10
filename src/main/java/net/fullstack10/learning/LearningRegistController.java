@@ -79,8 +79,10 @@ public class LearningRegistController extends HttpServlet {
 		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
 		if(!LearningValidationUtil.isValidTitle(learningTitle, response)) return;
 		if(!LearningValidationUtil.isValidContent(learningContent, response)) return;
-		if(!LearningValidationUtil.isValidVisibilityPeriod(isVisible, learningStartedAt, learningEndedAt, response)) return;
-		if(!LearningValidationUtil.isValidDateOrder(learningStartedAt, learningEndedAt, response)) return;
+		if ("Y".equals(isVisible)) {
+			if(!LearningValidationUtil.isValidVisibilityPeriod(isVisible, learningStartedAt, learningEndedAt, response)) return;
+			if(!LearningValidationUtil.isValidDateOrder(learningStartedAt, learningEndedAt, response)) return;
+		}
 
 		LearningDTO learningDTO = new LearningDTO();
 		learningDTO.setMemberId(loginMemberId);
