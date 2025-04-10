@@ -5,11 +5,14 @@ import java.io.IOException;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.CommonUtil;
+import net.fullstack10.common.JSFunction;
 
 /**
  * Servlet Filter implementation class TimeoutFilter
@@ -22,23 +25,18 @@ public class TimeoutFilter extends HttpFilter implements Filter {
 	 */
 
 	@Override
-	public void doFilter(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 	// session.getAttribute바로 사용을 못함 사용을 위해 HttpSession객체 가져오기
 	// request.getSession() 메서드는 boolean타입 반환 없으면 만들기때문에 false로 주기
-	 HttpSession session = request.getSession(false);
-
-	 if (session != null) {
-		 //세션이 있고, 세션의 이름이 memberId를 가져온다
-	        Object memberId = session.getAttribute("memberId");
-	        //memberId가 null이면 로그인페이지 반환
-	        if (memberId == null) {
-	            response.sendRedirect("/auth/login.do"); // 로그인 페이지로 리디렉션
-	            return;
-	        }
-	    } else {
-	        response.sendRedirect("login.jsp");
-	        return;
-	    }
-	  chain.doFilter(request, response);
-	}
+		HttpServletRequest request = (HttpServletRequest) req;
+        HttpServletResponse response = (HttpServletResponse) res;
+        
+		 HttpSession session = request.getSession(false);
+		 if (session == null || session.getAttribute("memberId") == null) {
+			    JSFunction.alertLocation(response, "replace", "로그인 해야합니다..", "/sssproj/auth/login.do");
+			    return;
+			}
+			// 로그인된 상태면 정상적으로 필터 계속 진행
+			chain.doFilter(request, response);
+}
 }
