@@ -54,7 +54,6 @@ public class LearningRegistController extends HttpServlet {
 			url = redirectURL.toString();
 		}
 
-
 		String loginMemberId = (String)session.getAttribute("memberId");
 
 		String learningTitle = request.getParameter("learningTitle");

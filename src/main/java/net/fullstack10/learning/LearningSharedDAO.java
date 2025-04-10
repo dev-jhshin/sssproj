@@ -100,7 +100,7 @@ public class LearningSharedDAO extends DBConnPool {
 				dto.setSharedTo(rs.getString("sharedTo"));
 				dto.setSharedToName(rs.getString("sharedToName"));
 				dto.setSharedFrom(rs.getString("sharedFrom"));
-				dto.setSharedFromName(rs.getString("sharedToName"));
+				dto.setSharedFromName(rs.getString("sharedFromName"));
 				dto.setCreatedAt(rs.getTimestamp("createdAt").toLocalDateTime());
 
 				list.add(dto);
