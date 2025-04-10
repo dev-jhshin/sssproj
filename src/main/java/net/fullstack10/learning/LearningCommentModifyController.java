@@ -31,7 +31,7 @@ public class LearningCommentModifyController extends HttpServlet {
 		String loginMemberId = (String) request.getSession().getAttribute("memberId");
 		String memberId = request.getParameter("memberId");
 		String commentIdx = request.getParameter("commentIdx");
-		String content = request.getParameter("commentContent");
+		String content = request.getParameter("commentEdit");
 		String learningIdx = request.getParameter("learningIdx");
 		
 		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
