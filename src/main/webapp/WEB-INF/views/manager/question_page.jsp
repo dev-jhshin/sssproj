@@ -10,8 +10,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/aa252fc318.js" crossorigin="anonymous"></script>
     <link href="./../css/question_page.css?<%=d.getTime() %>" rel="stylesheet" type="text/css">
-    <link href="./../css/report_page.css?<%=d.getTime() %>" rel="stylesheet"
-	type="text/css">
     <title>SooP GonG 관리자 페이지</title>
 </head>
 <body>
@@ -87,7 +85,7 @@
 					<i class="fa-solid fa-list"></i>목록
 				</button>
                 <button class="listBtn2" type="submit">
-					<i class="fa-solid fa-trash-can"></i>답변
+					<i class="fa-solid fa-square-check"></i>답변
 				</button>
             </div>
 	</div>

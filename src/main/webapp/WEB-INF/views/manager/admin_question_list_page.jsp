@@ -79,7 +79,7 @@
                   </c:forEach>
                </c:when>
                <c:otherwise>
-                  <div>
+                  <div class="questionPgNull">
                      등록된 문의가 없습니다.
                   </div>
                </c:otherwise>
