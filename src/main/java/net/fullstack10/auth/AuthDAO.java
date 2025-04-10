@@ -344,4 +344,42 @@ public class AuthDAO extends DBConnPool {
 		}
 		return rs;
 	}
+	
+	/**
+	 * @desc 아이디와 이메일 일치 확인 
+	 * @param memberId String, memberEmail String
+	 * @return 일치: 1 불일치:0
+	 * @example isValidMemberEmail
+	 */
+	 public int isVaildMenberEmail(String memberId, String memberEmail) {
+		 int result = 0;
+		 
+		 StringBuilder sb = new StringBuilder();
+		 sb.append("SELECT memberId FROM tbl_member");
+		 sb.append(" WHERE memberId = ?");
+		 sb.append(" AND memberEmail = ?");
+		 
+		 try {
+			 pstm = conn.prepareStatement(sb.toString());
+			 pstm.setString(1, memberId);
+			 pstm.setString(2, memberEmail);
+			 rs = pstm.executeQuery();
+				
+				if(rs.next()) {
+					System.out.println("아이디 이메일 일치");
+					return 1; 
+				}else {
+					System.out.println("아이디 이메일 불일치");
+					return 0;
+				}
+			 
+		 }catch(Exception e) {
+			 e.printStackTrace();
+			 System.out.println("아이디 이메일 조회 오류"+e.getMessage());
+		 }
+		 
+		 
+		 
+		 return result;
+	 }
 }

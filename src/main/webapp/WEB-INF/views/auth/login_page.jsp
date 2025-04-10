@@ -51,7 +51,7 @@ String saveId = cUtil.getCookieInfo(request, "saveId");
                 <input type="submit" class="btn" value="Login">
                 <div class="regi_chgpwd_div">
                     <a href="/sssproj/auth/regist.do">회원가입</a>
-                    <a href="/sssproj/auth/memberVerification.do">비밀번호 찾기</a>
+                    <a href="/sssproj/auth/findPwdChoice.do">비밀번호 찾기</a>
                 </div>
             </form>
         </div>
