@@ -80,7 +80,7 @@
 		            </c:forEach>
 	            </c:when>
 	            <c:otherwise>
-	            	<div>
+	            	<div class="reportPgNull">
 	            		등록된 신고가 없습니다.
 	            	</div>
 	            </c:otherwise>

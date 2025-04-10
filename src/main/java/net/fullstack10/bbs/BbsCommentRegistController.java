@@ -40,27 +40,30 @@ public class BbsCommentRegistController extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-
+		
 		String memberId = (String) request.getSession().getAttribute("memberId");
 		String content = request.getParameter("comment_content");
 		String bbsIdx = request.getParameter("bbs_idx");
-
+		
 		if(memberId == null || !(memberId.length() > 0)) { JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do"); return; }
 		if(content == null || !(content.length() > 0)) { JSFunction.alertBack(response, "내용을 입력해주세요."); return;}
 		if(bbsIdx == null || !(cUtil.parseInt(bbsIdx) > 0)) { JSFunction.alertBack(response, "게시글 정보가 없습니다."); return; }
-
+		
 		bbsDAO = new BbsDAO();
 		int commentIdx = bbsDAO.setBbsCommentRegist(bbsIdx, memberId, content);
 		bbsDAO.close();
-
+		
+		String url = "/sssproj/bbs/view.do?idx=" + bbsIdx + "&isVisited=" + false;
 		if (commentIdx > 0) {
-			// JSFunction.alertLocation(response, "댓글 등록이 완료되었습니다.", "/sssproj/bbs/view.do?idx=" + bbsIdx); return;
-			JSFunction.alertLocation(response, "댓글 등록이 완료되었습니다.", "/sssproj/bbs/view.do?idx=" + bbsIdx + "#frmComment" + commentIdx);
-		}
-		JSFunction.alertLocation(response, "댓글 등록에 실패했습니다.", "/sssproj/bbs/view.do?idx=" + bbsIdx);
+			url += "#frmComment" + commentIdx;
+			JSFunction.alertLocation(response, "", url);
+			return;
+		} 
+		url += "#frmCommentRegist";
+		JSFunction.alertLocation(response, "댓글 등록에 실패했습니다.", url);
 
 	}
 

@@ -34,7 +34,7 @@
 						</div>
 					</c:otherwise>
 				</c:choose>
-
+				
 				<c:forEach items="${pMap.categories }" var="category">
 					<c:choose>
 						<c:when test="${category eq pMap.category }">
@@ -210,7 +210,7 @@
 		}
 		
 		// 페이지 사이즈 
-		function updatePageSize(e) {	 
+		function updatePageSize(e) {	
 			let pageSize = e.value;
 			let currentUrl = window.location.href;
 			let newUrl = currentUrl.split('?')[0];

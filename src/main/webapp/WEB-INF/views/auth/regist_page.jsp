@@ -247,7 +247,7 @@
             success: function (response) {
                 if (response.startsWith("success:")) {
                 	sendCode = response.split(":")[1];
-                    $('#emailError').text("이메일이 전송되었습니다. 코드 확인 후 입력 해주세요" + sendCode ).css('color', 'green');
+                    $('#emailError').text("이메일이 전송되었습니다. 코드 확인 후 입력 해주세요").css('color', 'green');
                 } else {
                     $('#emailError').text("이메일 전송 실패. 다시 시도해주세요.");
                 }

@@ -141,7 +141,7 @@
 										<c:if test="${sessionScope.memberId eq comment.get('memberId') }">
 											<div class="comment-edit-delete-btn">
 												<input type="button" class="comment-btn" style="border: 0px;" id="commentEditButton" value="편집" onclick="enableEdit(this)" />
-												<input type="button" class="comment-btn" style="border: 0px;" id="commentDeleteButton" value="삭제"/>
+												<input type="button" class="comment-btn commentDeleteButton" style="border: 0px;" value="삭제"/>
 											</div>
 										</c:if>
 									</div>
@@ -222,7 +222,8 @@
 		// 목록 버튼 클릭 이동
 		const listButton = document.getElementById('listButton');
 		listButton.addEventListener('click', function() {
-			window.location.href = 'list.do';
+			//window.location.href = 'list.do';
+			history.back();
 		});
 
 		// 수정 버튼 클릭 이동
@@ -244,18 +245,17 @@
 			});
 		}
 		
-		// 댓글 삭제 버튼 클릭 이벤트 
-		const commentDeleteButton = document.getElementById('commentDeleteButton');
-		if (commentDeleteButton) {
-			commentDeleteButton.addEventListener('click', () => {
+		// 댓글 삭제 
+		document.querySelectorAll('.commentDeleteButton').forEach(button => {
+			button.addEventListener('click', function() {
 				if(confirm('정말 댓글을 삭제하시겠습니까?')) {
-					const form = document.getElementById('frmComment');
+					const form = this.closest('form');
 					form.action = "/sssproj/bbs/comment/delete.do";
 					form.method="post";
 					form.submit();
-				}			
-			});
-		}
+				}		
+			})
+		})
 		
 		// 신고 버튼 
 		const reportButton = document.getElementById('reportButton');
@@ -284,7 +284,7 @@
 			const text = commentList.querySelector('.comment-text');
 			const textarea = commentList.querySelector('.edit-textarea');
 			const actions = commentList.querySelector('.edit-actions');
-		
+			
 			textarea.value = text.textContent;
 			text.style.display = 'block';
 			textarea.style.display = 'none';

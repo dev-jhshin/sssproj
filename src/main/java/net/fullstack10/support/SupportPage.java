@@ -2,7 +2,7 @@ package net.fullstack10.support;
 
 public class SupportPage {
 	public static String pagingArea(int total_count, int page_no, int page_size, int page_block_size, String linkUrl) {
-
+		if (total_count < 1) { return ""; }
 		StringBuilder sb = new StringBuilder();
 
 		String tmpLinkURL = (linkUrl != null && !linkUrl.isEmpty() ? linkUrl : "");

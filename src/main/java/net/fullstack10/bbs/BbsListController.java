@@ -35,6 +35,7 @@ public class BbsListController extends HttpServlet {
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		HttpSession session = request.getSession();
 		dao = new BbsDAO();
 		Map<String, Object> pMap = new HashMap<>();
@@ -56,6 +57,7 @@ public class BbsListController extends HttpServlet {
 		queryString += "&search_category=" + (searchCategory != null && !searchCategory.isEmpty() ? searchCategory : "");
 		queryString += "&search_word=" + (searchWord != null && !searchWord.isEmpty() ? searchWord : "");
 		queryString += "&category=" + (category!=null && !category.isEmpty() ? category: "");
+		
 		pMap.put("pageSkipCount", pageSkipCount);
 		pMap.put("pageSize", pageSize);
 		pMap.put("searchOrder", searchOrder);
@@ -70,7 +72,6 @@ public class BbsListController extends HttpServlet {
 		pMap.put("user", session.getAttribute("memberId"));
 		pMap.put("totalCount", totalCount);
 		pMap.put("bbsList", dao.getBbsList(pMap));
-
 
 		List<String> categories = dao.getBbsCategory();
 		pMap.put("categories", categories);

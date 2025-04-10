@@ -16,7 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class AuthEmailConfirm
  */
-@WebServlet(name = "auth/emailConfirm.do", urlPatterns = { "/auth/emailConfirm.do" })
+@WebServlet("/auth/emailConfirm.do")
 public class AuthEmailConfirm extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

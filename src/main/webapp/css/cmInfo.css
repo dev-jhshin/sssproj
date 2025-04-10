@@ -111,9 +111,6 @@ body {
     min-height : 250px;
 }
 
-
-
-
 /*이미지 섹션*/
 
 .image-part {
@@ -398,7 +395,7 @@ body {
 	border: 1px solid #ccc;
 	border-radius: 8px;
 	box-sizing: border-box;
-	resize: vertical;
+	resize: none;
 	background-color: #fff;
 	color: #333;
 }

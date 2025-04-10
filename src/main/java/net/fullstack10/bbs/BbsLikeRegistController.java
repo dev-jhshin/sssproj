@@ -41,11 +41,14 @@ public class BbsLikeRegistController extends HttpServlet {
 		bbsDAO = new BbsDAO();
 		int result = bbsDAO.setBbsLikeRegist(idx, memberId);
 		bbsDAO.close();
+		String url = "/sssproj/bbs/view.do?idx=" + idx + "&isVisited=" + false;
+		
 		if (result > 0 ) {
-			JSFunction.alertLocation(response, "좋아요 등록 성공", "/sssproj/bbs/view.do?idx="+idx); return;
+			JSFunction.alertLocation(response, "", url);
+			return;
 		}
-
-		JSFunction.alertLocation(response, "좋아요 등록 실패", "/sssproj/bbs/view.do?idx=" + idx); return;
+		JSFunction.alertLocation(response, "", url);
+		return;
 	}
 
 	/**
