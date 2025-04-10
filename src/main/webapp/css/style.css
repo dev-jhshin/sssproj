@@ -1,0 +1,68 @@
+@charset "utf-8";
+* {
+    margin:0; padding:0;
+    box-sizing:border-box;
+}
+a {
+    display:block;
+    text-decoration: none;
+    color:#1f1f1f;
+}
+@font-face {
+    font-family: 'Dovemayo_gothic';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+body {
+    background-color: #F4F4F4;
+    font-family: 'Dovemayo_gothic';
+}
+    .wrap {
+        display:block;
+        position:absolute;
+        left:50%; top:50%;
+        transform: translate(-50%, -50%);
+        width:650px; height:400px;
+    }
+        header {
+            width:100%; height:150px;
+            margin-bottom: 15px;
+        }
+            header > img {
+                width:100%; height:80%;
+            }
+            header > p {
+                width:100%; height:20%;
+                text-align: center;
+            }
+        main {
+            display: grid;
+            grid-template-columns: 50% 50%;
+            width:100%; height:40px;
+            justify-items: center;
+        }
+            .emailChoicebox {
+                float: left;
+                width:200px; height:100%;
+                text-align: center;
+                line-height:3;
+                border-radius: 5px;
+                background-color: #38d39f;
+                margin-left: 55px;
+            }
+            .emailChoicebox:hover {
+                background-color: #16b580;
+            }
+            .questionChoice {
+                float: left;
+                width:200px; height:100%;
+                text-align: center;
+                line-height:3;
+                border-radius: 5px;
+                background-color: #38d39f;
+                margin-right: 55px;
+            }
+            .questionChoice:hover {
+                background-color: #16b580;
+            }
