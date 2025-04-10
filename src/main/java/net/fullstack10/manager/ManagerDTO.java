@@ -3,7 +3,7 @@ package net.fullstack10.manager;
 import java.time.LocalDateTime;
 
 /**
- * 
+ *
  */
 public class ManagerDTO {
 
@@ -36,9 +36,9 @@ public class ManagerDTO {
 		private String reportTitle; //신고받은 게시물 제목
 		private String reportContent; //신고받은 게시물 내용
 		private LocalDateTime reportUpdatedAt; //신고 받은 게시물 수정날짜
-		
+
 		public ManagerDTO() {}
-		
+
 		public String getManagerId() {
 			return managerId;
 		}
@@ -263,5 +263,5 @@ public class ManagerDTO {
 		public void setIResolutionContent(String iResolutionContent) {
 			this.iResolutionContent = iResolutionContent;
 		}
-		
+
 }

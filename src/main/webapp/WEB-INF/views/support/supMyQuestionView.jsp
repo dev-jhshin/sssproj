@@ -56,7 +56,7 @@
     </div>
     <form name="frmDelete" method="post" action="delete.do">
 	    <div class="contentBtn">
-	        <button class="listBtn1" type="button"><i class="fa-solid fa-list"></i>목록</button>
+	        <button class="listBtn1" type="button">목록</button>
 	        <input type="submit" class="listBtn2" id="deleteBtn" value="삭제"/>
 	        <input type="hidden" name="inquiryIdx" value="${inquiry.idx }"/>
 	        <input type="hidden" name="memberId" value="${inquiry.memberId }"/>

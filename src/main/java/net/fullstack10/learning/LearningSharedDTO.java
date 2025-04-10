@@ -10,7 +10,7 @@ public class LearningSharedDTO {
 	private String sharedFrom;
 	private String sharedFromName;
 	private LocalDateTime createdAt;
-	
+
 	public int getIdx() {
 		return idx;
 	}

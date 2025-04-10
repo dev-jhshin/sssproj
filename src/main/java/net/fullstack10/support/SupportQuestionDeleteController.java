@@ -1,5 +1,8 @@
 package net.fullstack10.support;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -7,16 +10,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import net.fullstack10.common.CommonUtil;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-
 /**
  * Servlet implementation class SupportQuestionDeleteController
  */
 @WebServlet("/support/question/delete.do")
 public class SupportQuestionDeleteController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private SupportDAO supportDAO;   
+    private SupportDAO supportDAO;
     private CommonUtil cUtil = new CommonUtil();
     /**
      * @see HttpServlet#HttpServlet()
@@ -29,6 +29,7 @@ public class SupportQuestionDeleteController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
@@ -37,15 +38,16 @@ public class SupportQuestionDeleteController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter wrt = response.getWriter();
-		
+
 		String idx = request.getParameter("inquiryIdx");
 		String sMemberId = (String) request.getSession().getAttribute("memberId");
 		String memberId = request.getParameter("memberId");
-		
+
 		// 밸리데이션 체크 로직
 		if(sMemberId == null || sMemberId.length() < 1 || !sMemberId.equalsIgnoreCase(memberId)) {
 			wrt.println("<script>");
@@ -81,7 +83,7 @@ public class SupportQuestionDeleteController extends HttpServlet {
 			wrt.close();
 			return;
 		}
-		
+
 	}
 
 }

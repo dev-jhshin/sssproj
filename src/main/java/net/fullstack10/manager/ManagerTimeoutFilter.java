@@ -1,5 +1,7 @@
 package net.fullstack10.manager;
 
+import java.io.IOException;
+
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,17 +12,16 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.JSFunction;
 
-import java.io.IOException;
-
 /**
  * Servlet Filter implementation class ManagerTimeoutFilter
  */
 public class ManagerTimeoutFilter implements Filter {
        Filter config;
-  
+
 	/**
 	 * @see Filter#doFilter(HttpServletRequest, HttpServletResponse, FilterChain)
 	 */
+	@Override
 	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
 			HttpServletRequest request = (HttpServletRequest) req;
 	        HttpServletResponse response = (HttpServletResponse) res;

@@ -51,7 +51,7 @@ String saveId = cUtil.getCookieInfo(request, "saveId");
                 <input type="submit" class="btn" value="Login">
                 <div class="regi_chgpwd_div">
                     <a href="/sssproj/auth/regist.do">회원가입</a>
-                    <a href="/sssproj/auth/memberVerification.do">비밀번호 찾기</a>
+                    <a href="/sssproj/auth/findPwdChoice.do">비밀번호 찾기</a>
                 </div>
             </form>
         </div>
@@ -60,9 +60,14 @@ String saveId = cUtil.getCookieInfo(request, "saveId");
 <script>
     const inputs = document.querySelectorAll(".input");
 
-    function addcl(){
+    function addcl() {
         let parent = this.parentNode.parentNode;
-        parent.classList.add("focus");
+        // 입력 필드에 값이 있거나 포커스가 있을 때 'focus' 클래스를 추가
+        if (this.value !== "") {
+            parent.classList.add("focus");
+        } else {
+            parent.classList.add("focus");
+        }
     }
 
     function remcl(){

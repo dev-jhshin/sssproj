@@ -1,7 +1,6 @@
 package net.fullstack10.bbs;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -42,14 +41,14 @@ public class BbsDeleteController extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
 
 		String idx = request.getParameter("bbs_idx");
 		bbsDAO = new BbsDAO();
 		List<Map> files = bbsDAO.getBbsFilesByIdx(idx);
-		
+
 		if(files !=null) {
 			for(Map<String, String> file: files) {
 				String fileName = file.get("fileName");
@@ -58,10 +57,10 @@ public class BbsDeleteController extends HttpServlet {
 				fUtil.fileDelete(request, saveDir, fileName);
 			}
 		}
-		
+
 		int result = bbsDAO.setBbsDelete(idx);
 		bbsDAO.close();
-		if (result > 0) { JSFunction.alertLocation(response, "게시글이 삭제되었습니다.", "list.do"); } else { JSFunction.alertBack(response, "게시글 삭제에 실패했습니다."); }
+		if (result > 0) { JSFunction.alertLocation(response, "게시글이 삭제되었습니다.", "list.do"); } else { JSFunction.alertBack(response, "게시글 삭제에 실패했습니다."); return; }
 	}
 
 }
