@@ -26,11 +26,13 @@ public class ManagerLogoutController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
 
-		String managerId = (String)session.getAttribute("managerId");
-		session.removeAttribute(managerId);
-		DBConnPool db = new DBConnPool();
-		db.close();
-		JSFunction.alertLocation(response, "replace", "로그아웃 되었습니다.", "./login.do");
+		session.invalidate();
+		String referer = request.getHeader("Referer");
+		if (referer != null) {
+		    response.sendRedirect(referer);
+		} else {
+		    response.sendRedirect(request.getContextPath() + "/home/WelcomeSoop.do");
+		}
 	}
 
 	/**
