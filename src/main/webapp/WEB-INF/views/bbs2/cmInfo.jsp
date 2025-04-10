@@ -222,7 +222,8 @@
 		// 목록 버튼 클릭 이동
 		const listButton = document.getElementById('listButton');
 		listButton.addEventListener('click', function() {
-			window.location.href = 'list.do';
+			//window.location.href = 'list.do';
+			history.back();
 		});
 
 		// 수정 버튼 클릭 이동
@@ -284,7 +285,7 @@
 			const text = commentList.querySelector('.comment-text');
 			const textarea = commentList.querySelector('.edit-textarea');
 			const actions = commentList.querySelector('.edit-actions');
-		
+			
 			textarea.value = text.textContent;
 			text.style.display = 'block';
 			textarea.style.display = 'none';

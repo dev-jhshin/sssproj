@@ -290,7 +290,7 @@ body {
 	margin-bottom : 10px;
 }
 
-.commentDeleteButton{
+#commentDeleteButton{
 	color: #ed6666;
 	cursor : pointer;
 	margin-left : 5px;

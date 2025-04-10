@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<link href="<c:url value='/css/cmRegist.css?<%=new Date()%>'/>"	rel="stylesheet" type="text/css">
+<link href="<c:url value='/css/cmModify.css?<%=new Date()%>'/>"	rel="stylesheet" type="text/css">
 <title>커뮤니티 - 수정페이지</title>
 <style>
 </style>
@@ -19,40 +19,36 @@
 				<input type="hidden" name="idx" value="${pMap.bbs.idx }" />
 				<input type="hidden" name="memberId" value="${pMap.bbs.memberId }" />
 				<div class="form-content">
-				
 					<div class="content-header">
 						<img src="../img/header_logo.svg" class="logo">
 						<h1>커뮤니티 게시물 수정</h1>
 					</div>
 					
+					<!-- 카테고리 -->
 					<div class="form-section">
 						<div class="form-label">카테고리 선택</div>
 						<div class="form-input select-group">
-							<select id="categorySelect" class="category-select"
-								name="category">
+							<select id="categorySelect" class="category-select" name="category">
 								<c:forEach items="${categories}" var="category">
 									<option value="${category }">${category }</option>
 								</c:forEach>
 								<option value="직접입력">직접입력</option>
-							</select> <input type="text" id="customCategoryInput"
-								name="customCategory" placeholder="카테고리를 입력하세요"
-								style="display: none; margin-left: 5px;" autocomplete="off" />
+							</select> 
+							<input type="text" id="customCategoryInput" name="customCategory" placeholder="카테고리를 입력하세요" style="display: none; margin-left: 5px;" autocomplete="off" />
 						</div>
 					</div>
 					
+					<!-- 제목 입력 -->
 					<div class="form-section">
 						<div class="form-label">제목</div>
 						<div class="form-input">
-							<input type="text" placeholder="100자 이내로 작성해주세요."
-								value="${pMap.bbs.bbsTitle }" name="title" maxlength="100"
-								required />
+							<input type="text" placeholder="100자 이내로 작성해주세요." value="${pMap.bbs.bbsTitle }" name="title" maxlength="100" required />
 						</div>
 					</div>
 
 					<!-- 콘텐츠 섹션 -->
 					<div class="content-section">
-						<textarea class="content-part" name="content"
-							placeholder="내용을 입력하세요." required>${pMap.bbs.bbsContent }</textarea>
+						<textarea class="content-part" name="content" placeholder="내용을 입력하세요." required>${pMap.bbs.bbsContent }</textarea>
 					</div>
 
 					<!-- 이미지 삭제 섹션 -->
@@ -61,17 +57,17 @@
 							<div class="form-label">이미지 삭제</div>
 							
 							<div class="form-input file-input-container">
-								<c:forEach items="${pMap.bbs.files }" var="file"
-									varStatus="status">
-									<input type="hidden" name="fileName_${status.index }"
-										value="${file.fileName }" />
-									<input type="hidden" name="fileIdx_${status.index }"
-										value="${file['fileIdx'] }" />
-									<img src="/sssproj/Uploads/${file.fileName }" width="50px"
-										alt="${file.fileName }" />
-									<label> <input type="checkbox" name="deleteFileIdx"
-										value="${status.index }" /> 삭제
-									</label>
+								<c:forEach items="${pMap.bbs.files }" var="file" varStatus="status">
+									<div class="img-delete-container">
+										<input type="hidden" name="fileName_${status.index }" value="${file.fileName }" />
+										<input type="hidden" name="fileIdx_${status.index }" value="${file['fileIdx'] }" />
+										<img src="/sssproj/Uploads/${file.fileName }" width="50px" alt="${file.fileName }" />
+										<div class="delete-checkbox">
+										<label> 
+											<input type="checkbox" name="deleteFileIdx" value="${status.index }" /> 삭제 
+										</label>
+										</div>
+									</div>
 								</c:forEach>
 							</div>
 						</c:if>
@@ -82,8 +78,7 @@
 						<div class="form-label">이미지 첨부</div>
 						<div class="form-input">
 							<button type="button" class="file-select-btn">파일선택</button>
-							<input type="file" name="files" id="fileInput" accept="image/*"
-								style="display: none;" multiple>
+							<input type="file" name="files" id="fileInput" accept="image/*" style="display: none;" multiple>
 
 							<!-- 파일 목록만 표시 -->
 							<div class="file-list">
@@ -97,6 +92,7 @@
 						<button class="btn" id="cancelButton">취소</button>
 						<input type="submit" class="btn" id="modifyButton" value="수정" />
 					</div>
+				</div>
 			</form>
 		</div>
 	</div>

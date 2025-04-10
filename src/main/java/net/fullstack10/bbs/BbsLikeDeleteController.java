@@ -49,11 +49,13 @@ public class BbsLikeDeleteController extends HttpServlet {
 		bbsDAO = new BbsDAO();
 		int result = bbsDAO.setBbsLikeDelete(idx, memberId);
 		bbsDAO.close();
-
+		
 		if(result>0) {
-			JSFunction.alertBack(response, "좋아요 취소 성공했습니다.");return;
+			JSFunction.alertBack(response, "");
+			return;
 		} else {
-			JSFunction.alertBack(response, "좋아요 취소 실패했습니다.");return;
+			JSFunction.alertBack(response, "");
+			return;
 		}
 	}
 
