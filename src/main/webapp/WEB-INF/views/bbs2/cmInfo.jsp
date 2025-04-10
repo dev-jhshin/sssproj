@@ -407,6 +407,7 @@
 
 			images[n].style.display = 'block';
 		}
+		
 
 		document.addEventListener('keydown', function(event) {
 			if (event.key === 'Escape') {
