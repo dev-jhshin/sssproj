@@ -14,6 +14,7 @@ import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.CommonPageUtil;
 import net.fullstack10.common.CommonUtil;
 import net.fullstack10.common.JSFunction;
+import net.fullstack10.validation.ValidationUtil;
 
 /**
  * Servlet implementation class LearningMyListController
@@ -36,10 +37,8 @@ public class LearningMyListController extends HttpServlet {
 		session.setAttribute("redirectURL", requestURL);
 		
 		String loginMemberId = (String)session.getAttribute("memberId");
-		if (loginMemberId == null || loginMemberId.isEmpty()) {
-			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
-			return;
-		}
+		
+		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
 		
 		learningDAO = new LearningDAO();
 		

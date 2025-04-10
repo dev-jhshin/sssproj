@@ -13,6 +13,8 @@ import net.fullstack10.common.CommonFileUtil;
 import net.fullstack10.common.CommonUtil;
 import net.fullstack10.common.JSFunction;
 import net.fullstack10.file.FileDTO;
+import net.fullstack10.validation.CommentValidationUtil;
+import net.fullstack10.validation.ValidationUtil;
 
 /**
  * Servlet implementation class LearningDeleteController
@@ -51,14 +53,10 @@ public class LearningDeleteController extends HttpServlet {
 		
 		String idx = request.getParameter("idx");
 		
-		if (cUtil.parseInt(idx) < 1) {
-			JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
-			return;
-		}
-		if (loginMemberId.equalsIgnoreCase(memberId)) {
-			JSFunction.alertLocation(response, "href", "권한이 없습니다.", url);
-			return;
-		}
+		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
+		if(!ValidationUtil.hasValidMemberId(memberId, response)) return;
+		if(!ValidationUtil.hasPermission(loginMemberId, memberId, response)) return;
+		if(!ValidationUtil.isValidIdx(idx, response)) return;
 		
 		LearningFileDAO fileDAO = new LearningFileDAO();
 		List<FileDTO> files = fileDAO.getFileListByLearningIdx(idx);

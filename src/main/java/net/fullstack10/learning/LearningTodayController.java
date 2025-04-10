@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.CommonPageUtil;
 import net.fullstack10.common.CommonUtil;
+import net.fullstack10.validation.ValidationUtil;
 
 /**
  * Servlet implementation class LearningToadyController
@@ -39,6 +40,8 @@ public class LearningTodayController extends HttpServlet {
 		Map<String, String> map = new HashMap<>();
 		
 		String loginMemberId = (String)session.getAttribute("memberId");
+		
+		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
 		
 		String dateStr = request.getParameter("date");
 		LocalDate date;
