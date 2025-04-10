@@ -61,9 +61,9 @@
 	                        </div>
 	                    </td>
 	                    <td style="text-align: center">
-		                    <input type="date" class="date-input" name="learningStartedAt" value="${ not empty dto.learningStartedAt ? dUtil.localDateToString(dto.learningStartedAt) : '' }"/> 
+		                    <input type="date" class="date-input" name="learningStartedAt" disabled value="${ not empty dto.learningStartedAt ? dUtil.localDateToString(dto.learningStartedAt) : '' }"/> 
 		                    &nbsp;&nbsp;~ &nbsp;&nbsp;
-		                    <input type="date" class="date-input" name="learningEndedAt" value="${ not empty dto.learningEndedAt ? dUtil.localDateToString(dto.learningEndedAt) : '' }"/>
+		                    <input type="date" class="date-input" name="learningEndedAt" disabled value="${ not empty dto.learningEndedAt ? dUtil.localDateToString(dto.learningEndedAt) : '' }"/>
 	                    </td>
 	                </tr>
 	            </table>
@@ -202,18 +202,27 @@
     <script>
     	// 로더 시
    		window.addEventListener("DOMContentLoaded", () => {
-   			// 오늘의 학습 노출 여부
-   	        document.querySelectorAll('input[name="isVisible"]').forEach(radio => {
-   	            radio.addEventListener('change', function() {
-   	                const dateInputs = document.querySelectorAll('input[type="date"].date-input');
-   	                if (this.value === 'Y') {
-   	                    dateInputs.forEach(input => input.removeAttribute('disabled'));
-   	                } else {
-   	                    dateInputs.forEach(input => input.setAttribute('disabled', 'disabled'));
-   	                }
-   	            });
-   	        });
+   			const selectedRadio = document.querySelector('input[name="isVisible"]:checked');
+   			const dateInputs = document.querySelectorAll('input[type="date"].date-input');
+   			
+   			if (selectedRadio && selectedRadio.value === 'Y') {
+   		        dateInputs.forEach(input => input.removeAttribute('disabled'));
+   		    } else {
+   		        dateInputs.forEach(input => input.setAttribute('disabled', 'disabled'));
+   		    }
    		});
+    	
+   		// 오늘의 학습 노출 여부
+	    document.querySelectorAll('input[name="isVisible"]').forEach(radio => {
+	        radio.addEventListener('change', function() {
+	            const dateInputs = document.querySelectorAll('input[type="date"].date-input');
+	            if (this.value === 'Y') {
+	                dateInputs.forEach(input => input.removeAttribute('disabled'));
+	            } else {
+	                dateInputs.forEach(input => input.setAttribute('disabled', 'disabled'));
+	            }
+	        });
+	    });
     	
     	// 분야, 해시태그 객체 클릭 시 삭제 (이벤트 위임)
     	document.querySelector('.field-content').addEventListener('click', function(e) {
