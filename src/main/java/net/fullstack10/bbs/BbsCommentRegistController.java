@@ -56,7 +56,7 @@ public class BbsCommentRegistController extends HttpServlet {
 		int commentIdx = bbsDAO.setBbsCommentRegist(bbsIdx, memberId, content);
 		bbsDAO.close();
 		
-		String url = "/sssproj/bbs/view.do?idx=" + bbsIdx;
+		String url = "/sssproj/bbs/view.do?idx=" + bbsIdx + "&isVisited=" + false;
 		if (commentIdx > 0) {
 			url += "#frmComment" + commentIdx;
 			JSFunction.alertLocation(response, "", url);

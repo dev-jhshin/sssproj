@@ -58,9 +58,9 @@ public class BbsCommentModifyController extends HttpServlet {
 		bbsDAO = new BbsDAO();
 		int result = bbsDAO.setBbsCommentModify(commentIdx, content);
 		bbsDAO.close();
-		String url =  "/sssproj/bbs/view.do?idx=" + bbsIdx + "#frmComment" + commentIdx;
+		String url =  "/sssproj/bbs/view.do?idx=" + bbsIdx + "&isVisited=" + false;
 		if (result > 0) {
-			JSFunction.alertLocation(response, "댓글 수정이 완료되었습니다.", url);
+			JSFunction.alertLocation(response, "", url);
 			return;
 		}
 		JSFunction.alertLocation(response, "댓글 수정에 실패했습니다.", url); return;
