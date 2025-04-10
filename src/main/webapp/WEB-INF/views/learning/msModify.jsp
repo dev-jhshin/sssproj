@@ -61,9 +61,9 @@
 	                        </div>
 	                    </td>
 	                    <td style="text-align: center">
-		                    <input type="date" class="date-input" name="learningStartedAt" disabled value="${ not empty dto.learningStartedAt ? dUtil.localDateToString(dto.learningStartedAt) : '' }"/> 
+		                    <input type="date" class="date-input" name="learningStartedAt" value="${ not empty dto.learningStartedAt ? dUtil.localDateToString(dto.learningStartedAt) : '' }"/> 
 		                    &nbsp;&nbsp;~ &nbsp;&nbsp;
-		                    <input type="date" class="date-input" name="learningEndedAt" disabled value="${ not empty dto.learningEndedAt ? dUtil.localDateToString(dto.learningEndedAt) : '' }"/>
+		                    <input type="date" class="date-input" name="learningEndedAt" value="${ not empty dto.learningEndedAt ? dUtil.localDateToString(dto.learningEndedAt) : '' }"/>
 	                    </td>
 	                </tr>
 	            </table>
@@ -105,7 +105,7 @@
 	                <div class="field-content">
 	                	<c:if test="${ not empty topics }">
 	                		<c:forEach items="${ topics }" var="topic">
-	                			<span class="hashtag">${ topic }</span>
+	                			<span class="field">${ topic } <span>x</span></span>
 	                		</c:forEach>
 	                	</c:if>
 	                	
@@ -121,7 +121,7 @@
 	                <div class="hashtag-content">
 	                	<c:if test="${ not empty hashtags }">
 	                		<c:forEach items="${ hashtags }" var="hashtag">
-	                			<span class="hashtag">#${ hashtag }</span>
+	                			<span class="hashtag">#${ hashtag } <span>x</span></span>
 	                		</c:forEach>
 	                	</c:if>
 	                	
@@ -200,17 +200,33 @@
     </div>
 
     <script>
-        // 오늘의 학습 노출 여부
-        document.querySelectorAll('input[name="isVisible"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const dateInputs = document.querySelectorAll('input[type="date"].date-input');
-                if (this.value === 'Y') {
-                    dateInputs.forEach(input => input.removeAttribute('disabled'));
-                } else {
-                    dateInputs.forEach(input => input.setAttribute('disabled', 'disabled'));
-                }
-            });
-        });
+    	// 로더 시
+   		window.addEventListener("DOMContentLoaded", () => {
+   			// 오늘의 학습 노출 여부
+   	        document.querySelectorAll('input[name="isVisible"]').forEach(radio => {
+   	            radio.addEventListener('change', function() {
+   	                const dateInputs = document.querySelectorAll('input[type="date"].date-input');
+   	                if (this.value === 'Y') {
+   	                    dateInputs.forEach(input => input.removeAttribute('disabled'));
+   	                } else {
+   	                    dateInputs.forEach(input => input.setAttribute('disabled', 'disabled'));
+   	                }
+   	            });
+   	        });
+   		});
+    	
+    	// 분야, 해시태그 객체 클릭 시 삭제 (이벤트 위임)
+    	document.querySelector('.field-content').addEventListener('click', function(e) {
+    	    if (e.target.classList.contains('field')) {
+    	        e.target.remove();
+    	    }
+    	});
+    	
+    	document.querySelector('.hashtag-content').addEventListener('click', function(e) {
+    	    if (e.target.classList.contains('hashtag')) {
+    	        e.target.remove();
+    	    }
+    	});
         
         // 분야 추가
         document.querySelector('.add-field-btn').addEventListener('click', function() {
@@ -240,10 +256,6 @@
                      
                      const tagButton = document.createElement('span');
                      tagButton.textContent = ' x';
-                     
-                     tagElement.addEventListener('click', function () {
-                     	tagElement.remove();
-                     });
                      
                      tagElement.appendChild(tagName);
                      tagElement.appendChild(tagButton);
@@ -285,10 +297,6 @@
                     
                     const tagButton = document.createElement('span');
                     tagButton.textContent = ' x';
-                    
-                    tagElement.addEventListener('click', function () {
-                    	tagElement.remove();
-                    });
                     
                     tagElement.appendChild(tagName);
                     tagElement.appendChild(tagButton);
@@ -372,7 +380,7 @@
      			}<c:if test="${ !status.last }">,</c:if>
      		</c:forEach>
      	];
-        let newSharedList = sharedList;
+     	let newSharedList = [...sharedList];
         
         // 공유된 사용자 삭제
         document.querySelectorAll('.shared-user').forEach(item => {
@@ -571,7 +579,6 @@
         	
         	const added = newSharedArray.filter(id => !sharedArray.includes(id));
         	const removed = sharedArray.filter(id => !newSharedArray.includes(id));
-        	
         	
         	// hidden input value 설정
         	document.querySelector('input[name="topics"]').value = topics.join(',');
