@@ -224,7 +224,7 @@
 				                     </div>
 				                     <div class="comment-text">${ comment.commentContent }</div>
 				                     <!-- 댓글 수정 -->
-				                     <textarea class="comment-textarea" name="commentContent">${ comment.commentContent }</textarea>
+				                     <textarea class="comment-textarea" name="commentEdit">${ comment.commentContent }</textarea>
 				                     <div class="comment-edit-btn">
 				                     	<input type="button" value="저장" id="editCommentButton" />
 				                     	<input type="button" value="취소" id="cancleCommentButton" />
@@ -350,6 +350,12 @@
 			e.stopPropagation();
 			
 			const frm = document.getElementById('frmCommentReigst');
+			const content = frm.commentContent.value;
+			if (content == null || content.length < 1) {
+				alert("내용을 입력하세요.");
+				return;
+			}
+			
 			frm.action = './comment/regist.do'
 			frm.submit();
 		});
@@ -359,8 +365,9 @@
 		deleteCommentButton.forEach(btn => {
 			btn.addEventListener('click', () => {
 				if(confirm('정말 댓글을 삭제하시겠습니까?')) {
-					const frm = document.getElementById('frmCommentModify');
-					frm.action = './comment/delete.do'
+					const frm = btn.closest('form');
+					frm.action = './comment/delete.do';
+					frm.method = 'post';
 					frm.submit();
 				}
 			});
@@ -390,13 +397,19 @@
 				const textarea = comment.querySelector('.comment-textarea');
 				const btn = comment.querySelector('.comment-edit-btn');
 				
+				const frm = this.closest('.frmComment');
+				const content = frm.commentEdit.value;
+				if (content == null || content.length < 1) {
+					alert("내용을 입력하세요.");
+					return;
+				}
+				
 				text.value = textarea.value;
 				
 				text.style.display = 'block';
 				textarea.style.display = 'none';
 				btn.style.display = 'none';
 				
-				const frm = this.closest('.frmComment');
 				frm.action = './comment/modify.do?';
 				frm.method = 'post';
 				frm.submit();
