@@ -1,7 +1,6 @@
 package net.fullstack10.bbs;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -48,23 +47,21 @@ public class BbsCommentDeleteController extends HttpServlet {
 		String bbsIdx = request.getParameter("bbs_idx");
 		String commentIdx = request.getParameter("comment_idx");
 		String memberId = request.getParameter("comment_memberId");
-		
-		if (sessionMemberId == null || !(sessionMemberId.length() > 0)) {
-			JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do"); }
-		if (memberId == null || !(memberId.length() > 0)) { JSFunction.alertBack(response, "사용자 정보가 없습니다.");}
-		if (!sessionMemberId.equalsIgnoreCase(memberId)) { JSFunction.alertBack(response, "사용자 정보가 일치하지 않습니다.");}
-		
-		if(commentIdx == null || !(cUtil.parseInt(commentIdx) > 0)) { JSFunction.alertBack(response, "댓글 정보가 올바르지 않습니다.");}
+
+		if (sessionMemberId == null || !(sessionMemberId.length() > 0)) { JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do"); return; }
+		if (memberId == null || !(memberId.length() > 0)) { JSFunction.alertBack(response, "사용자 정보가 없습니다."); return;}
+		if (!sessionMemberId.equalsIgnoreCase(memberId)) { JSFunction.alertBack(response, "사용자 정보가 일치하지 않습니다.");return;}
+
+		if(commentIdx == null || !(cUtil.parseInt(commentIdx) > 0)) { JSFunction.alertBack(response, "댓글 정보가 올바르지 않습니다."); return;}
 
 		bbsDAO = new BbsDAO();
 		int result = bbsDAO.setBbsCommentDelete(commentIdx);
 		bbsDAO.close();
-		
+
 		if (result > 0) {
-			JSFunction.alertLocation(response, "댓글을 삭제하였습니다.","/sssproj/bbs/view.do?idx=" + bbsIdx);
-		} else {
-			JSFunction.alertLocation(response, "댓글 삭제에 실패했습니다.","/sssproj/bbs/view.do?idx=" + bbsIdx);
+			JSFunction.alertLocation(response, "댓글을 삭제하였습니다.","/sssproj/bbs/view.do?idx=" + bbsIdx); return;
 		}
+		JSFunction.alertLocation(response, "댓글 삭제에 실패했습니다.","/sssproj/bbs/view.do?idx=" + bbsIdx); return;
 	}
 
 }

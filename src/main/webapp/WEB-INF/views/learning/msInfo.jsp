@@ -12,7 +12,23 @@
 <link href="<c:url value='/css/sidebar.css?ver=${ date }' />" rel="stylesheet" type="text/css">
 <title>나의학습 - 학습정보</title>
 <style>
+.image-container {
+    width: 200px;
+    overflow: hidden;
+    position: relative;
+}
 
+.slider-wrapper {
+    display: flex;
+    transition: transform 0.3s ease;
+}
+
+.slide-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    flex-shrink: 0
+}
 </style>
 </head>
 
@@ -72,14 +88,11 @@
                 <tr>
                     <th>제목</th>
                     <td>${ dto.learningTitle }</td>
-                    <td class="td-like-btn" >
+                    <td class="td-like-btn">
 						<button class="like-btn inactive" id="likeButton" <c:if test="${ empty sessionScope.memberId }">disabled</c:if>>
-							<c:if var="isLiked" test="${ isLiked }">
-								💚
-							</c:if>
-							<c:if test="${ not isLiked }">♡ 
-							</c:if>
-						</button><span id="likeCount">${ dto.likeCnt ne null and not empty dto.likeCnt ? dto.likeCnt : '0' }</span>
+							${ dto.isLiked ? '💚' : '♡' }
+						</button>
+						<span id="likeCount">${ dto.likeCnt ne null and not empty dto.likeCnt ? dto.likeCnt : '0' }</span>
 					</td>
                 </tr>
             </table>
@@ -107,7 +120,7 @@
                 </div>
             </div>
             
-            <!-- 이미지 섹션 -->
+            <!-- 이미지 -->
             <c:if test="${ not empty dto.files }">
                  <div class="image-part">
                  	<div class="image-button-set">
@@ -117,8 +130,8 @@
                  	</div>
                  	<div class="image-container">
                  		<div class="slider-wrapper">
-					        <c:forEach items="${ dto.files }" var="file" varStatus="status">
-					            <img src="<c:url value='/Uploads/${ file.fileName }' />" class="slide-image" onclick="openModal();currentSlide(${status.index})"/>
+					        <c:forEach items="${ dto.files }" var="file">
+					            <img src="<c:url value='/Uploads/${ file.fileName }' />" class="slide-image"/>
 					        </c:forEach>
 					    </div>
                  	</div>
@@ -127,16 +140,8 @@
                            <img src="<c:url value='/img/right_arrow.svg' />">          
                        </div>
                    </div>
-                </div>  
-                   <!-- 이미지 슬라이딩 -->
-                   <div class="image-swiper" id="imageSwiper">
-                   <c:forEach items="${dto.files}" var="file" varStatus="status">
-                        <div class="swiper-dot ${status.index == 0 ? 'active' : ''}" data-index="${status.index}"></div>
-                   </c:forEach>
-                   </div>
+                </div>
             </c:if>
-            
-           
          <!-- 분야 섹션 -->
             <div class="tags-section">
                 <div class="tag-label">분야</div>
@@ -174,11 +179,19 @@
                     </div>
                 </div>
             </div>
-            
-            
              <!-- 댓글 섹션 -->
             <div class="comment-section">
                <div class="comment-list-section" id="commentList">
+                 <!-- 댓글 작성 -->
+	               <c:if test="${ not empty sessionScope.memberId }">
+	               	   <form name="frmCommentReigst" id="frmCommentReigst" method="post">
+		               		<div class="comment-input-section">
+		               			  <input type="hidden" name="learningIdx" value="${ dto.idx }" />
+				                  <input type="text" autocomplete="off" placeholder="댓글 내용을 입력하세요." class="comment-input" name="commentContent" id="commentContent"> 
+				                  <input type="submit" class="comment-button" id="registCommentButton" value="등록" />
+		               		</div>
+		               </form>
+	               </c:if>
                	 <c:choose>
                	 	<c:when test="${ empty dto.comments }">
                	 		<div class="comment-list">
@@ -187,42 +200,41 @@
                	 	</c:when>
                	 	<c:otherwise>
                	 		<c:forEach items="${ dto.comments }" var="comment">
-               	 			<form name="frmCommentModify" id="frmCommentModify" method="post">
+               	 			<form name="frmComment${comment.idx}" id="frmComment${comment.idx}" class="frmComment">
                	 				<div class="comment-list">
                	 					<input type="hidden" name="learningIdx" value="${ comment.learningIdx }" /> 
 									<input type="hidden" name="commentIdx" value="${ comment.idx }" /> 
 				                	<input type="hidden" name="memberId" value="${ comment.memberId }" /> 
 				                	<div class="comment-header">
-				                        <div class="comment-header-content">
+				                        <div class="comment-user-date">
 				                           <div class="comment-user">${ comment.memberId }</div>
-				                           <div class="comment-date">${ dUtil.localDateTimeToString(comment.createdAt) }</div>
+				                           <div class="comment-date">
+				                           		${ dUtil.localDateTimeToString(comment.createdAt) }
+				                           		<c:if test="${ not empty comment.updatedAt and (comment.createdAt ne comment.updatedAt) }">
+													(수정: ${ dUtil.localDateTimeToString(comment.updatedAt) } )                          		
+				                           		</c:if>
+				                           </div>
 				                        </div>
 				                        <c:if test="${ sessionScope.memberId eq comment.memberId }">
 				                        	<div class="comment-btn-set">
-					                           <button type="button" class="comment-modify-btn" id="modifyCommentButton" >수정</button>
-					                           <button type="button" class="comment-delete-btn" id="deleteCommentButton" >삭제</button>                        
+					                           <button type="button" class="comment-btn comment-modify-btn" id="modifyCommentButton" >편집</button>
+					                           <button type="button" class="comment-btn comment-delete-btn" id="deleteCommentButton" >삭제</button>                        
 					                        </div>
 				                        </c:if>
 				                     </div>
-				                     <div class="comment-content">${ comment.commentContent }!</div>
+				                     <div class="comment-text">${ comment.commentContent }</div>
+				                     <!-- 댓글 수정 -->
+				                     <textarea class="comment-textarea" name="commentContent">${ comment.commentContent }</textarea>
+				                     <div class="comment-edit-btn">
+				                     	<input type="button" value="저장" id="editCommentButton" />
+				                     	<input type="button" value="취소" id="cancleCommentButton" />
+				                     </div>
 				                </div>
                	 			</form>
                	 		</c:forEach>
                	 	</c:otherwise>
                	 </c:choose>
-                
-                <!-- 댓글작성부분 -->
-               <c:if test="${ not empty sessionScope.memberId }">
-               	   <form name="frmCommentReigst" id="frmCommentReigst" method="post">
-	               		<div class="comment-input-section">
-	               			  <input type="hidden" name="learningIdx" value="${ dto.idx }" />
-			                  <input type="text" autocomplete="off" placeholder="댓글 내용을 입력하세요." class="comment-input" name="commentContent" id="commentContent"> 
-			                  <button type="button" class="comment-button" id="registCommentButton">등록</button>
-	               		</div>
-	               </form>
-               </c:if>
             </div>
-            
             
             <!-- 버튼 세트 -->
             <div class="btn-set">
@@ -240,35 +252,56 @@
  </div>   
     
 <script>
-	// 좋아요 하트
+	// URL 정리
 	document.addEventListener('DOMContentLoaded', function() {
-	    const likeButton = document.getElementById('likeButton');
-	    const likeCount = document.getElementById('likeCount');
-	    let isLiked = ${isLiked}; 
-	    likeButton.addEventListener('click', function() {
-	        isLiked = !isLiked;
-	        updateLikeButton();
-	    });
-
-	    function updateLikeButton() {
-	        if (isLiked) {
-	        	window.location.href = './like/regist.do?idx=${ dto.idx }';
-	            // likeButton.innerHTML = '💚'; 
-	            // likeButton.classList.add('active');
-	            // likeButton.classList.remove('inactive');
-	            // likeCount.textContent = parseInt(likeCount.textContent) + 1;
-	        } else {
-	        	window.location.href = './like/delete.do?idx=${ dto.idx }';
-	            // likeButton.innerHTML = '♡'; 
-	            // likeButton.classList.add('inactive');
-	            // likeButton.classList.remove('active');
-	            // if (parseInt(likeCount.textContent) > 0) {
-	            //     likeCount.textContent = parseInt(likeCount.textContent) - 1;
-	            // }
-	        }
-	    }
+		const url = new URL(window.location.href);
+		const idx = url.searchParams.get('idx');
+		const hash = url.hash;
+		
+		history.replaceState({}, document.title, url.pathname + '?idx=' + idx + hash);
 	});
+
+	// 좋아요 하트
+	const likeButton = document.getElementById('likeButton');
+	likeButton.addEventListener('click', function() {
+       	if (!${ dto.isLiked }) {
+       		window.location.href = './like/regist.do?idx=${ dto.idx }';
+       	} else {
+       		window.location.href = './like/delete.do?idx=${ dto.idx }';
+       	}
+    });
     
+    // 이미지 슬라이더
+    let currentIndex = 0;
+    
+    function movePrev() {
+    	const images = document.querySelectorAll('.slide-image');
+        if (currentIndex > 0) {
+            currentIndex--;
+        } else {
+            currentIndex = images.length - 1;
+        }
+        updateSlider();
+    }
+    
+	function moveNext() {
+		const images = document.querySelectorAll('.slide-image');
+		if (currentIndex < images.length - 1) {
+	        currentIndex++;
+	    } else {
+	        currentIndex = 0;
+	    }
+	    updateSlider();
+    }
+	
+	function updateSlider() {
+		const sliderWrapper = document.querySelector('.slider-wrapper');
+		const images = document.querySelectorAll('.slide-image');
+	    if (images.length === 0) return;
+		
+		const imageWidth = images[0].clientWidth;
+		sliderWrapper.style.transform = 'translateX(-'+ (currentIndex * imageWidth) + 'px)';
+	}
 
      // 목록 버튼 클릭 이동
      const listButton = document.getElementById('listButton');
@@ -312,24 +345,79 @@
 	// 댓글 버튼
 	const registCommentButton = document.getElementById('registCommentButton');
 	if (registCommentButton) {
-		registCommentButton.addEventListener('click', function() {
+		registCommentButton.addEventListener('click', function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+			
 			const frm = document.getElementById('frmCommentReigst');
 			frm.action = './comment/regist.do'
 			frm.submit();
 		});
 	}
-    //const modifyCommentButton = document.getElementById('modifyCommentButton');
-    //modifyCommentButton.addEventListener('click', function() {
-    //	window.location.href = '';
-    //});
-	const deleteCommentButton = document.getElementById('deleteCommentButton');
+	const deleteCommentButton = document.querySelectorAll('#deleteCommentButton');
 	if (deleteCommentButton) {
-		deleteCommentButton.addEventListener('click', () => {
-			if(confirm('정말 댓글을 삭제하시겠습니까?')) {
-				const frm = document.getElementById('frmCommentModify');
-				frm.action = './comment/delete.do'
+		deleteCommentButton.forEach(btn => {
+			btn.addEventListener('click', () => {
+				if(confirm('정말 댓글을 삭제하시겠습니까?')) {
+					const frm = document.getElementById('frmCommentModify');
+					frm.action = './comment/delete.do'
+					frm.submit();
+				}
+			});
+		});
+	}
+	const modifyCommentButton = document.querySelectorAll('#modifyCommentButton');
+	if (modifyCommentButton) {
+		modifyCommentButton.forEach(btn => {
+			btn.addEventListener('click', function() {
+				const comment = this.closest('.comment-list');
+				const text = comment.querySelector('.comment-text');
+				const textarea = comment.querySelector('.comment-textarea');
+				const btn = comment.querySelector('.comment-edit-btn');
+				
+				text.style.display = 'none';
+				textarea.style.display = 'block';
+				btn.style.display = 'block';
+			});
+		});
+	}
+	const editCommentButton = document.querySelectorAll('#editCommentButton');
+	if (editCommentButton) {
+		editCommentButton.forEach(btn => {
+			btn.addEventListener('click', function() {
+				const comment = this.closest('.comment-list');
+				const text = comment.querySelector('.comment-text');
+				const textarea = comment.querySelector('.comment-textarea');
+				const btn = comment.querySelector('.comment-edit-btn');
+				
+				text.value = textarea.value;
+				
+				text.style.display = 'block';
+				textarea.style.display = 'none';
+				btn.style.display = 'none';
+				
+				const frm = this.closest('.frmComment');
+				frm.action = './comment/modify.do?';
+				frm.method = 'post';
 				frm.submit();
-			}
+			});
+		});
+	}
+	const cancleCommentButton = document.querySelectorAll('#cancleCommentButton');
+	if (cancleCommentButton) {
+		cancleCommentButton.forEach(btn => {
+			btn.addEventListener('click', function() {
+				const comment = this.closest('.comment-list');
+				const text = comment.querySelector('.comment-text');
+				const textarea = comment.querySelector('.comment-textarea');
+				const btn = comment.querySelector('.comment-edit-btn');
+				
+				textarea.value = text.textContent;
+				
+				text.style.display = 'block';
+				textarea.style.display = 'none';
+				btn.style.display = 'none';
+			});
 		});
 	}
 	
@@ -346,112 +434,6 @@
 		const modal = document.getElementById('modal');
 		modal.style.display = 'none';
 	}
-	
-	
-	 // 이미지 슬라이더
-	document.addEventListener('DOMContentLoaded', function () {
-		let currentIndex = 0;
-		const sliderWrapper = document.querySelector('.slider-wrapper');
-		const imageWidth = 200;
-		const slideImages = document.querySelectorAll('.slide-image');
-		const dots = document.querySelectorAll('.swiper-dot');
-
-		document.getElementById('btnPrev').addEventListener('click', movePrev);
-		document.getElementById('btnNext').addEventListener('click', moveNext);
-
-		dots.forEach((dot, index) => {
-			dot.addEventListener('click', function () {
-				currentIndex = index;
-				updateSlider();
-			});
-		});
-
-		function movePrev() {
-			if (currentIndex > 0) {
-				currentIndex--;
-			} else {
-				currentIndex = slideImages.length - 1;
-			}
-			updateSlider();
-		}
-
-		function moveNext() {
-			if (currentIndex < slideImages.length - 1) {
-				currentIndex++;
-			} else {
-				currentIndex = 0;
-			}
-			updateSlider();
-		}
-
-		function updateSlider() {
-			sliderWrapper.style.transform = 'translateX(-' + (currentIndex * imageWidth) + 'px)';
-			updateDots();
-		}
-
-		function updateDots() {
-			dots.forEach((dot, index) => {
-				if (index === currentIndex) {
-					dot.classList.add('active');
-					dot.style.opacity = '1';
-				} else {
-					dot.classList.remove('active');
-					dot.style.opacity = '0.3';
-				}
-			});
-		}
-
-		updateSlider();
-	});
-		
-	 
-		// 이미지 모달
-		let modalIndex = 0;
-
-		function openModal() {
-		    document.getElementById('imageModal').style.display = 'block';
-		    showModalSlides(modalIndex);
-		}
-
-		function closeModal() {
-		    document.getElementById('imageModal').style.display = 'none';
-		}
-
-		function currentSlide(n) {
-		    modalIndex = n;
-		    showModalSlides(modalIndex);
-		}
-
-		function changeModalSlide(step) {
-		    const images = document.querySelectorAll('.modal-image');
-		    modalIndex += step;
-
-		    if (modalIndex >= images.length) {
-		        modalIndex = 0;
-		    } else if (modalIndex < 0) {
-		        modalIndex = images.length - 1;
-		    }
-		    
-		    showModalSlides(modalIndex);
-		}
-
-		function showModalSlides(n) {
-		    const images = document.querySelectorAll('.modal-image');
-
-		    for (let i = 0; i < images.length; i++) {
-		        images[i].style.display = 'none';
-		    }
-
-		    images[n].style.display = 'block';
-		}
-
-		document.addEventListener('keydown', function(event) {
-		    if (event.key === 'Escape') {
-		        closeModal();
-		    }
-		});
-		
-
 
 </script> 
 </body>

@@ -6,7 +6,7 @@ public class FileDTO {
 	private String fileName;
 	private String fileExt;
 	private long fileSize;
-	
+
 	public int getIdx() {
 		return idx;
 	}

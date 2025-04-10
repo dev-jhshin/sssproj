@@ -12,7 +12,7 @@ public class InquiryDTO {
 	private LocalDateTime updatedAt;
 	private String iResolutionContent;
 	private String managerId;
-	
+
 	public int getIdx() {
 		return idx;
 	}
@@ -67,6 +67,6 @@ public class InquiryDTO {
 	public void setManagerId(String managerId) {
 		this.managerId = managerId;
 	}
-	
-	
+
+
 }

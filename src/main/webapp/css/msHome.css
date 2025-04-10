@@ -286,6 +286,7 @@ td {
     transition: background-color 0.2s; 
 }
 
+<<<<<<< HEAD
 
 /* 반응형 */
 @media (max-width: 768px) {
@@ -360,6 +361,18 @@ td {
   }
 }
 
+=======
+/* 게시글 상세보기 */
+.viewButton { 
+	cursor: pointer;
+}
+
+.viewButton:hover td {
+	color: rgb(90, 219, 75);
+}
+
+/*반응형 스타일*/
+>>>>>>> origin/hyeon
 @media (max-width: 480px) {
   .content-header {
     font-size: 1rem;

@@ -17,9 +17,9 @@ public class AuthDTO {
 	private int questionId;
 	private String answer;
 
-	
+
 	public AuthDTO() {}
-	
+
 	public int getIdx() {
 		return idx;
 	}
@@ -96,5 +96,5 @@ public class AuthDTO {
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
-	
+
 }

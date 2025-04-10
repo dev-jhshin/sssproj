@@ -11,7 +11,7 @@
 <body>
 <div class="wrap">
     <header>
-        <a href="#"><img class="header_logo" src="./../img/header_logo.svg" alt="메인로고"></a>
+        <a href="./findPwdChoice.do"><img class="header_logo" src="./../img/header_logo.svg" alt="메인로고"></a>
         <p class="header_comment">"비밀번호 찾기 페이지입니다."</p>
     </header>
     <main>

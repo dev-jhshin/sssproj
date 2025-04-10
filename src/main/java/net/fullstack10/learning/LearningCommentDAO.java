@@ -1,5 +1,7 @@
 package net.fullstack10.learning;
 
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,17 +10,17 @@ import net.fullstack10.common.DBConnPool;
 
 public class LearningCommentDAO extends DBConnPool {
 	private CommonDateUtil dUtil;
-	
+
 	public LearningCommentDAO() {
 		super();
 		dUtil = new CommonDateUtil();
 	}
-	
+
 	public LearningCommentDAO(String ct, String ds) {
 		super(ct, ds);
 		dUtil = new CommonDateUtil();
 	}
-	
+
 	/**
 	 * @description 댓글 조회
 	 *
@@ -27,19 +29,20 @@ public class LearningCommentDAO extends DBConnPool {
 	 */
 	public List<LearningCommentDTO> getLearningCommentListByLearningIdx(String learningIdx) {
 		List<LearningCommentDTO> list = new ArrayList<>();
-		
+
 		StringBuilder sql = new StringBuilder();
 		sql.append(" SELECT ");
-		sql.append(" idx, learningIdx, memberId, commentContent, createdAt ");
+		sql.append(" idx, learningIdx, memberId, commentContent, createdAt, updatedAt ");
 		sql.append(" FROM tbl_learning_comment ");
 		sql.append(" WHERE learningIdx = ? ");
-		
+		sql.append(" ORDER BY createdAt DESC ");
+
 		try {
 			pstm = conn.prepareStatement(sql.toString());
 			pstm.setString(1, learningIdx);
-			
+
 			rs = pstm.executeQuery();
-			
+
 			while(rs.next()) {
 				LearningCommentDTO dto = new LearningCommentDTO();
 				dto.setIdx(rs.getInt("idx"));
@@ -47,13 +50,13 @@ public class LearningCommentDAO extends DBConnPool {
 				dto.setMemberId(rs.getString("memberId"));
 				dto.setCommentContent(rs.getString("commentContent"));
 				dto.setCreatedAt(dUtil.toLocalDateTime(rs.getTimestamp("createdAt")));
-				
+				dto.setUpdatedAt(rs.getTimestamp("updatedAt") != null ? dUtil.toLocalDateTime(rs.getTimestamp("updatedAt")) : null );
 				list.add(dto);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		 
+
 		return list;
 	}
 
@@ -63,21 +66,25 @@ public class LearningCommentDAO extends DBConnPool {
 	 * @param learningIdx String
 	 * @param memberId String
 	 * @param comment String
-	 * @return int
+	 * @return int 생성된 댓글의 idx (실패 시 0)
 	 */
 	public int createLearningComment(String learningIdx, String memberId, String comment) {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" INSERT INTO tbl_learning_comment ( ");
 		sql.append(" learningIdx, memberId, commentContent ");
 		sql.append(" ) VALUES ( ?, ?, ? ) ");
-		
+
 		try {
-			pstm = conn.prepareStatement(sql.toString());
+			pstm = conn.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			pstm.setString(1, learningIdx);
 			pstm.setString(2, memberId);
-			pstm.setString(3, comment);
+			pstm.setString(3, comment);			
+			pstm.executeUpdate();
 			
-			return pstm.executeUpdate();
+			rs = pstm.getGeneratedKeys();
+			if (rs.next()) {
+				return rs.getInt(1);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -86,25 +93,52 @@ public class LearningCommentDAO extends DBConnPool {
 	}
 	
 	/**
-	 * @description 댓글 삭제
+	 * @description 댓글 수정
 	 *
-	 * @param idx String
+	 * @param commentIdx String
+	 * @param comment String
 	 * @return int
 	 */
-	public int deleteLearningCommentByIdx(String idx) {
+	public int updateLearningComment(String commentIdx, String comment) {
 		StringBuilder sql = new StringBuilder();
-		sql.append(" DELETE FROM tbl_learning_comment ");
+		sql.append(" UPDATE tbl_learning_comment SET ");
+		sql.append(" commentContent = ?, updatedAt = ? ");
 		sql.append(" WHERE idx = ? ");
 		
 		try {
 			pstm = conn.prepareStatement(sql.toString());
-			pstm.setString(1, idx);
-			
+			pstm.setString(1, comment);
+			pstm.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+			pstm.setString(3, commentIdx);
+		
 			return pstm.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		 
+
+		return 0;
+	}
+
+	/**
+	 * @description 댓글 삭제
+	 *
+	 * @param commentIdx String
+	 * @return int
+	 */
+	public int deleteLearningCommentByIdx(String commentIdx) {
+		StringBuilder sql = new StringBuilder();
+		sql.append(" DELETE FROM tbl_learning_comment ");
+		sql.append(" WHERE idx = ? ");
+
+		try {
+			pstm = conn.prepareStatement(sql.toString());
+			pstm.setString(1, commentIdx);
+
+			return pstm.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		return 0;
 	}
 
@@ -118,16 +152,16 @@ public class LearningCommentDAO extends DBConnPool {
 		StringBuilder sql = new StringBuilder();
 		sql.append(" DELETE FROM tbl_learning_comment ");
 		sql.append(" WHERE learningIdx = ? ");
-		
+
 		try {
 			pstm = conn.prepareStatement(sql.toString());
 			pstm.setString(1, learningIdx);
-			
+
 			return pstm.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		 
+
 		return 0;
 	}
 }

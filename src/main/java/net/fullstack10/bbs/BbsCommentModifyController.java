@@ -1,14 +1,12 @@
 package net.fullstack10.bbs;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import net.fullstack10.common.CommonUtil;
 import net.fullstack10.common.JSFunction;
 
@@ -51,21 +49,22 @@ public class BbsCommentModifyController extends HttpServlet {
 		String commentIdx = request.getParameter("comment_idx");
 		String commentMemberId = request.getParameter("comment_memberId");
 		String bbsIdx = request.getParameter("bbs_idx");
-		
-		if(memberId == null || !(memberId.length() > 0)) { JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do"); }
-		if(!memberId.equalsIgnoreCase(commentMemberId)) { JSFunction.alertBack(response, "사용자 정보가 다릅니다."); }
-		if(content == null || !(content.length() > 0)) { JSFunction.alertBack(response, "내용을 입력해주세요."); }
-		if(commentIdx == null || !(cUtil.parseInt(commentIdx) > 0)) { JSFunction.alertBack(response, "댓글 정보가 올바르지 않습니다."); }
+
+		if(memberId == null || !(memberId.length() > 0)) { JSFunction.alertLocation(response, "로그인 세션이 만료되었습니다.", "/sssproj/auth/login.do");return; }
+		if(!memberId.equalsIgnoreCase(commentMemberId)) { JSFunction.alertBack(response, "사용자 정보가 다릅니다."); return; }
+		if(content == null || !(content.length() > 0)) { JSFunction.alertBack(response, "내용을 입력해주세요."); return;}
+		if(commentIdx == null || !(cUtil.parseInt(commentIdx) > 0)) { JSFunction.alertBack(response, "댓글 정보가 올바르지 않습니다."); return; }
 
 		bbsDAO = new BbsDAO();
 		int result = bbsDAO.setBbsCommentModify(commentIdx, content);
 		bbsDAO.close();
-		
+		String url =  "/sssproj/bbs/view.do?idx=" + bbsIdx + "#frmComment" + commentIdx;
 		if (result > 0) {
-			JSFunction.alertLocation(response, "댓글 수정이 완료되었습니다.", "/sssproj/bbs/view.do?idx="+bbsIdx);	
-		} else {
-			JSFunction.alertLocation(response, "댓글 수정에 실패했습니다.", "/sssproj/bbs/view.do?idx="+bbsIdx);	
+			JSFunction.alertLocation(response, "댓글 수정이 완료되었습니다.", url);
+			return;
 		}
+		JSFunction.alertLocation(response, "댓글 수정에 실패했습니다.", url); return;
+
 	}
 
 }

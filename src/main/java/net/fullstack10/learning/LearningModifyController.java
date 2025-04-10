@@ -17,6 +17,9 @@ import net.fullstack10.common.CommonFileUtil;
 import net.fullstack10.common.CommonUtil;
 import net.fullstack10.common.JSFunction;
 import net.fullstack10.file.FileDTO;
+import net.fullstack10.validation.CommentValidationUtil;
+import net.fullstack10.validation.LearningValidationUtil;
+import net.fullstack10.validation.ValidationUtil;
 
 /**
  * Servlet implementation class LearningModifyController
@@ -25,49 +28,45 @@ import net.fullstack10.file.FileDTO;
 @MultipartConfig(maxFileSize = 1024 * 1024 * 1, maxRequestSize = 1024 * 1024 * 10)
 public class LearningModifyController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	private CommonUtil cUtil = new CommonUtil();
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
+
 		HttpSession session = request.getSession();
 		String loginMemberId = (String)session.getAttribute("memberId");
-		
-		if (loginMemberId == null || loginMemberId.isEmpty()) {
-			JSFunction.alertBack(response, "사용자 정보가 없습니다.");
-			return;
-		}
-		
 		String idx = request.getParameter("idx");
-		
+
 		LearningDAO learningDAO = new LearningDAO();
 		LearningDTO learningDTO = learningDAO.getLearningByIdx(idx);
 		learningDAO.close();
 		
-		if (!learningDTO.getMemberId().equalsIgnoreCase(loginMemberId)) {
-			JSFunction.alertBack(response, "권한이 없습니다.");
-			return;
-		}
+		String memberId = learningDTO.getMemberId();
 		
+		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
+		if(!ValidationUtil.hasValidMemberId(memberId, response)) return;
+		if(!ValidationUtil.hasPermission(loginMemberId, memberId, response)) return;
+		if(!ValidationUtil.isValidIdx(idx, response)) return;
 		// learningDTO.setLearningContent(learningDTO.getLearningContent().replace("\n", "<br>"));
-		String[] topics = (learningDTO.getTopic() != null && !learningDTO.getTopic().isEmpty() ? 
+		String[] topics = (learningDTO.getTopic() != null && !learningDTO.getTopic().isEmpty() ?
 				learningDTO.getTopic().split(",") : new String[0]);
-		String[] hashtags = (learningDTO.getHashtag() != null && !learningDTO.getHashtag().isEmpty() ? 
+		String[] hashtags = (learningDTO.getHashtag() != null && !learningDTO.getHashtag().isEmpty() ?
 				learningDTO.getHashtag().split(",") : new String[0]);
-		
+
 		LearningSharedDAO sharedDAO = new LearningSharedDAO();
 		learningDTO.setSharedList(sharedDAO.getLearningShareList(idx));
 		sharedDAO.close();
-		
+
 		LearningFileDAO fileDAO = new LearningFileDAO();
 		learningDTO.setFiles(fileDAO.getFileListByLearningIdx(idx));
 		fileDAO.close();
-		
+
 		request.setAttribute("topics", topics);
 		request.setAttribute("hashtags", hashtags);
 		request.setAttribute("dto", learningDTO);
@@ -77,10 +76,11 @@ public class LearningModifyController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		
+
 		HttpSession session = request.getSession();
 		Object redirectURL = session.getAttribute("redirectURL");
 		String url = "list.do";
@@ -88,12 +88,12 @@ public class LearningModifyController extends HttpServlet {
 			url = redirectURL.toString();
 			session.removeAttribute("redirectURL");
 		}
-		
+
 		String loginMemberId = (String)session.getAttribute("memberId");
 		String memberId = request.getParameter("memberId");
-		
+
 		String idx = request.getParameter("idx");
-		
+
 		String learningTitle = request.getParameter("learningTitle");
 		String learningContent = request.getParameter("learningContent");
 		String isVisible = request.getParameter("isVisible");
@@ -105,22 +105,19 @@ public class LearningModifyController extends HttpServlet {
 		String addShared = request.getParameter("addShared");
 		String deleteShared = request.getParameter("deleteShared");
 		
-		// validation 체크 루틴
-		if (cUtil.parseInt(idx) < 1) 
-			JSFunction.alertBack(response, "게시글 정보가 올바르지 않습니다.");
-		if (!loginMemberId.equalsIgnoreCase(memberId)) 
-			JSFunction.alertLocation(response, "href", "권한이 없습니다.", url);
-		if (learningTitle == null || learningTitle.length() < 1 || learningTitle.length() > 100) 
-			JSFunction.alertBack(response, "제목을 1자 이상 100자 이하로 입력하세요.");
-		if (learningContent == null || learningContent.length() < 1) 
-			JSFunction.alertBack(response, "내용을 입력하세요.");
-		if (isVisible.equals("Y") && (learningStartedAt == null || learningEndedAt == null)) 
-			JSFunction.alertBack(response, "오늘의 학습 노출기간을 입력하세요.");
+		if(!ValidationUtil.isLoggedIn(loginMemberId, response)) return;
+		if(!ValidationUtil.hasValidMemberId(memberId, response)) return;
+		if(!ValidationUtil.hasPermission(loginMemberId, memberId, response)) return;
+		if(!ValidationUtil.isValidIdx(idx, response)) return;
+		if(!LearningValidationUtil.isValidTitle(learningTitle, response)) return;
+		if(!LearningValidationUtil.isValidContent(learningContent, response)) return;
+		if(!LearningValidationUtil.isValidVisibilityPeriod(isVisible, learningStartedAt, learningEndedAt, response)) return;
+		if(!LearningValidationUtil.isValidDateOrder(learningStartedAt, learningEndedAt, response)) return;
 		
 		List<LearningSharedDTO> addList = getSharedDTOList(memberId, addShared);
 		List<LearningSharedDTO> deleteList = getSharedDTOList(memberId, deleteShared);
 		String[] deleteFileIdxList = request.getParameterValues("deleteFileIdx");
-		
+
 		// 학습 게시글 DTO 설정
 		LearningDTO learningDTO = new LearningDTO();
 		learningDTO.setLearningTitle(learningTitle);
@@ -133,14 +130,14 @@ public class LearningModifyController extends HttpServlet {
 		learningDTO.setSharedToRemove(deleteList);
 		learningDTO.setTopic(topics);
 		learningDTO.setHashtag(hashtags);
-		
+
 		// 파일 처리
 		CommonFileUtil fUtil = new CommonFileUtil();
-	
+
 		// String saveDir = getServletContext().getRealPath("/Uploads");
 		String saveDir = getServletContext().getInitParameter("SaveDirectory");
 		String virtualDir = "/Uploads";
-		
+
 		// 1. 파일 업로드
 		List<String> orgFiles = fUtil.multiFileUpload(request, saveDir);
 		if (orgFiles != null && !orgFiles.isEmpty()) {
@@ -155,20 +152,20 @@ public class LearningModifyController extends HttpServlet {
 						return file;
 					})
 					.collect(Collectors.toList());
-			
+
 		// 2. 학습 게시글 DTO 파일 추가
 			learningDTO.setFilesToAdd(addFiles);
 		}
-		
+
 		// 3. DB 삭제할 파일 설정
 		if (deleteFileIdxList != null) {
 			learningDTO.setFilesToRemove(getFileDTOList(request, deleteFileIdxList));
 		}
- 		
+
 		// 4. 게시글 수정
 		LearningService service = new LearningService();
 		boolean result = service.updateLearning(idx, learningDTO);
-		
+
 		// 5. 파일 삭제
 		if (deleteFileIdxList != null && result) {
 			for (String deleteFileIdx : deleteFileIdxList) {
@@ -176,13 +173,13 @@ public class LearningModifyController extends HttpServlet {
 				fUtil.fileDelete(request, saveDir, fileName);
 			}
 		}
-		
+
 		String msg = (result ? "게시글 수정에 성공했습니다." : "게시글 수정에 실패했습니다.");
 		JSFunction.alertLocation(response, "href", msg, "/sssproj/learning/view.do?idx=" + idx);
 	}
-	
+
 	private List<LearningSharedDTO> getSharedDTOList(String memberId, String param) {
-		return (param != null && ! param.isEmpty()) 
+		return (param != null && ! param.isEmpty())
 			? Arrays.stream(param.split(","))
 					.map(user -> {
 						LearningSharedDTO dto = new LearningSharedDTO();
@@ -193,9 +190,9 @@ public class LearningModifyController extends HttpServlet {
 					.toList()
 			: List.of();
 	}
-	
+
 	private List<FileDTO> getFileDTOList(HttpServletRequest request, String[] param) {
-		return (param != null && param.length != 0) 
+		return (param != null && param.length != 0)
 			? Arrays.stream(param)
 					.map(idx -> {
 						String fileIdx = request.getParameter("fileIdx_" + idx);
