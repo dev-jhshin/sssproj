@@ -108,7 +108,7 @@
 								<i class="fa-solid fa-list"></i>목록
 							</button>
 							<button class="listBtn2" type="submit">
-								<i class="fa-solid fa-trash-can"></i>답변
+								<i class="fa-solid fa-square-check"></i>답변
 							</button>
 						</div>
 					</div>

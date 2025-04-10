@@ -194,7 +194,7 @@ header {
                     .serch_btn:hover {
                       cursor: pointer;
                     }
-                    .mainTitle, .listCon {
+                    .mainTitle, .listCon, .reportPgNull {
                       justify-self: center;
                       margin-top: 0px;
                       width: 40%; /* 두 클래스의 너비를 동일하게 설정 */
@@ -276,6 +276,18 @@ header {
                     .mainTitle10   {
                       width: 8%;
                     }
+                      .reportPgNull {
+					    display: block;
+					    gap: 15px;
+					    font-size: 12px;
+					    text-align: center;
+					    height: 40px;
+					    padding: 10px;
+					    background: none;
+					    font-weight: 600;
+					    color: #444;
+					    border-bottom: 1.5px solid #C6C6C680;
+                      }
                       .listCon {
                         display: block;
                         gap: 15px;
