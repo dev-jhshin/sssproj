@@ -61,9 +61,9 @@
 	                        </div>
 	                    </td>
 	                    <td style="text-align: center">
-		                    <input type="date" class="date-input" name="learningStartedAt" disabled value="${ dto.learningStartedAt ? dUtil.localDateToString(dto.learningStartedAt) : '' }"/> 
+		                    <input type="date" class="date-input" name="learningStartedAt" disabled value="${ not empty dto.learningStartedAt ? dUtil.localDateToString(dto.learningStartedAt) : '' }"/> 
 		                    &nbsp;&nbsp;~ &nbsp;&nbsp;
-		                    <input type="date" class="date-input" name="learningEndedAt" disabled value="${ dto.learningEndedAt ? dUtil.localDateToString(dto.learningEndedAt) : '' }"/>
+		                    <input type="date" class="date-input" name="learningEndedAt" disabled value="${ not empty dto.learningEndedAt ? dUtil.localDateToString(dto.learningEndedAt) : '' }"/>
 	                    </td>
 	                </tr>
 	            </table>
@@ -533,7 +533,7 @@
 			const content = frm.learningContent.value;
 			const isVisible = frm.isVisible.value;
 			const startedAt = frm.learningStartedAt.value;
-			const endedat = frm.learningEndedAt.value;
+			const endedAt = frm.learningEndedAt.value;
 			
 			if (title == null || title.length < 1 || title.length > 100) {
 				alert("제목을 1자 이상 100자 이하로 입력하세요.");
@@ -549,8 +549,8 @@
 					return;
 				}
 				
-				const startDate = new Date(startedAt);
-				const endedDate = new Date(endedAt);
+				const start = new Date(startedAt);
+				const end = new Date(endedAt);
 				
 				if (start > end) {
 					alert("시작일은 종료일보다 이후일 수 없습니다.");

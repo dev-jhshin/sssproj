@@ -93,17 +93,25 @@
                         <c:choose>
 					        <c:when test="${ not empty learningList }">
 					            <c:forEach var="post" items="${ learningList }">
-					                <tr class="viewButton" data-href="./view.do?idx=${ post.idx }">
+					                <tr class="viewButton">
 					                    <td>${ post.idx }</td>
-					                    <td>${ post.learningTitle }</td>
+					                    <td class="learningTitle"><a href="./view.do?idx=${ post.idx }">${ post.learningTitle }</td>
 					                    <td>
 					                    	<c:if test="${ not empty post.sharedList }">
-					                    		<c:forEach items="${ post.sharedList }" var="shareInfo">
-							                    	${ shareInfo.sharedToName } ( ${ dUtil.localDateTimeToString(shareInfo.createdAt) } )
+					                    		<c:forEach items="${ post.sharedList }" var="shareInfo" varStatus="status">
+					                    			<c:choose>
+					                    				<c:when test="${ param.type eq 'sharedFrom' }">
+					                    					${ shareInfo.sharedFromName }
+					                    				</c:when>
+					                    				<c:otherwise>
+					                    					${ shareInfo.sharedToName }
+					                    				</c:otherwise>
+					                    			</c:choose>
+							                    	(${ dUtil.localDateTimeToString(shareInfo.createdAt) })<c:if test="${ not status.last }">, </c:if>
 							                    </c:forEach>
 					                    	</c:if>
 					                    </td>
-					                    <td>${ dUtil.localDateTimeToString(post.createdAt) }</td>
+					                    <td>${ dUtil.toString(post.createdAt) }</td>
 					                </tr>
 					            </c:forEach>
 					        </c:when>
@@ -141,10 +149,10 @@
 			const params = new URLSearchParams(window.location.search);
 			const order = params.get("type");
 	
-			if (order === "sharedTo") {
-				setActiveOrderButton("orderSharedToButton");
-			} else {
+			if (order === "sharedFrom") {
 				setActiveOrderButton("orderSharedFromButton");
+			} else {
+				setActiveOrderButton("orderSharedToButton");
 			}
 		});
    	
@@ -198,13 +206,6 @@
 			const params = new URLSearchParams(window.location.search);
 			params.set("type", "sharedFrom");
 			window.location.href = "./shared_list.do?"+ params.toString();
-		});
-		
-		// 게시글 상세 페이지 이동
-		document.querySelectorAll(".viewButton").forEach((e) => {
-			e.addEventListener("click", function () {
-				window.location.href = this.dataset.href;
-			});
 		});
    	</script>
 </body>

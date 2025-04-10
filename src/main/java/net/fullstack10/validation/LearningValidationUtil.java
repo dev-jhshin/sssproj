@@ -27,7 +27,7 @@ public class LearningValidationUtil {
 	
 	/* 공개 여부가 Y일 경우 오늘의 학습 기간 필수 */
 	public static boolean isValidVisibilityPeriod(String isVisible, String startedAt, String endedAt, HttpServletResponse response) throws IOException {
-        if ("Y".equals(isVisible) && (startedAt == null || endedAt == null || startedAt.isBlank() || endedAt.isBlank())) {
+        if (startedAt == null || endedAt == null || startedAt.isBlank() || endedAt.isBlank()) {
             JSFunction.alertBack(response, "오늘의 학습 노출기간을 입력하세요.");
             return false;
         }

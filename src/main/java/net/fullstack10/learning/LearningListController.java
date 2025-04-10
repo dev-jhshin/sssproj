@@ -1,6 +1,7 @@
 package net.fullstack10.learning;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,7 +47,7 @@ public class LearningListController extends HttpServlet {
 		String startDate = cUtil.setSearchParam(request.getParameter("startDate"));
 	    String endDate = cUtil.setSearchParam(request.getParameter("endDate"));
 	    String searchCategory = cUtil.setSearchParam(request.getParameter("searchCategory"));
-	    String searchValue = cUtil.setSearchParam(request.getParameter("searchValue"));
+	    String searchValue = URLDecoder.decode(cUtil.setSearchParam(request.getParameter("searchValue")), "UTF-8");
 	    // String orderColumn = cUtil.setSearchParam(request.getParameter("orderColumn"));
 	    // String orderDirection = cUtil.setSearchParam(request.getParameter("orderDirection"));
 	    

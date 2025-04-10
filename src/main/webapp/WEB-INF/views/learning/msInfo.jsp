@@ -63,7 +63,8 @@
                <div class="content-info">
                   <div class="views">조회수 : ${ dto.viewCnt ne null and not empty dto.viewCnt ? dto.viewCnt : '0' }</div>
                   <div class="icon">
-                     <img src="<c:url value='/img/public_icon.svg' />" class="public-icon">
+                  	 <c:if test="${ dto.isPublic }"><img src="<c:url value='/img/public_icon.svg' />" class="public-icon"></c:if>
+                     <c:if test="${ not dto.isPublic }"><img src="<c:url value='/img/private_icon.svg' />" class="public-icon"></c:if>
                   </div>               
                </div>
                

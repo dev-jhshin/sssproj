@@ -111,8 +111,10 @@ public class LearningModifyController extends HttpServlet {
 		if(!ValidationUtil.isValidIdx(idx, response)) return;
 		if(!LearningValidationUtil.isValidTitle(learningTitle, response)) return;
 		if(!LearningValidationUtil.isValidContent(learningContent, response)) return;
-		if(!LearningValidationUtil.isValidVisibilityPeriod(isVisible, learningStartedAt, learningEndedAt, response)) return;
-		if(!LearningValidationUtil.isValidDateOrder(learningStartedAt, learningEndedAt, response)) return;
+		if ("Y".equals(isVisible)) {
+			if(!LearningValidationUtil.isValidVisibilityPeriod(isVisible, learningStartedAt, learningEndedAt, response)) return;
+			if(!LearningValidationUtil.isValidDateOrder(learningStartedAt, learningEndedAt, response)) return;
+		}
 		
 		List<LearningSharedDTO> addList = getSharedDTOList(memberId, addShared);
 		List<LearningSharedDTO> deleteList = getSharedDTOList(memberId, deleteShared);
