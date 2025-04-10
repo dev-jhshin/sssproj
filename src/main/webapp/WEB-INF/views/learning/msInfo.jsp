@@ -115,8 +115,8 @@
 						</div>
 						<div class="image-container">
 							<div class="slider-wrapper">
-								<c:forEach items="${ dto.files }" var="file" varStatus="status">
-									<img src="<c:url value='/Uploads/${ file.fileName }' />" class="slide-image" onclick="openModal();currentSlide(${status.index})"/>
+								<c:forEach items="${ dto.files }" var="file" varStatus="status" >
+									<img src="<c:url value='/Uploads/${ file.fileName }'  />" class="slide-image"  onclick="openModal();currentSlide(${status.index})"/>
 								</c:forEach>
 							</div>
 						</div>
@@ -243,6 +243,15 @@
         </div>
     </div>
  </div>   
+ 
+ 	<!-- 이미지 모달창 -->
+	<div id="imageModal" class="image-modal">
+	    <span class="modal-close" onclick="closeModal();">&times;</span>
+	    <div class="modal-content">
+	        <c:forEach items="${ dto.files }" var="file">
+	            <img class="modal-image" src="<c:url value='/Uploads/${ file.fileName }'  />" style="display: none;">
+	        </c:forEach>
+	    </div>
     
 <script>
 	// URL 정리
