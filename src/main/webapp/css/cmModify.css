@@ -153,11 +153,10 @@ input, textarea, select, .file-select-btn, .content-part, .btn {
     font-size: 14px;
 }
 
-
-/* 이미지 섹션 */
-.delete-checkbox {
-	margin : 0px 2px;
-}
+/* 이미지 섹션 */ 
+.delete-checkbox { 
+	margin : 0px 2px; 
+} 
 
 /* 파일 입력 컨테이너 */
 .file-input-container {

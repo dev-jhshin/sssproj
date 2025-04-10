@@ -179,9 +179,10 @@ public class ManagerDAO extends DBConnPool {
 		if ( map.get("search_category") != null && map.get("search_word") != null ) {
 			sb.append(" WHERE "+ map.get("search_category"));
 			sb.append(" LIKE '%"+ map.get("search_word") +"%'");
+			
 		}
 
-		sb.append(" ORDER BY managerId");
+		sb.append(" ORDER BY managerStatus DESC, managerName ASC");
 
 		if ( map.get("page_skip_count") != null && map.get("page_size") != null ) {
 			sb.append(" LIMIT "+ map.get("page_skip_count") +", "+ map.get("page_size"));
@@ -334,7 +335,7 @@ public class ManagerDAO extends DBConnPool {
 			sb.append(" LIKE '%"+ map.get("search_word") +"%'");
 		}
 
-		sb.append(" ORDER BY idx");
+		sb.append(" ORDER BY idx desc");
 
 		if ( map.get("page_skip_count") != null && map.get("page_size") != null ) {
 			sb.append(" LIMIT "+ map.get("page_skip_count") +", "+ map.get("page_size"));
@@ -608,7 +609,7 @@ public class ManagerDAO extends DBConnPool {
 			sb.append(" LIKE '%"+ map.get("search_word") +"%'");
 		}
 
-		sb.append(" ORDER BY idx");
+		sb.append(" ORDER BY idx desc");
 
 		if ( map.get("page_skip_count") != null && map.get("page_size") != null ) {
 			sb.append(" LIMIT "+ map.get("page_skip_count") +", "+ map.get("page_size"));
