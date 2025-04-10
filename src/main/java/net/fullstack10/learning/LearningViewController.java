@@ -1,6 +1,7 @@
 package net.fullstack10.learning;
 
 import java.io.IOException;
+import java.util.List;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -61,7 +62,11 @@ public class LearningViewController extends HttpServlet {
 		fileDAO.close();
 		
 		LearningCommentDAO commentDAO = new LearningCommentDAO();
-		learningDTO.setComments(commentDAO.getLearningCommentListByLearningIdx(idx));
+		List<LearningCommentDTO> comments = commentDAO.getLearningCommentListByLearningIdx(idx);
+		for (LearningCommentDTO comment : comments) {
+			comment.setCommentContent(comment.getCommentContent().replace("\r\n", "<br>"));
+		}
+		learningDTO.setComments(comments);
 		commentDAO.close();
 		
 		LearningLikeDAO likeDAO = new LearningLikeDAO();
