@@ -1,24 +1,23 @@
 @charset "UTF-8";
 /*모두의 학습 everyStudy */
-
-* {
-    margin:0; padding:0;
-    box-sizing:border-box;
-}
-a {
-  text-decoration:none;
-  color:#333;
-}
 @font-face {
     font-family: 'Dovemayo_gothic';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
-body {
-  font-family: 'Dovemayo_gothic';
+* {
+	font-family: 'Dovemayo_gothic';
+    box-sizing: border-box;
 }
-
+body {
+    margin: 0;
+    padding: 0;
+}
+a {
+  text-decoration:none;
+  color:#333;
+}
 .page-container {
   display: flex;
   min-height: 100vh;
@@ -166,7 +165,6 @@ body {
 
 /* 리스트 테이블 */
 .table-container {
-    width: 100%;
     overflow-x: auto;
     background-color: white; 
     border-radius: 8px;
@@ -176,6 +174,9 @@ body {
 table {
     width: 100%;
     border-collapse: collapse;
+  	table-layout: auto;   
+  	min-width: max-content;
+	white-space: nowrap;
 }
 
 th, td {
@@ -199,7 +200,24 @@ td {
 	background-color : white;
 }
 
-.learningTitle:hover {
+.learningTitle {
+	width: 40%;
+	max-width: 1px;
+	white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+}
+
+.learningTitle a {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.learningTitle a:hover {
 	color: green;
 	text-decoration: underline;
 	cursor:pointer;
