@@ -42,7 +42,6 @@ public class CommonPageUtil {
          sb.append("<div class='page-nav'><a href='" + baseURL + pageURL + "'>></a></div>");
       }
 
-
       if (pageNo < totalPage) {
          pageURL = (baseURL.isEmpty() ? "?" : "&") + "page_no=" + totalPage;
          sb.append("<div class='page-nav'><a href='" + baseURL + pageURL + "'>>></a></div>");
