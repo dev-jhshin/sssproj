@@ -222,8 +222,7 @@
 		// 목록 버튼 클릭 이동
 		const listButton = document.getElementById('listButton');
 		listButton.addEventListener('click', function() {
-			//window.location.href = 'list.do';
-			history.back();
+			window.location.href = 'list.do';
 		});
 
 		// 수정 버튼 클릭 이동

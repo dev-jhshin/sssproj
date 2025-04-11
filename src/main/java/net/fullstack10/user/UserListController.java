@@ -31,6 +31,7 @@ public class UserListController extends HttpServlet {
         response.setContentType("application/json; charset=UTF-8");
 
         HttpSession session = request.getSession();
+
         String memberId = session.getAttribute("memberId").toString();
 
         String keyword = URLDecoder.decode(request.getParameter("keyword"), "UTF-8");
