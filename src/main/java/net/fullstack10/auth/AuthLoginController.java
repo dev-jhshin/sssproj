@@ -93,7 +93,11 @@ public class AuthLoginController extends HttpServlet {
 				if (failId != null && !failId.isEmpty()) {
 					int iFailId = Integer.parseInt(failId);
 					// 5회 미만 틀렸다면 값 1 증가
+<<<<<<< HEAD
 					if(iFailId < 4) {
+=======
+					if (iFailId < 4) {
+>>>>>>> origin/shin
 						iFailId++;
 						failId = String.valueOf(iFailId);
 						cookie.setValue(failId);

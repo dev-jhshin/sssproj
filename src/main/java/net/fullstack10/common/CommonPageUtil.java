@@ -8,7 +8,11 @@ public class CommonPageUtil {
       String pageURL = "";
 
       int totalPage = (int)Math.ceil(totalCount / (double)pageSize);
+<<<<<<< HEAD
+      if (totalPage < 1) return "";
+=======
       totalPage = (totalPage > 1 ? totalPage : 1);
+>>>>>>> origin/ldg
 
       int pageBlockStart =  (int)Math.floor((pageNo - 1) / (float)pageBlockSize) * pageBlockSize + 1;
 
@@ -18,15 +22,11 @@ public class CommonPageUtil {
       if (pageNo > 1) {
          pageURL = (baseURL.isEmpty() ? "?" : "&") + "page_no=1";
          sb.append("<div class='page-nav'><a href='" + baseURL + pageURL + "'><<</a></div>");
-      } else {
-         sb.append("<div class='page-nav'><<</div>");
       }
 
       if (pageBlockStart > 1) {
          pageURL = (baseURL.isEmpty() ? "?" : "&") + "page_no=" + (pageBlockStart - 1);
          sb.append("<div class='page-nav'><a href='" + baseURL + pageURL + "'><</a></div>");
-      } else {
-         sb.append("<div class='page-nav'><</div>");
       }
 
       for(int i=pageBlockStart; i<=pageBlockEnd; i++) {
@@ -41,15 +41,15 @@ public class CommonPageUtil {
       if (totalPage > pageBlockEnd) {
          pageURL = (baseURL.isEmpty() ? "?" : "&") + "page_no=" + (pageBlockEnd + 1);
          sb.append("<div class='page-nav'><a href='" + baseURL + pageURL + "'>></a></div>");
-      } else {
-         sb.append("<div class='page-nav'>></div>");
       }
 
+<<<<<<< HEAD
+      if (pageNo < totalPage) {
+=======
       if (totalPage > pageBlockEnd) {
+>>>>>>> origin/ldg
          pageURL = (baseURL.isEmpty() ? "?" : "&") + "page_no=" + totalPage;
          sb.append("<div class='page-nav'><a href='" + baseURL + pageURL + "'>>></a></div>");
-      } else {
-         sb.append("<div class='page-nav'>>></div>");
       }
 
       return sb.toString();

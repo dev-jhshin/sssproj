@@ -57,11 +57,11 @@ public class BbsCommentDeleteController extends HttpServlet {
 		bbsDAO = new BbsDAO();
 		int result = bbsDAO.setBbsCommentDelete(commentIdx);
 		bbsDAO.close();
-
+		String url =  "/sssproj/bbs/view.do?idx=" + bbsIdx + "&isVisited=" + false;
 		if (result > 0) {
-			JSFunction.alertLocation(response, "댓글을 삭제하였습니다.","/sssproj/bbs/view.do?idx=" + bbsIdx); return;
+			JSFunction.alertLocation(response, "",url); return;
 		}
-		JSFunction.alertLocation(response, "댓글 삭제에 실패했습니다.","/sssproj/bbs/view.do?idx=" + bbsIdx); return;
+		JSFunction.alertLocation(response, "댓글 삭제에 실패했습니다.",url); return;
 	}
 
 }

@@ -1,6 +1,8 @@
 package net.fullstack10.bbs;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -44,7 +46,6 @@ public class BbsViewController extends HttpServlet {
 		if (content != null && content.length() > 0) {
 			dto.setBbsContent(content.replace("\n", "<br>"));
 		}
-		
 		request.setAttribute("bbs", dto);
 		String isVisited = request.getParameter("isVisited");
 		if (isVisited == null || !isVisited.equals("false")) {

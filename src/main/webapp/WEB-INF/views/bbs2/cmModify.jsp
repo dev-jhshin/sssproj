@@ -30,7 +30,14 @@
 						<div class="form-input select-group">
 							<select id="categorySelect" class="category-select" name="category">
 								<c:forEach items="${categories}" var="category">
-									<option value="${category }">${category }</option>
+									<c:choose>
+									<c:when test="${pMap.bbs.bbsCategory eq category }">
+										<option value="${category }" selected >${category }</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${category }">${category }</option>
+									</c:otherwise>
+									</c:choose>
 								</c:forEach>
 								<option value="직접입력">직접입력</option>
 							</select> 
