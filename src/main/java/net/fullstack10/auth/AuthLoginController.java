@@ -65,7 +65,7 @@ public class AuthLoginController extends HttpServlet {
 		dto.setMemberPwd(memberPwd);
 		AuthDAO dao = new AuthDAO();
 		dto = dao.authLogin(dto);
-
+		dao.close();
 		// Login 성공
 		if(dto != null && dto.getMemberId()!=null) {
 			if(saveIdFlag != null && saveIdFlag.equals("Y")) {
@@ -77,7 +77,7 @@ public class AuthLoginController extends HttpServlet {
 				cUtil.makeCookie(response, "", "/", 0, "saveId", "");
 			}
 			dao.updateLastLoginAt(memberId);
-			dao.close();
+			
 
 			session.setAttribute("memberId", dto.getMemberId());
 			session.setAttribute("memberStatus", dto.getMemberStatus());
@@ -87,7 +87,6 @@ public class AuthLoginController extends HttpServlet {
 			response.sendRedirect("/sssproj/learning/today.do");
 		} else {
 			// Login 실패
-			dao.close();
 			Cookie cookie = new Cookie("failId", "1");
 			String failId = cUtil.getCookieInfo(request, "failId");
 				// faiId 쿠키가 있는지 검사
