@@ -276,6 +276,8 @@
 				updateWeekView();
 				calendarModal.style.display = 'none';
 				overlay.style.display = 'none';
+				
+				window.location.href = './today.do?date=' + dateStr;
 			});
 
 			// 달력 토글
@@ -308,8 +310,8 @@
 			// 주간 달력의 날짜 클릭 시
 			weekDays.forEach(day => {
 				day.addEventListener('click', () => {
-				const dateStr = day.dataset.date;
-				if (dateStr) window.location.href = './today.do?date=' + dateStr;
+					const dateStr = day.dataset.date;
+					if (dateStr) window.location.href = './today.do?date=' + dateStr;
 				});
 			});
 			
