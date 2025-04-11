@@ -86,11 +86,11 @@ public class LearningSharedListController extends HttpServlet {
 
 	    request.setAttribute("map", map);
 	    request.setAttribute("learningList", learningList);
-<<<<<<< HEAD
+
 	    request.setAttribute("paging", CommonPageUtil.pagingArea(learningDAO.getReceivedSharedListSize(loginMemberId, map), cUtil.parseInt(pageNo), cUtil.parseInt(pageSize), cUtil.parseInt(pageBlockSize), "shared_list.do?" + queryString));
-=======
+
 	    request.setAttribute("paging", CommonPageUtil.pagingArea(learningDAO.getReceivedSharedListSize(loginMemberId, map), cUtil.parseInt(pageNo), cUtil.parseInt(pageSize), cUtil.parseInt(pageBlockSize), "my_list.do?" + queryString));
->>>>>>> origin/ldg
+
 
 	    learningDAO.close();
 	    sharedDAO.close();

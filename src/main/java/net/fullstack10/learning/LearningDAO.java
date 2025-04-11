@@ -485,10 +485,7 @@ public class LearningDAO extends DBConnPool {
 		// LearningQueryHelper.addOrderBy(sql, map.get("orderColumn"), map.get("orderDirection"));
 		LearningQueryHelper.addPagination(sql, map.get("pageSkipCount"), map.get("pageSize"));
 
-<<<<<<< HEAD
-		System.out.println("공유받은 학습 게시글 목록 조회: " + sql.toString());
-=======
->>>>>>> origin/ldg
+
 		try {
 			pstm = conn.prepareStatement(sql.toString());
 
@@ -543,10 +540,7 @@ public class LearningDAO extends DBConnPool {
 		LearningQueryHelper.addOrderBy(sql, map.get("orderColumn"), map.get("orderDirection"));
 		LearningQueryHelper.addPagination(sql, map.get("pageSkipCount"), map.get("pageSize"));
 
-<<<<<<< HEAD
-		System.out.println("공유한 학습 게시글 목록 조회: " + sql.toString());
-=======
->>>>>>> origin/ldg
+
 		try {
 			pstm = conn.prepareStatement(sql.toString());
 
