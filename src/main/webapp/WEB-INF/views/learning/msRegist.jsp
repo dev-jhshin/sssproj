@@ -11,8 +11,6 @@
 <link href="<c:url value='/css/msRegist.css?ver=${ date }' />" rel="stylesheet" type="text/css">
 <link href="<c:url value='/css/sidebar.css?ver=${ date }' />" rel="stylesheet" type="text/css">
 <title>나의학습 - 학습등록</title>
-<style>
-</style>
 </head>
 
 <body>
@@ -156,252 +154,246 @@
 
 	<script>
 		// validation 에 의해 돌아올 떄 textarea 값 비움
-	  	window.addEventListener('pageshow', function (event) {
-	    	if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
-	      	document.querySelector('textarea[name="learningContent"]').value = '';
-	    	}
-	  	});
+		window.addEventListener('pageshow', function (event) {
+			if (event.persisted || (window.performance && window.performance.navigation.type === 2)) {
+				document.querySelector('textarea[name="learningContent"]').value = '';
+			}
+		});
 	
-        // 오늘의 학습 노출 여부
-        document.querySelectorAll('input[name="isVisible"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const dateInputs = document.querySelectorAll('input[type="date"].date-input');
-                if (this.value === 'Y') {
-                    dateInputs.forEach(input => input.removeAttribute('disabled'));
-                } else {
-                    dateInputs.forEach(input => input.setAttribute('disabled', 'disabled'));
-                }
-            });
-        });
-        
-        // 분야 추가
-        document.querySelector('.add-field-btn').addEventListener('click', function() {
-        	const tagInput = document.querySelector('.field-input');
-            const tagText = tagInput.value;
-            
-            const invalidPattern = /[^ㄱ-ㅎ가-힣a-zA-Z_]/;
-            
-            if (tagText) {
-            	if (invalidPattern.test(tagText)) {
-            		alert('분야에는 공백, 숫자, 특수문자(언더스코어 제외)를 포함할 수 없습니다.');
-            		tagInput.value = null;
-            		return;
-            	}
-     
-                const tagContainer = document.querySelector('.field-content');
-                const existingTags = tagContainer.querySelectorAll('.field');
-                
-                if (existingTags.length < 4) {
-                    const tagElement = document.createElement('span');
-                    tagElement.className = 'field';
-                    tagElement.style.cursor = 'pointer';
-                    
-                    const tagName = document.createElement('span');
-                    tagName.className = 'tagName';
-                    tagName.textContent = tagText;
-                    
-                    const tagButton = document.createElement('span');
-                    tagButton.textContent = ' x';
-                    
-                    tagElement.addEventListener('click', function () {
-                    	tagElement.remove();
-                    });
-                    
-                    tagElement.appendChild(tagName);
-                    tagElement.appendChild(tagButton);
-                    
-                    tagContainer.insertBefore(tagElement, tagInput);
-                    tagInput.value = null;
-                } else {
-                    alert('분야는 최대 4개까지만 등록할 수 있습니다.');
-                }
-            }
-        });
-        
-        // 해시태그 추가 
-        document.querySelector('.add-hashtag-btn').addEventListener('click', function() {
-        	const tagInput = document.querySelector('.hashtag-input');
-            const tagText = tagInput.value;
-            
-            const invalidPattern = /[^ㄱ-ㅎ가-힣a-zA-Z_]/;
-            
-            if (tagText) {
-            	if (invalidPattern.test(tagText)) {
-            		alert('분야에는 공백, 숫자, 특수문자(언더스코어 제외)를 포함할 수 없습니다.');
-            		tagInput.value = null;
-            		return;
-            	}
-            	
-                const tagContainer = document.querySelector('.hashtag-content');
-                const existingTags = tagContainer.querySelectorAll('.hashtag');
-                
-                if (existingTags.length < 4) {
-                    const tagElement = document.createElement('span');
-                    tagElement.className = 'hashtag';
-                    tagElement.style.cursor = 'pointer';
+		// 오늘의 학습 노출 여부
+		document.querySelectorAll('input[name="isVisible"]').forEach(radio => {
+			radio.addEventListener('change', function() {
+				const dateInputs = document.querySelectorAll('input[type="date"].date-input');
+				if (this.value === 'Y') {
+					dateInputs.forEach(input => input.removeAttribute('disabled'));
+				} else {
+					dateInputs.forEach(input => input.setAttribute('disabled', 'disabled'));
+				}
+			});
+		});
+		
+		// 분야 추가
+		document.querySelector('.add-field-btn').addEventListener('click', function() {
+			const tagInput = document.querySelector('.field-input');
+			const tagText = tagInput.value;
+			
+			const invalidPattern = /[^ㄱ-ㅎ가-힣a-zA-Z_]/;
+			
+			if (tagText) {
+				if (invalidPattern.test(tagText)) {
+					alert('분야에는 공백, 숫자, 특수문자(언더스코어 제외)를 포함할 수 없습니다.');
+					tagInput.value = null;
+					return;
+				}
+	 
+				const tagContainer = document.querySelector('.field-content');
+				const existingTags = tagContainer.querySelectorAll('.field');
+				
+				if (existingTags.length < 4) {
+					const tagElement = document.createElement('span');
+					tagElement.className = 'field';
+					tagElement.style.cursor = 'pointer';
+					
+					const tagName = document.createElement('span');
+					tagName.className = 'tagName';
+					tagName.textContent = tagText;
+					
+					const tagButton = document.createElement('span');
+					tagButton.textContent = ' x';
+					
+					tagElement.addEventListener('click', function () {
+						tagElement.remove();
+					});
+					
+					tagElement.appendChild(tagName);
+					tagElement.appendChild(tagButton);
+					
+					tagContainer.insertBefore(tagElement, tagInput);
+					tagInput.value = null;
+				} else {
+					alert('분야는 최대 4개까지만 등록할 수 있습니다.');
+				}
+			}
+		});
+		
+		// 해시태그 추가 
+		document.querySelector('.add-hashtag-btn').addEventListener('click', function() {
+			const tagInput = document.querySelector('.hashtag-input');
+			const tagText = tagInput.value;
+			
+			const invalidPattern = /[^ㄱ-ㅎ가-힣a-zA-Z_]/;
+			
+			if (tagText) {
+				if (invalidPattern.test(tagText)) {
+					alert('분야에는 공백, 숫자, 특수문자(언더스코어 제외)를 포함할 수 없습니다.');
+					tagInput.value = null;
+					return;
+				}
+				
+				const tagContainer = document.querySelector('.hashtag-content');
+				const existingTags = tagContainer.querySelectorAll('.hashtag');
+				
+				if (existingTags.length < 4) {
+					const tagElement = document.createElement('span');
+					tagElement.className = 'hashtag';
+					tagElement.style.cursor = 'pointer';
 
-                    const tagName = document.createElement('span');
-                    tagName.className = 'tagName';
-                    tagName.textContent = '#' + tagText;
-                    
-                    const tagButton = document.createElement('span');
-                    tagButton.textContent = ' x';
-                    
-                    tagElement.addEventListener('click', function () {
-                    	tagElement.remove();
-                    });
-                    
-                    tagElement.appendChild(tagName);
-                    tagElement.appendChild(tagButton);
-                    
-                    tagContainer.insertBefore(tagElement, tagInput);
-                    tagInput.value = null;
-                } else {
-                    alert('해시태그는 최대 4개까지만 등록할 수 있습니다.');
-                }
-            }
-        });
-        
-        // 이미지 관련 
-        let selectedFiles = [];
-        
-        document.querySelector('.file-select-btn').addEventListener('click', function() {
-            document.getElementById('fileInput').click();
-        });
-        
-        // 파일 선택 시 파일 목록 업데이트
-        document.getElementById('fileInput').addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-           
-                const newFiles = Array.from(e.target.files);
-                selectedFiles = selectedFiles.concat(newFiles);
-                e.value = "";
-               
-                updateFileList();
-            }
-        });
-        
-        function updateFileList() {
-            const fileList = document.querySelector('.file-list');
-            fileList.innerHTML = '';
-            
-            if (selectedFiles.length === 0) {
-                const noFilesDiv = document.createElement('div');
-                noFilesDiv.className = 'no-files';
-                noFilesDiv.textContent = '선택된 파일 없음';
-                fileList.appendChild(noFilesDiv);
-                return;
-            }
-            
-            selectedFiles.forEach((file, index) => {
-                const fileItem = document.createElement('div');
-                fileItem.className = 'file-item';
-                
-                const fileName = document.createElement('div');
-                fileName.className = 'file-name';
-                fileName.textContent = file.name;
-                
-                const removeButton = document.createElement('div');
-                removeButton.className = 'remove-file-btn';
-                removeButton.textContent = '×';
-                removeButton.dataset.index = index;
-                
-                fileItem.appendChild(fileName);
-                fileItem.appendChild(removeButton);
-                fileList.appendChild(fileItem);
-            });
-        }
-        
-        // 파일 삭제 
-        document.addEventListener('click', function(event) {
-            if (event.target.classList.contains('remove-file-btn')) {
-                const index = parseInt(event.target.dataset.index);
-
-                selectedFiles = selectedFiles.filter((_, i) => i !== index);
-
-                updateFileList();
-            }
-        });
-        
+					const tagName = document.createElement('span');
+					tagName.className = 'tagName';
+					tagName.textContent = '#' + tagText;
+					
+					const tagButton = document.createElement('span');
+					tagButton.textContent = ' x';
+					
+					tagElement.addEventListener('click', function () {
+						tagElement.remove();
+					});
+					
+					tagElement.appendChild(tagName);
+					tagElement.appendChild(tagButton);
+					
+					tagContainer.insertBefore(tagElement, tagInput);
+					tagInput.value = null;
+				} else {
+					alert('해시태그는 최대 4개까지만 등록할 수 있습니다.');
+				}
+			}
+		});
+		
+		// 이미지 관련 
+		let selectedFiles = [];
+		
+		document.querySelector('.file-select-btn').addEventListener('click', function() {
+			document.getElementById('fileInput').click();
+		});
+		
+		// 파일 선택 시 파일 목록 업데이트
+		document.getElementById('fileInput').addEventListener('change', function(e) {
+			if (e.target.files.length > 0) {
+				const newFiles = Array.from(e.target.files);
+				selectedFiles = selectedFiles.concat(newFiles);
+				e.value = "";
+				updateFileList();
+			}
+		});
+		
+		function updateFileList() {
+			const fileList = document.querySelector('.file-list');
+			fileList.innerHTML = '';
+			
+			if (selectedFiles.length === 0) {
+				const noFilesDiv = document.createElement('div');
+				noFilesDiv.className = 'no-files';
+				noFilesDiv.textContent = '선택된 파일 없음';
+				fileList.appendChild(noFilesDiv);
+				return;
+			}
+			
+			selectedFiles.forEach((file, index) => {
+				const fileItem = document.createElement('div');
+				fileItem.className = 'file-item';
+				
+				const fileName = document.createElement('div');
+				fileName.className = 'file-name';
+				fileName.textContent = file.name;
+				
+				const removeButton = document.createElement('div');
+				removeButton.className = 'remove-file-btn';
+				removeButton.textContent = '×';
+				removeButton.dataset.index = index;
+				
+				fileItem.appendChild(fileName);
+				fileItem.appendChild(removeButton);
+				fileList.appendChild(fileItem);
+			});
+		}
+		
+		// 파일 삭제 
+		document.addEventListener('click', function(event) {
+			if (event.target.classList.contains('remove-file-btn')) {
+				const index = parseInt(event.target.dataset.index);
+				selectedFiles = selectedFiles.filter((_, i) => i !== index);
+				updateFileList();
+			}
+		});
+		
 		// 공유 기능
-        let sharedList = [];
+		let sharedList = [];
 
 		// 공유하기 버튼 팝업창
 		const shareButton = document.getElementById('shareButton');
-        const sharePopup = document.getElementById('sharePopup');
-        const closeSharePopup = document.getElementById('closeSharePopup');
-        const cancelShareBtn = document.getElementById('cancelShareBtn');
+		const sharePopup = document.getElementById('sharePopup');
+		const closeSharePopup = document.getElementById('closeSharePopup');
+		const cancelShareBtn = document.getElementById('cancelShareBtn');
 
 		shareButton.addEventListener('click', function() {
-            sharePopup.style.display = 'block';
-            
-            const container = document.querySelector('.search-results');
-            container.innerText = '';
-        });
-        
-        closeSharePopup.addEventListener('click', function() {
-            sharePopup.style.display = 'none';
-        });
-        
-        cancelShareBtn.addEventListener('click', function() {
-            sharePopup.style.display = 'none';
-        });
+			sharePopup.style.display = 'block';
+			const container = document.querySelector('.search-results');
+			container.innerText = '';
+		});
+		
+		closeSharePopup.addEventListener('click', function() {
+			sharePopup.style.display = 'none';
+		});
+		
+		cancelShareBtn.addEventListener('click', function() {
+			sharePopup.style.display = 'none';
+		});
 
 		// 유저 검색
 		document.getElementById('searchUserBtn').addEventListener('click', function () { 
 			const container = document.querySelector('.search-results');
-        	container.innerText = '';
-
+			container.innerText = '';
 			const keyword = document.getElementById('userSearchInput');
-        	const params = new URLSearchParams();
-        	params.append("keyword", encodeURIComponent(keyword.value));
-        	
-        	keyword.value = null;
+			const params = new URLSearchParams();
+			params.append("keyword", encodeURIComponent(keyword.value));
+			
+			keyword.value = null;
 
 			fetch('../user/list.do', {
 				method: "POST",
-        		headers: {
-        			"Content-Type": "application/x-www-form-urlencoded",
-        		},
-        		body: params.toString()
+				headers: {
+					"Content-Type": "application/x-www-form-urlencoded",
+				},
+				body: params.toString()
 			})
 			.then(response => response.json())
 			.then(data => {
 				if (data.length == 0) {
 					container.innerText = '사용자가 없습니다.';
-        			return;
+					return;
 				}
 
 				data.forEach(user => {
 					const userText = user.memberName + " (" + user.memberId + ")";
 
 					const item = document.createElement('div');
-        			item.className = 'user-item';
+					item.className = 'user-item';
 					item.dataset.memberId = user.memberId;
 
 					const member = document.createElement('span');
-        			member.textContent = userText;
+					member.textContent = userText;
 
 					const addButton = document.createElement('button');
-        			addButton.className = 'add-user-btn';
-        			addButton.type = 'button';
+					addButton.className = 'add-user-btn';
+					addButton.type = 'button';
 					addButton.textContent = '추가'
 
 					if (sharedList.some(u => u.memberId == user.memberId)) {
 						addButton.disabled = true;
-                    	addButton.textContent = '추가됨';
+						addButton.textContent = '추가됨';
 					}
 
 					addButton.addEventListener('click', function() {
-        				addSelectedUser(user, userText);
-        				this.disabled = true;
-                        this.textContent = '추가됨';
-        			});
+						addSelectedUser(user, userText);
+						this.disabled = true;
+						this.textContent = '추가됨';
+					});
 
 					item.appendChild(member);
-        			item.appendChild(addButton);
-        			
-        			container.appendChild(item);
+					item.appendChild(addButton);
+					
+					container.appendChild(item);
 				});
 			})
 		});
@@ -411,27 +403,27 @@
 			const container = document.getElementById('selectedUsersList');
 
 			const userDiv = document.createElement('div');
-            userDiv.className = 'selected-user-item';
-            
-            const userSpan = document.createElement('span');
-            userSpan.textContent = userText;
+			userDiv.className = 'selected-user-item';
+			
+			const userSpan = document.createElement('span');
+			userSpan.textContent = userText;
 
 			const removeBtn = document.createElement('button');
-            removeBtn.className = 'remove-user-btn';
-            removeBtn.textContent = '삭제';
+			removeBtn.className = 'remove-user-btn';
+			removeBtn.textContent = '삭제';
 
 			removeBtn.addEventListener('click', function() {
-                userDiv.remove();
+				userDiv.remove();
 				sharedList = sharedList.filter(u => u.memberId != user.memberId);
-                
-                const item = document.querySelector('.user-item[data-member-id="' + user.memberId + '"]');
-                const addBtn = item.querySelector('.add-user-btn');
-                addBtn.disabled = false;
-                addBtn.textContent = '추가';
-            });
+				
+				const item = document.querySelector('.user-item[data-member-id="' + user.memberId + '"]');
+				const addBtn = item.querySelector('.add-user-btn');
+				addBtn.disabled = false;
+				addBtn.textContent = '추가';
+			});
 
 			userDiv.appendChild(userSpan);
-            userDiv.appendChild(removeBtn);
+			userDiv.appendChild(removeBtn);
 			container.appendChild(userDiv);
 
 			sharedList.push(user);
@@ -460,14 +452,14 @@
 
 			sharePopup.style.display = 'none';
 		});
-        
-        // 등록버튼
-        const registButton = document.getElementById('registButton');
-        registButton.addEventListener('click', function(e){
-        	if (!confirm('해당 학습내용을 등록하시겠습니까?')) return;
-        	
-         	const frm = document.getElementById("frmRegist");
-         	const title = frm.learningTitle.value;
+		
+		// 등록버튼
+		const registButton = document.getElementById('registButton');
+		registButton.addEventListener('click', function(e){
+			if (!confirm('해당 학습내용을 등록하시겠습니까?')) return;
+			
+		 	const frm = document.getElementById("frmRegist");
+		 	const title = frm.learningTitle.value;
 			const content = frm.learningContent.value;
 			const isVisible = frm.isVisible.value;
 			const startedAt = frm.learningStartedAt.value;
@@ -495,38 +487,38 @@
 					return;
 				}
 			}
-         	
-         	const dataTransfer = new DataTransfer();
-         	selectedFiles.forEach(file => dataTransfer.items.add(file));
-         	document.getElementById('fileInput').files = dataTransfer.files;
-        	
-        	const topics = [...document.querySelectorAll('.field .tagName')].map(topic => topic.textContent.trim());
-        	const tags = [...document.querySelectorAll('.hashtag .tagName')].map(tag => tag.textContent.replace('#', '').trim());
-        	const users = sharedList.map(user => user.memberId);
-        	
-        	document.querySelector('input[name="topics"]').value = topics.join(',');
-        	document.querySelector('input[name="hashtags"]').value = tags.join(',');
+			
+			const dataTransfer = new DataTransfer();
+			selectedFiles.forEach(file => dataTransfer.items.add(file));
+			document.getElementById('fileInput').files = dataTransfer.files;
+			
+			const topics = [...document.querySelectorAll('.field .tagName')].map(topic => topic.textContent.trim());
+			const tags = [...document.querySelectorAll('.hashtag .tagName')].map(tag => tag.textContent.replace('#', '').trim());
+			const users = sharedList.map(user => user.memberId);
+			
+			document.querySelector('input[name="topics"]').value = topics.join(',');
+			document.querySelector('input[name="hashtags"]').value = tags.join(',');
 			document.querySelector('input[name="sharedList"]').value = users.join(',');
 
-        	frm.submit();
-        });
-        
-        // 목록 버튼 클릭 이동
-        const listButton = document.getElementById('listButton');
-        listButton.addEventListener('click', function() {
-        	const history = "${ sessionScope.redirectURL }";
-        	if (history && history != "") {
-        		window.location.href = history;
-        	} else {
-        		window.location.href = "./list.do"
-        	}
-        });
-        
-        // 취소 버튼 클릭 이동
-        const cancleButton = document.getElementById('cancleButton');
-        cancleButton.addEventListener('click', function() {
-        	history.back();
-        });
-    </script>
+			frm.submit();
+		});
+		
+		// 목록 버튼 클릭 이동
+		const listButton = document.getElementById('listButton');
+		listButton.addEventListener('click', function() {
+			const history = "${ sessionScope.redirectURL }";
+			if (history && history != "") {
+				window.location.href = history;
+			} else {
+				window.location.href = "./list.do"
+			}
+		});
+		
+		// 취소 버튼 클릭 이동
+		const cancleButton = document.getElementById('cancleButton');
+		cancleButton.addEventListener('click', function() {
+			history.back();
+		});
+	</script>
 </body>
 </html>

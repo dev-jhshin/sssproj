@@ -1,7 +1,6 @@
 <%@page import="net.fullstack10.common.CommonDateUtil"%>
 <%@page import="java.util.Date"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <% Date d = new Date(); %>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
@@ -9,10 +8,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://kit.fontawesome.com/aa252fc318.js"
-	crossorigin="anonymous"></script>
-<link href="./../css/report_page.css?<%=d.getTime() %>" rel="stylesheet"
-	type="text/css">
+<script src="https://kit.fontawesome.com/aa252fc318.js" crossorigin="anonymous"></script>
+<link href="./../css/report_page.css?<%=d.getTime() %>" rel="stylesheet" type="text/css">
 <title>SooP GonG 관리자 페이지</title>
 </head>
 <body>
@@ -115,11 +112,11 @@
 				</div>
 			</div>
 		</form>
-<script>
-document.getElementById('goList').addEventListener('click', function() {
-    window.location.href = "./reportList.do";
-});
-
-</script>
+	</div>
+	<script>
+	document.getElementById('goList').addEventListener('click', function() {
+		window.location.href = "./reportList.do";
+	});
+	</script>
 </body>
 </html>

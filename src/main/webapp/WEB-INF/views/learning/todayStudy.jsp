@@ -18,219 +18,218 @@
 </head>
 <body>
 	<div class="page-container">
-	  	<!-- 사이드바 -->
-	  	<c:import url="../sidebar.jsp"/>
+		<!-- 사이드바 -->
+		<c:import url="../sidebar.jsp"/>
 		
-	  	<!-- 메인 콘텐츠 -->
-	  	<div class="main-content">
-	  		<div class="content-header">오늘의 학습</div>
-	   	 	<div class="date-selection">
-		      	<div class="selected-date"></div>
-		      	<div class="calendar-icon" id="calendarToggle"></div>
-		    </div>
+		<!-- 메인 콘텐츠 -->
+		<div class="main-content">
+			<div class="content-header">오늘의 학습</div>
+			<div class="date-selection">
+				<div class="selected-date"></div>
+				<div class="calendar-icon" id="calendarToggle"></div>
+			</div>
 	
-		    <!-- 주간 캘린더 -->
-		    <div class="week-container">
-		      	<div class="week-day" data-date="2025-03-31">
-		        	<div class="day-name">월</div>
-		        	<div class="day-number">31</div>
-		      	</div>
-		      	<div class="week-day" data-date="2025-04-01">
-		        	<div class="day-name">화</div>
-		        	<div class="day-number">1</div>
-		      	</div>
-			    <div class="week-day" data-date="2025-04-02">
-			        <div class="day-name">수</div>
-			        <div class="day-number">2</div>
-			    </div>
-		      	<div class="week-day" data-date="2025-04-03">
-		        	<div class="day-name">목</div>
-		        	<div class="day-number">3</div>
-		      	</div>
-		      	<div class="week-day" data-date="2025-04-04">
-		        	<div class="day-name">금</div>
-		        	<div class="day-number">4</div>
-		      	</div>
-		      	<div class="week-day weekend" data-date="2025-04-05">
-		        	<div class="day-name">토</div>
-		        	<div class="day-number">5</div>
-		      	</div>
-		      	<div class="week-day weekend" data-date="2025-04-06">
-		       	 	<div class="day-name">일</div>
-		        	<div class="day-number">6</div>
-		      	</div>
-		    </div>
-		    
-		    <!-- 캘린더 모달 -->
-		    <div class="overlay" id="overlay"></div>
-		    <div class="calendar-modal" id="calendarModal">
-		      	<div class="calendar-modal-header">
-		        	<div class="month-nav">
-		          		<button class="month-nav-btn" id="prevMonth">&lt;</button>
-		          		<div class="month-name" id="modalMonthYear">2025년 4월</div>
-		          		<button class="month-nav-btn" id="nextMonth">&gt;</button>
-		        	</div>
-		      	</div>
-		      	<div class="calendar-body">
-		        	<div class="weekdays">
-			          	<div class="weekday">일</div>
-			          	<div class="weekday">월</div>
-			          	<div class="weekday">화</div>
-			          	<div class="weekday">수</div>
-			          	<div class="weekday">목</div>
-			          	<div class="weekday">금</div>
-			          	<div class="weekday">토</div>
-		        	</div>
-		        	<div class="days" id="calendarDays"></div>
-		      	</div>
-		    </div>
+			<!-- 주간 캘린더 -->
+			<div class="week-container">
+				<div class="week-day" data-date="2025-03-31">
+					<div class="day-name">월</div>
+					<div class="day-number">31</div>
+				</div>
+				<div class="week-day" data-date="2025-04-01">
+					<div class="day-name">화</div>
+					<div class="day-number">1</div>
+				</div>
+				<div class="week-day" data-date="2025-04-02">
+					<div class="day-name">수</div>
+					<div class="day-number">2</div>
+				</div>
+				<div class="week-day" data-date="2025-04-03">
+					<div class="day-name">목</div>
+					<div class="day-number">3</div>
+				</div>
+				<div class="week-day" data-date="2025-04-04">
+					<div class="day-name">금</div>
+					<div class="day-number">4</div>
+				</div>
+				<div class="week-day weekend" data-date="2025-04-05">
+					<div class="day-name">토</div>
+					<div class="day-number">5</div>
+				</div>
+				<div class="week-day weekend" data-date="2025-04-06">
+					<div class="day-name">일</div>
+					<div class="day-number">6</div>
+				</div>
+			</div>
+			
+			<!-- 캘린더 모달 -->
+			<div class="overlay" id="overlay"></div>
+			<div class="calendar-modal" id="calendarModal">
+				<div class="calendar-modal-header">
+					<div class="month-nav">
+						<button class="month-nav-btn" id="prevMonth">&lt;</button>
+						<div class="month-name" id="modalMonthYear">2025년 4월</div>
+						<button class="month-nav-btn" id="nextMonth">&gt;</button>
+					</div>
+				</div>
+				<div class="calendar-body">
+					<div class="weekdays">
+						<div class="weekday">일</div>
+						<div class="weekday">월</div>
+						<div class="weekday">화</div>
+						<div class="weekday">수</div>
+						<div class="weekday">목</div>
+						<div class="weekday">금</div>
+						<div class="weekday">토</div>
+					</div>
+					<div class="days" id="calendarDays"></div>
+				</div>
+			</div>
 		
-		    <!-- 나의학습 ms 섹션 -->
-		    <h2 class="section-title">나의 학습</h2>
-		    <div class="ms-container">
-		    	<c:forEach items="${ learningList }" var="learningDTO" >
-		      		<div class="ms-section" data-id="${ learningDTO.idx }">
-			      		<!-- 이미지 부분 -->
-			      		<c:if test="${ not empty learningDTO.files }">
-			      			<img src="<c:url value='/Uploads/${ learningDTO.files[0].fileName }' />" class="ms-image"/>
-			      		</c:if>
-				          
-				        <div class="ms-content">
-				            <div class="ms-title">${ learningDTO.learningTitle }</div>
-				            <div class="ms-description">${ learningDTO.learningContent }</div>
-				        </div>
-				         
-				        <div class="ms-detail">
-				          	<div class="ms-detail-part">
-				           	 	<div class="ms-detail-label">분야</div>
-				            	<div class="ms-tags">
-				            		<c:if test="${ not empty learningDTO.topic }">
-				            			<c:forEach items="${ fn:split(learningDTO.topic, ',') }" var="topic">
-					            			<span class="ms-tag">${ topic }</span>
-					            		</c:forEach>
-				            		</c:if>
-				            	</div>
-				          	</div>
-				          
-				          	<div class="ms-detail-part">
-				            	<div class="ms-detail-label">해시태그</div>
-				            	<div class="ms-detail-value">
-					              	<div class="ms-tags">
-					              		<c:if test="${ not empty learningDTO.hashtag }">
-					            			<c:forEach items="${ fn:split(learningDTO.hashtag, ',') }" var="tag">
-						            			<span class="ms-tag">#${ tag }</span>
-						            		</c:forEach>
-					            		</c:if>
-					              	</div>
-					            </div>
-					   		</div>
-					   		
-					   		<div class="ms-detial-part shared-person">
-						        <div class="ms-detail-label">공유한 사람</div>
-						        <div class="ms-detail-value">
-						            <div class="ms-shared-tags">
-						            	<c:if test="${ not empty learningDTO.sharedList }">
-					            			<c:forEach items="${ learningDTO.sharedList }" var="shared">
-						            			<span class="ms-shared-tag">${ shared.sharedToName } (${ shared.sharedTo })</span>
-						            		</c:forEach>
-					            		</c:if>
-						            </div>
-						        </div>
-						    </div>
+			<!-- 나의학습 ms 섹션 -->
+			<h2 class="section-title">나의 학습</h2>
+			<div class="ms-container">
+				<c:forEach items="${ learningList }" var="learningDTO" >
+					<div class="ms-section" data-id="${ learningDTO.idx }">
+						<!-- 이미지 부분 -->
+						<c:if test="${ not empty learningDTO.files }">
+							<img src="<c:url value='/Uploads/${ learningDTO.files[0].fileName }' />" class="ms-image"/>
+						</c:if>
+						
+						<div class="ms-content">
+							<div class="ms-title">${ learningDTO.learningTitle }</div>
+							<div class="ms-description">${ learningDTO.learningContent }</div>
+						</div>
+						
+						<div class="ms-detail">
+							<div class="ms-detail-part">
+								<div class="ms-detail-label">분야</div>
+								<div class="ms-tags">
+									<c:if test="${ not empty learningDTO.topic }">
+										<c:forEach items="${ fn:split(learningDTO.topic, ',') }" var="topic">
+											<span class="ms-tag">${ topic }</span>
+										</c:forEach>
+									</c:if>
+								</div>
+							</div>
+						
+							<div class="ms-detail-part">
+								<div class="ms-detail-label">해시태그</div>
+								<div class="ms-detail-value">
+									<div class="ms-tags">
+										<c:if test="${ not empty learningDTO.hashtag }">
+											<c:forEach items="${ fn:split(learningDTO.hashtag, ',') }" var="tag">
+												<span class="ms-tag">#${ tag }</span>
+											</c:forEach>
+										</c:if>
+								  	</div>
+								</div>
+							</div>
+							
+							<div class="ms-detial-part shared-person">
+								<div class="ms-detail-label">공유한 사람</div>
+								<div class="ms-detail-value">
+									<div class="ms-shared-tags">
+										<c:if test="${ not empty learningDTO.sharedList }">
+											<c:forEach items="${ learningDTO.sharedList }" var="shared">
+												<span class="ms-shared-tag">${ shared.sharedToName } (${ shared.sharedTo })</span>
+											</c:forEach>
+										</c:if>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</c:forEach>
-			    <!-- 나의 학습 페이징 -->
-			    <div class="paging">
-					${ paging }
-				</div>
+				<!-- 나의 학습 페이징 -->
+				<div class="paging">${ paging }</div>
 			</div>
-		    
-		    <!-- 공유학습 섹션 -->
-		    <h2 class="section-title">공유 학습</h2>
-		    <div class="ss-container">
-		    	<c:forEach items="${ sharedList }" var="sharedDTO">
-			    	<div class="ss-section" data-id="${ sharedDTO.idx }">
-			        	<!-- 이미지 부분 -->
-			      		<c:if test="${ not empty sharedDTO.files }">
-			      			<img src="<c:url value='/Uploads/${ sharedDTO.files[0].fileName }' />" class="ms-image"/>
-			      		</c:if>
-			        	<div class="ss-label">
-			            	<div class="ss-likes">
-				              	<span class="ss-likes-icon">
-				              		${ sharedDTO.isLiked ? '💚' : '♡' }
-				              	</span>
-				              	<span class="ss-likes-count">${ sharedDTO.likeCnt }</span>
-				            </div>
+			
+			<!-- 공유학습 섹션 -->
+			<h2 class="section-title">공유 학습</h2>
+			<div class="ss-container">
+				<c:forEach items="${ sharedList }" var="sharedDTO">
+					<div class="ss-section" data-id="${ sharedDTO.idx }">
+						<!-- 이미지 부분 -->
+						<c:if test="${ not empty sharedDTO.files }">
+							<img src="<c:url value='/Uploads/${ sharedDTO.files[0].fileName }' />" class="ms-image"/>
+						</c:if>
+						<div class="ss-label">
+							<div class="ss-likes">
+								<span class="ss-likes-icon">
+									${ sharedDTO.isLiked ? '💚' : '♡' }
+								</span>
+								<span class="ss-likes-count">${ sharedDTO.likeCnt }</span>
+							</div>
 							<div class="ss-shared-user">${ sharedDTO.memberId }</div>
 						</div>
 					</div>
-		    	</c:forEach>
+				</c:forEach>
 			</div> 
 		</div>
 	</div>
 	
 	
 	<script>
+	
 		// 숫자 앞에 0을 붙이는 함수
-	    function padZero(num) {
-	      return (num < 10) ? "0" + num : num;
-	    }
+		function padZero(num) {
+		  return (num < 10) ? "0" + num : num;
+		}
 	
 		document.addEventListener('DOMContentLoaded', () => {
 			const urlParams = new URLSearchParams(window.location.search);
-		    const param = urlParams.get('date');
-		    
-		    const calendarToggle = document.getElementById('calendarToggle');
-		    const calendarModal = document.getElementById('calendarModal');
-		    const overlay = document.getElementById('overlay');
-		    const modalMonthYear = document.getElementById('modalMonthYear');
-		    const prevMonthBtn = document.getElementById('prevMonth');
-		    const nextMonthBtn = document.getElementById('nextMonth');
-		    const calendarDays = document.getElementById('calendarDays');
-		    const weekDays = document.querySelectorAll('.week-day');
-		    const selectedDateDisplay = document.querySelector('.selected-date');
-		    
+			const param = urlParams.get('date');
+			
+			const calendarToggle = document.getElementById('calendarToggle');
+			const calendarModal = document.getElementById('calendarModal');
+			const overlay = document.getElementById('overlay');
+			const modalMonthYear = document.getElementById('modalMonthYear');
+			const prevMonthBtn = document.getElementById('prevMonth');
+			const nextMonthBtn = document.getElementById('nextMonth');
+			const calendarDays = document.getElementById('calendarDays');
+			const weekDays = document.querySelectorAll('.week-day');
+			const selectedDateDisplay = document.querySelector('.selected-date');
+			
 			const today = new Date();
-		    let selectedDate = param ? new Date(param) : new Date();
-		    let currentMonth = selectedDate.getMonth();
-		    let currentYear = selectedDate.getFullYear();
-		    
-		    // 선택된 날짜 업데이트
-		  	const updateSelectedDate = () => {
-		  		const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
-		  	    const dayOfWeek = dayNames[selectedDate.getDay()];
-		  	    selectedDateDisplay.textContent = selectedDate.getFullYear() + '년 ' + (selectedDate.getMonth() + 1) + '월 ' + selectedDate.getDate() + '일 (' + dayOfWeek + ')';
-		  	};
-		    
-		 	// 주간 달력 뷰 업데이트
-		    const updateWeekView = () => {
-		    	// 현재 선택된 날짜의 요일 (0: 일요일, 1: 월요일, ...)
-		    	const selectedDay = selectedDate.getDay();
-		    	
-		    	// 주의 시작일 (월요일)
-		       	const startAdjustment = selectedDay === 0 ? -6 : 1 - selectedDay;
-		       	const startOfweek = new Date(selectedDate);
-		       	startOfweek.setDate(selectedDate.getDate() + startAdjustment);
+			let selectedDate = param ? new Date(param) : new Date();
+			let currentMonth = selectedDate.getMonth();
+			let currentYear = selectedDate.getFullYear();
+			
+			// 선택된 날짜 업데이트
+			const updateSelectedDate = () => {
+				const dayNames = ['일', '월', '화', '수', '목', '금', '토'];
+				const dayOfWeek = dayNames[selectedDate.getDay()];
+				selectedDateDisplay.textContent = selectedDate.getFullYear() + '년 ' + (selectedDate.getMonth() + 1) + '월 ' + selectedDate.getDate() + '일 (' + dayOfWeek + ')';
+			};
+			
+			// 주간 달력 뷰 업데이트
+			const updateWeekView = () => {
+				// 현재 선택된 날짜의 요일 (0: 일요일, 1: 월요일, ...)
+				const selectedDay = selectedDate.getDay();
+				
+				// 주의 시작일 (월요일)
+				const startAdjustment = selectedDay === 0 ? -6 : 1 - selectedDay;
+				const startOfweek = new Date(selectedDate);
+				startOfweek.setDate(selectedDate.getDate() + startAdjustment);
 
-		    	// 주의 모든 날짜 업데이트
-		    	weekDays.forEach((weekDay, index) => {
-		    		const date = new Date(startOfweek);
-		    		date.setDate(date.getDate() + index);
+				// 주의 모든 날짜 업데이트
+				weekDays.forEach((weekDay, index) => {
+					const date = new Date(startOfweek);
+					date.setDate(date.getDate() + index);
 
-		    		// date-date 속성 업데이트
-		    		const dateStr = date.getFullYear() + '-' + padZero(date.getMonth() + 1) + '-' + padZero(date.getDate());
-		    		weekDay.setAttribute('data-date', dateStr);
-		    		
-		    		// 날짜 표시 업데이트
-		    		weekDay.querySelector('.day-number').textContent = date.getDate();
+					// date-date 속성 업데이트
+					const dateStr = date.getFullYear() + '-' + padZero(date.getMonth() + 1) + '-' + padZero(date.getDate());
+					weekDay.setAttribute('data-date', dateStr);
+					
+					// 날짜 표시 업데이트
+					weekDay.querySelector('.day-number').textContent = date.getDate();
 
-		    		// 선택된 날짜 스타일 업데이트
-		    		weekDay.classList.toggle('selected', date.toDateString() === selectedDate.toDateString());
-		    		// 오늘 날짜 스타일 업데이트
-		    		weekDay.classList.toggle('today', date.toDateString() === new Date().toDateString());
-		    		// 주말 날짜 스타일 업데이트
-		    		weekDay.classList.toggle('weekend', date.getDay() === 0 || date.getDay() === 6);
+					// 선택된 날짜 스타일 업데이트
+					weekDay.classList.toggle('selected', date.toDateString() === selectedDate.toDateString());
+					// 오늘 날짜 스타일 업데이트
+					weekDay.classList.toggle('today', date.toDateString() === new Date().toDateString());
+					// 주말 날짜 스타일 업데이트
+					weekDay.classList.toggle('weekend', date.getDay() === 0 || date.getDay() === 6);
 				});
 			};
 
@@ -262,7 +261,6 @@
 					
 					daysFragment.appendChild(dayEl);
 				}
-
 				calendarDays.appendChild(daysFragment);
 			};
 			
@@ -334,6 +332,5 @@
 			});
 		});
 	</script>
-
 </body>
 </html>

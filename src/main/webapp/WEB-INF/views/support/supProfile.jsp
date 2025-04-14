@@ -1,10 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <c:if test="${ not empty sessionScope.memberId }" >
 <div class="profile">
 	<div class="pro_cont">
-	
 		<h3>${sessionScope.memberId }님!</h3>
 		<p>어서오세요. 오늘도 좋은하루 되세요.</p>
 	</div>
@@ -25,7 +23,6 @@
 </div>	
 </c:if>
 <script>
-
 	const logoutBtn = document.getElementById('logoutBtn');
 	if(logoutBtn) {
 		logoutBtn.addEventListener('click', () => {
